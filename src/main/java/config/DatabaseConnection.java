@@ -23,6 +23,7 @@ public class DatabaseConnection {
 				String url = "jdbc:postgresql://localhost:5432/corleone-pizza";
 				Class.forName("org.postgresql.Driver");
 				connection = DriverManager.getConnection(url, user, password);
+				connection.setAutoCommit(false);
 
 			} 
 			catch (SQLException e) 

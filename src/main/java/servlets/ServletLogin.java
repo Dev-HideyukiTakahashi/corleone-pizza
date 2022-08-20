@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import model.dao.AdminDAO;
 /**
  * 	Mapeado em sistema: /login
  */
+@WebServlet(urlPatterns = {"/pages/login", "/ServletLogin"})
 public class ServletLogin extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -47,7 +49,7 @@ public class ServletLogin extends HttpServlet {
 					// Se o usuário não tentou acessar nenhuma page antes da tela de login redirecionar a main
 					if(url == null || url.equals("null"))
 					{
-						url = "/pages/main.jsp";
+						url = "pages/main.jsp";
 					}
 					
 					// Se o usuário tentou acessar alguma página sem logar, após o login com sucesso o mesmo acessa a página desejada

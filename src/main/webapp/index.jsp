@@ -9,21 +9,20 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Corleone Pizza</title>
 <link rel="stylesheet"
-	href="assets/vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+	href="<%=request.getContextPath()%>/assets/vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/vendors/css/vendor.bundle.base.css">
 	<!-- Layout styles -->
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css">
 	<!-- End layout styles -->
-<link rel="shortcut icon" href="assets/images/favicon.png" />
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/assets/images/favicon.png" />
 <STYLE type="text/css">
-	.erro-login{
-		font-size: 16px;
-		font-family: "Rubik", sans-serif;
-		color: #f44336;
-		text-align: center;
-		margin-top: 5px;
-
-	}
+.erro-login {
+	font-size: 16px;
+	font-family: "Rubik", sans-serif;
+	color: #f44336;
+	text-align: center;
+	margin-top: 5px;
+}
 </STYLE>
 </head>
 <body>
@@ -37,6 +36,8 @@
 							<h3 class="card-title text-left mb-3">Login</h3>
 							<form action="<%=request.getContextPath()%>/login" method="post"
 								class="needs-validation" novalidate>
+							<input type="hidden" value="<%=request.getParameter("url")%>"
+									name="url" /> 
 								<div class="form-group">
 									<label for="validationCustom01" class="form-label">Usuário
 										*</label> <input type="text" class="form-control p_input" name="login"
