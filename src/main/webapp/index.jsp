@@ -7,15 +7,24 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Corona Admin</title>
+<title>Corleone Pizza</title>
 <link rel="stylesheet"
 	href="assets/vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet"
-	href="assets/vendors/css/vendor.bundle.base.css">
+<link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
 	<!-- Layout styles -->
 <link rel="stylesheet" href="assets/css/style.css">
 	<!-- End layout styles -->
 <link rel="shortcut icon" href="assets/images/favicon.png" />
+<STYLE type="text/css">
+	.erro-login{
+		font-size: 16px;
+		font-family: "Rubik", sans-serif;
+		color: #f44336;
+		text-align: center;
+		margin-top: 5px;
+
+	}
+</STYLE>
 </head>
 <body>
 	<div class="container-scroller">
@@ -26,10 +35,12 @@
 					<div class="card col-lg-4 mx-auto">
 						<div class="card-body px-5 py-5">
 							<h3 class="card-title text-left mb-3">Login</h3>
-							<form>
+							<form action="<%=request.getContextPath()%>/login" method="post"
+								class="needs-validation" novalidate>
 								<div class="form-group">
-									<label>Usuário *</label> <input type="text"
-										class="form-control p_input" name="user">
+									<label for="validationCustom01" class="form-label">Usuário
+										*</label> <input type="text" class="form-control p_input" name="login"
+										id="validationCustom01" required>
 								</div>
 								<div class="form-group">
 									<label>Senha *</label> <input type="text"
@@ -37,9 +48,7 @@
 								</div>
 								<div
 									class="form-group d-flex align-items-center justify-content-between">
-									<div class="form-check">
-						
-									</div>
+									<div class="form-check"></div>
 									<a href="#" class="forgot-pass">Esqueci minha senha</a>
 								</div>
 								<div class="text-center">
@@ -49,6 +58,7 @@
 								<p class="sign-up">
 									Ainda não tem uma conta?<a href="#"> Cadastrar</a>
 								</p>
+								<H4 class="erro-login">${msg}</H4>
 							</form>
 						</div>
 					</div>
@@ -61,16 +71,16 @@
 	</div>
 	<!-- container-scroller -->
 	<!-- plugins:js -->
-	<script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+	<script src="assets/vendors/js/vendor.bundle.base.js"></script>
 	<!-- endinject -->
 	<!-- Plugin js for this page -->
 	<!-- End plugin js for this page -->
 	<!-- inject:js -->
-	<script src="../../assets/js/off-canvas.js"></script>
-	<script src="../../assets/js/hoverable-collapse.js"></script>
-	<script src="../../assets/js/misc.js"></script>
-	<script src="../../assets/js/settings.js"></script>
-	<script src="../../assets/js/todolist.js"></script>
+	<script src="assets/js/off-canvas.js"></script>
+	<script src="assets/js/hoverable-collapse.js"></script>
+	<script src="assets/js/misc.js"></script>
+	<script src="assets/js/settings.js"></script>
+	<script src="assets/js/todolist.js"></script>
 	<!-- endinject -->
 </body>
 </html>

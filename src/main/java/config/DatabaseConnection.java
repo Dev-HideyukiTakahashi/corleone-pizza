@@ -13,32 +13,43 @@ public class DatabaseConnection {
 
 	private static Connection connection = null;
 
-	public static Connection getConnection() {
+	public static Connection getConnection() 
+	{
 		if (connection == null) {
-			try {
-				Properties props = loadProperties();
-				String url = props.getProperty("url");
-				connection = DriverManager.getConnection(url, props);
+			try 
+			{
+				String user = "postgres";
+				String password = "1234567";
+				String url = "jdbc:postgresql://localhost:5432/corleone-pizza";
+				Class.forName("org.postgresql.Driver");
+				connection = DriverManager.getConnection(url, user, password);
 
-			} catch (SQLException e) {
+			} 
+			catch (SQLException e) 
+			{
 				throw new DataBaseSourceException("Error receiving connection : " + e.getMessage());
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 
 		}
 		return connection;
 	}
 
-	private static Properties loadProperties() {
+	private static Properties loadProperties() 
+	{
 
-		try (FileInputStream fs = new FileInputStream("database.properties")) {
+		try (FileInputStream fs = new FileInputStream("database.properties")) 
+		{
 			Properties props = new Properties();
 			props.load(fs);
 			return props;
 
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			throw new DataBaseSourceException("Error receiving connection : " + e.getMessage());
 		}
-
 	}
-
+	
 }
