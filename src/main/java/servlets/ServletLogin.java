@@ -14,7 +14,8 @@ import model.dao.AdminDAO;
  * 	Mapeado em sistema: /login
  */
 @WebServlet(urlPatterns = {"/pages/login", "/ServletLogin"})
-public class ServletLogin extends HttpServlet {
+public class ServletLogin extends HttpServlet 
+{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -24,7 +25,21 @@ public class ServletLogin extends HttpServlet {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		String action = request.getParameter("action"); // Argumento vindo da 'navbar / Log out'
+		
+		if(action != null && !action.isEmpty() && action.equalsIgnoreCase("logout")) 
+		{
+			request.getSession().invalidate(); // Termina a sessão do usuário
+			RequestDispatcher redirect = request.getRequestDispatcher("index.jsp");
+			redirect.forward(request, response);
+		}
+		else {
+			doPost(request, response);
+		}
+		
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
