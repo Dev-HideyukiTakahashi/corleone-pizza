@@ -137,14 +137,14 @@
 										<table class="table">
 											<thead>
 												<tr>
-													<th>Whatssap</th>
-													<th>Nome Cliente</th>
-													<th>Pedido</th>
-													<th>Valor</th>
-													<th>Telefone</th>
+													<th class="text-center">Whatssap</th>
+													<th class="text-center">Nome Cliente</th>
+													<th class="text-center">Pedido</th>
+													<th class="text-center">Valor</th>
+													<th class="text-center">Telefone</th>
 													<th>Forma de pagamento</th>
-													<th>Data</th>
-													<th>Status</th>
+													<th class="text-center">Data</th>
+													<th class="text-center">Status</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -152,20 +152,20 @@
 													<td><a href="#" class="mdi mdi-whatsapp"
 														style="padding: 15px 30px"></a></td>
 													<td><span class="pl-2">Francisco Jeremias Silva</span></td>
-													<td>231</td>
-													<td>R$ 50,00</td>
-													<td>11-952544854</td>
+													<td class="text-center">231</td>
+													<td >R$ 50,00</td>
+													<td >11-952544854</td>
 													<td>Cartão de crédito</td>
 													<td>22/07/2022</td>
 													<td>
-														<div class="badge badge-outline-success">Concluído</div>
+														<div class="badge badge-outline-success">Finalizado</div>
 													</td>
 												</tr>
 												<tr>
 													<td><a href="#" class="mdi mdi-whatsapp"
 														style="padding: 15px 30px"></a></td>
 													<td><span class="pl-2">Butico Garcia</span></td>
-													<td>232</td>
+													<td class="text-center">232</td>
 													<td>R$ 89,99</td>
 													<td>11-40874855</td>
 													<td>Dinheiro</td>
@@ -178,7 +178,7 @@
 													<td><a href="#" class="mdi mdi-whatsapp"
 														style="padding: 15px 30px"></a></td>
 													<td><span class="pl-2">Francisco Jeremias Silva</span></td>
-													<td>233</td>
+													<td class="text-center">233</td>
 													<td>R$ 39,99</td>
 													<td>11-915487574</td>
 													<td>Cartão de débito</td>

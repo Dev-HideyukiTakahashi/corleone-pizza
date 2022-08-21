@@ -21,7 +21,7 @@
 							alt=""><span class="count bg-success"></span>
 					</div>
 					<div class="profile-name">
-						<h5 class="mb-0 font-weight-normal">Don Corleone</h5>
+						<h5 class="mb-0 font-weight-normal"><%=session.getAttribute("adminLogin") %></h5>
 						<span>Administrador</span>
 					</div>
 				</div>
@@ -30,7 +30,7 @@
 		<li class="nav-item nav-category"><span class="nav-link">M
 				E N U</span></li>
 		<li class="nav-item menu-items"><a class="nav-link"
-			href="index.html"> <span class="menu-icon"> <i
+			href="<%=request.getContextPath()%>/pages/main.jsp"> <span class="menu-icon"> <i
 					class="mdi mdi-speedometer"></i>
 			</span> <span class="menu-title">Dashboard</span>
 		</a></li>

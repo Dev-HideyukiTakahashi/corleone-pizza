@@ -178,8 +178,7 @@
 						<img class="img-xs rounded-circle"
 							src="<%=request.getContextPath()%>/assets/images/faces/face.jpg"
 							alt="">
-						<p class="mb-0 d-none d-sm-block navbar-profile-name">Don
-							Corleone</p>
+						<p class="mb-0 d-none d-sm-block navbar-profile-name"><%=session.getAttribute("adminLogin") %></p>
 						<i class="mdi mdi-menu-down d-none d-sm-block"></i>
 					</div>
 			</a>

@@ -41,7 +41,7 @@ public class FilterLogin extends HttpFilter {
 		// Validação de usuário logado, caso o mesmo tentar entrar em alguma página sem estar logado
 			HttpServletRequest loginRequest = (HttpServletRequest) request;
 			HttpSession session 			= loginRequest.getSession();
-			String user 					= (String) session.getAttribute("user");
+			String user 					= (String) session.getAttribute("adminLogin");
 			
 		// URL que tentou acessar sem estar logado
 			String url 						= loginRequest.getServletPath();

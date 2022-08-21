@@ -15309,6 +15309,8 @@ a.text-dark:hover, a.text-dark:focus {
   max-width: 100%;
   white-space: nowrap; }
 
+
+
 /* Animation Mixins */
 @keyframes dropdownAnimation {
   from {
@@ -21131,5 +21133,7 @@ div.tagsinput {
   width: 100%;
   -webkit-flex-grow: 1;
   flex-grow: 1; }
+  
+
 
 /*# sourceMappingURL=maps/style.css.map */

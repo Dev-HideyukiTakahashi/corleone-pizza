@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import config.DatabaseConnection;
+import model.entities.Admin;
 
 public class AdminDAO 
 {
@@ -38,6 +39,38 @@ public class AdminDAO
 		}
 		
 		return false; // Não encontrou usuário com os dados informados
+	}
+	
+	public Admin adminData(String login) 
+	{
+		
+		Admin adminLogin = new Admin();
+		try 
+		{
+			String sql = ("SELECT * FROM tb_admin "
+						 +"WHERE login = ? ");
+
+			
+			PreparedStatement st = connection.prepareStatement(sql);
+			st.setString(1, login);
+			ResultSet rs = st.executeQuery();
+			
+			
+			while(rs.next()) {
+				adminLogin.setAdminName(rs.getString("admin_name"));
+				adminLogin.setPhone(rs.getString("phone"));
+				adminLogin.setEmail(rs.getString("email"));
+				adminLogin.setLogin(rs.getString("login"));
+				adminLogin.setPassword(rs.getString("senha"));
+				adminLogin.setPartner(rs.getString("partner"));
+			} 
+		}
+		catch(SQLException e) 
+		{
+			System.out.println("Unexpected error in generate admin data: " + e.getMessage());
+		}
+		
+		return adminLogin;
 	}
 
 }

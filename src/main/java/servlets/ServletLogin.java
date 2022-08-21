@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.AdminDAO;
+import model.entities.Admin;
 
 /**
  * 	Mapeado em sistema: /login
@@ -59,7 +60,9 @@ public class ServletLogin extends HttpServlet
 				if(adminDAO.validateLogin(login, password))
 				{
 					// Usuario e senha confirmados com BD, inicia a sessão na aplicação
-					request.getSession().setAttribute("user", login);
+//					request.getSession().setAttribute("user", login);
+					Admin adminLogin = adminDAO.adminData(login);
+					request.getSession().setAttribute("adminLogin", adminLogin.getAdminName());
 					
 					// Se o usuário não tentou acessar nenhuma page antes da tela de login redirecionar a main
 					if(url == null || url.equals("null"))
