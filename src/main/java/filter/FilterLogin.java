@@ -48,7 +48,7 @@ public class FilterLogin extends HttpFilter {
 			
 			
 			// Validar se existe usuário e se está tentando acessar uma página diferente da tela de login
-			if(user == null && !url.equalsIgnoreCase("/pages/login")) 
+			if(user == null && !url.equalsIgnoreCase("pages/login")) 
 			{
 				RequestDispatcher redirect = request.getRequestDispatcher("/index.jsp?url=" + url);
 				request.setAttribute("msg", "Por favor realize o login");
