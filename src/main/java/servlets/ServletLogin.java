@@ -13,6 +13,7 @@ import model.entities.Admin;
 
 /**
  * 	Mapeado em sistema: /login
+ *  Servlet para controlar a tela de login
  */
 @WebServlet(urlPatterns = {"/pages/login", "/ServletLogin"})
 public class ServletLogin extends HttpServlet 

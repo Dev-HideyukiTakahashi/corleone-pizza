@@ -17,11 +17,11 @@ public class Admin {
 
 	public Admin(String adminName, String phone, String email, String login, String password, String partner) {
 		this.adminName = adminName;
-		this.phone = phone;
-		this.email = email;
-		this.login = login;
-		this.password = password;
-		this.partner = partner;
+		this.phone     = phone;
+		this.email     = email;
+		this.login     = login;
+		this.password  = password;
+		this.partner   = partner;
 	}
 
 	public String getAdminName() {

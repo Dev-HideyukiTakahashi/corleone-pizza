@@ -32,7 +32,7 @@
 					aria-labelledby="createbuttonDropdown">
 					<h6 class="p-3 mb-0">Novo Pedido</h6>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item preview-item" href="<%=request.getContextPath()%>/pages/clientes/cadastrar.jsp">
+					<a class="dropdown-item preview-item" href="<%=request.getContextPath()%>/pages/clients/register.jsp">
 						<div class="preview-thumbnail">
 							<div class="preview-icon bg-dark rounded-circle" >
 								<i class="mdi mdi-account-plus text-primary"></i>

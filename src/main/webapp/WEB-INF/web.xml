@@ -28,4 +28,14 @@
     <filter-name>FilterLogin</filter-name>
     <url-pattern>/FilterLogin</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletRegister</display-name>
+    <servlet-name>ServletRegister</servlet-name>
+    <servlet-class>servlets.ServletRegister</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletRegister</servlet-name>
+    <url-pattern>/register</url-pattern>
+  </servlet-mapping>
 </web-app>

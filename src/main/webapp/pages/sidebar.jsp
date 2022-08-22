@@ -44,7 +44,7 @@
 			<div class="collapse" id="ui-basic">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/pages/clientes/cadastrar.jsp">Cadastrar</a></li>
+						href="<%=request.getContextPath()%>/pages/clients/register.jsp">Cadastrar</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="pages/ui-features/dropdowns.html">Atualizar</a></li>
 					<li class="nav-item"><a class="nav-link"
