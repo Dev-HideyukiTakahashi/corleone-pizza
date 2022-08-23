@@ -46,11 +46,11 @@
 					<li class="nav-item"><a class="nav-link"
 						href="<%=request.getContextPath()%>/pages/clients/register.jsp">Cadastrar</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">Atualizar</a></li>
+						href="<%=request.getContextPath()%>/pages/clients/update.jsp">Atualizar</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">Buscar</a></li>
+						href="<%=request.getContextPath()%>/pages/clients/find.jsp">Buscar</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">Deletar</a></li>
+						href="<%=request.getContextPath()%>/pages/clients/delete.jsp">Deletar</a></li>
 				</ul>
 			</div></li>
 

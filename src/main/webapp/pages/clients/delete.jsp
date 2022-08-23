@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Cabeçalho da página -->
+<jsp:include page="../head.jsp"></jsp:include>
+
+<body>
+
+	<div class="container-scroller">
+
+		<!-- Navegador lateral da página -->
+		<jsp:include page="../sidebar.jsp"></jsp:include>
+
+		<div class="container-fluid page-body-wrapper">
+
+			<!-- Navbar do cabeçalho -->
+			<jsp:include page="../navbar.jsp"></jsp:include>
+
+
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<form method="get" action="<%=request.getContextPath()%>/update"
+						id="form-delete">
+						<!-- Inicio do formulário de busca -->
+						<div class="col-md-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Localizar Cliente</h4>
+									<div class="form-group">
+										<label for="select">Selecione o campo da busca</label> <select
+											class="form-control text-primary" id="select"
+											style="width: 20%; font-size: 16px">
+											<option>Telefone</option>
+											<option>Nome</option>
+
+										</select>
+									</div>
+									<div class="form-group">
+										<div class="input-group">
+											<input type="text" class="form-control text-light"
+												placeholder="Campo para busca" aria-label="Campo para busca"
+												aria-describedby="basic-addon2">
+											<div class="input-group-append">
+												<button class="btn btn-sm btn-primary" type="button">Buscar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<!-- Final do formulário de busca -->
+						<!-- Inicio da tabela de busca -->
+						<div class="col-lg-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">Resultado da busca</h4>
+									<div class="table-responsive">
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th>Nome</th>
+													<th>Telefone</th>
+													<th>Endereço</th>
+													<th>Referência</th>
+													<th class="text-center">Excluir</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>${clientData.name}</td>
+													<td>11-942542595</td>
+													<td>Rua testadora dos teste 85</td>
+													<td>Próximo a rua esperança que não morra o sistema</td>
+													<td class="py-1  text-center"><a href="#"
+														type="button" id="delete" onclick="teste();"> <img
+															src="<%=request.getContextPath()%>/assets/images/file-icons/delete.png"
+															alt="image" /></a></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Final da tabela de busca -->
+					</form>
+
+
+					<jsp:include page="../footer.jsp"></jsp:include>
+				</div>
+			</div>
+		</div>
+		<jsp:include page="../javascript.jsp" />
+	</div>
+
+	<script type="text/javascript">
+		function teste() {
+			alert("HELLO");
+		}
+	</script>
+</body>
+</html>

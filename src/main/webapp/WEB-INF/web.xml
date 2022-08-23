@@ -38,4 +38,14 @@
     <servlet-name>ServletRegister</servlet-name>
     <url-pattern>/register</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletUpdate</display-name>
+    <servlet-name>ServletUpdate</servlet-name>
+    <servlet-class>servlets.ServletUpdate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletUpdate</servlet-name>
+    <url-pattern>/update</url-pattern>
+  </servlet-mapping>
 </web-app>

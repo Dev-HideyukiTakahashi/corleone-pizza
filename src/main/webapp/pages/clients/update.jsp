@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <!-- Cabeçalho da página -->
 <jsp:include page="../head.jsp"></jsp:include>
 
-
 <body>
-
 
 	<div class="container-scroller">
 
@@ -24,6 +23,36 @@
 
 			<div class="main-panel">
 				<div class="content-wrapper">
+
+					<!-- Inicio do formulário de busca -->
+
+					<div class="col-md-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">Localizar Cliente</h4>
+								<div class="form-group">
+									<label for="select">Selecione o campo da busca</label> <select
+										class="form-control text-primary" id="select"
+										style="width: 20%; font-size: 16px">
+										<option>Telefone</option>
+										<option>Nome</option>
+
+									</select>
+								</div>
+								<div class="form-group">
+									<div class="input-group">
+										<input type="text" class="form-control text-light"
+											placeholder="Campo para busca" aria-label="Campo para busca"
+											aria-describedby="basic-addon2">
+										<div class="input-group-append">
+											<button class="btn btn-sm btn-primary" type="button">Buscar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Final do formulário de busca -->
 					<!-- Inicio formulário para cadastrar cliente -->
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
@@ -31,7 +60,7 @@
 							<div class="card-body">
 								<span class="text-success" id="registerSucess">${registerSucess}</span>
 								<span class="text-danger">${registerFail}</span>
-								<h4 class="card-title">Cadastro de cliente</h4>
+								<h4 class="card-title">Atualizar cadastro de cliente</h4>
 								<p class="card-description">Preencha todos os campos</p>
 
 								<form class="forms-sample" method="post" id="form-register"
@@ -39,7 +68,7 @@
 									<div class="form-group">
 										<label for="exampleInputName">Nome</label> <input type="text"
 											autocomplete="off" class="form-control text-light"
-											placeholder="Nome" name="name" id="name"
+											placeholder="${clientUpdate.name}" name="name" id="name"
 											value="${clientData.name}">
 									</div>
 									<div class="form-group">
@@ -70,6 +99,7 @@
 										onclick="cleanForm();">Limpar</button>
 								</form>
 								<!-- Final formulário para cadastrar cliente -->
+
 							</div>
 						</div>
 					</div>
@@ -77,75 +107,7 @@
 				</div>
 			</div>
 		</div>
-
+		<jsp:include page="../javascript.jsp" />
 	</div>
-	<jsp:include page="../javascript.jsp" />
-
-	<!-- Script para comunicar dados ao backend, encaminha os dados para o ServletRegister -->
-	<script type="text/javascript">	
-	$(document).ready(function(){
-		$("form").on("submit" , function(){
-
-			let nameUser      = $("#name").val();
-			let phoneUser     = $("#phone").val();
-			let emailUser     = $("#email").val();
-			let adressUser    = $("#adress").val();
-			let referenceUser = $("#reference").val();
-			let urlAction 	  = document.getElementById('form-register').action;
-			  
-			$.ajax({
-				method : "POST",
-				url : urlAction,
-				data : {
-				name 	  : nameUser,
-				phone     : phoneUser,
-				email 	  : emailUser
-				adress 	  : adressUser,
-				reference : referenceUser
-				},
-			    success : function(response) {
-					document.getElementById('registerSucess').textContent = response;
-				}
-			}).fail(function(xhr, status, errorThrown) {
-				alert('Erro inesperado ao deletar usuário');
-			})
-		}) 
-	})
-	</script>
-
-	</script>
-
-	<!-- Script para limpar o formulário -->
-	<script type="text/javascript">
-	
-		function cleanForm() {
-			var elements = document.getElementById('form-register').elements;
-	
-			for (p = 0; p < elements.length; p++) {
-				elements[p].value = '';
-			}
-		}
-	</script>
-
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
