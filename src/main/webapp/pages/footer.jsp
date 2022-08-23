@@ -11,8 +11,7 @@
 			target="_blank"><br />GitHub</a> para repositório do projeto.
 		</span> <span
 			class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
-			Projeto realizado para fins acadêmicos <br />Copyright ©
-			bootstrapdash.com 2020.
+			Projeto realizado para estudo e conhecimento, 2022. <br /> Bootstrap, JQuery, Java Servlet, JDBC, PostgreSQL e Jackson.
 		</span>
 
 

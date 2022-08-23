@@ -46,12 +46,13 @@
 										<input type="text" class="form-control text-light" id="field"
 											placeholder="Campo para busca" aria-label="field"
 											required="required" aria-describedby="basic-addon2">
-										<div class="input-group-append">
-											<button class="btn btn-sm btn-primary" type="button"
+										<div class="input-group-append" >
+											<button class="btn btn-sm btn-primary" type="button"  id="submit"
 												onclick="searchAjax();">Buscar</button>
 										</div>
 									</div>
 								</div>
+									<span id="countResult" class="text-success h6"></span>
 							</div>
 						</div>
 					</div>
@@ -72,16 +73,7 @@
 												<th>Pedir</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td> </td>
-												<td></td>
-												<td>Rua testadora dos teste 85</td>
-												<td>Próximo a rua esperança que não morra o sistema</td>
-												<td class="py-1"><a href="#"> <img
-														src="<%=request.getContextPath()%>/assets/images/favicon.png"
-														alt="image" /></a></td>
-											</tr>
+										<tbody id="clientFound">
 										</tbody>
 									</table>
 								</div>
@@ -116,9 +108,21 @@
 
 		}
 	</script>
+	<!-- Script para acionar o click submit quando apertar ENTER -->
+	<script type="text/javascript">
+	
+	$(document).keyup(function(event){
+		if (event.keyCode === 13) {
+	  	$('#submit').click();
+	  	console.log("HELLO");
+	  }
+	});
+	</script>
 
+	<!-- Script para requisição com back-end com AJAX e JACKSON na resposta para receber o JSON -->
 	<script type="text/javascript">
 		function searchAjax() {
+			
 			let fieldValue    = $("#field").val();
 			let selectValue   = checkSelect();
 			let urlAction 	  = document.getElementById('form-search').action;
@@ -133,8 +137,29 @@
 					field : fieldValue,
 					select: selectValue,
 				},
-				success : function() {
+				success : function(response) {
+					// Convertendo o envio do argumento de ServletSearch para JSON
+					let json = JSON.parse(response);
 					
+					// Limpando possível cache nos resultados da busca
+					$('#clientFound > tr').text('');
+					
+					// Informando a quantidade de resultados obtidos
+					if(json.length > 0){
+						document.getElementById('countResult').classList.remove('text-danger');
+						$('#countResult').text(json.length + " registros de cliente.");
+					}
+					else{
+						document.getElementById('countResult').classList.add('text-danger');
+						$('#countResult').text(json.length + " registros de cliente.");
+					}
+
+					// Populando os campos do resultado de busca
+					for(let p = 0; p < json.length; p ++)
+					{
+						$('#clientFound').append
+						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1'><a href='#'><img src='../../assets/images/favicon.png' alt='Pedir' /></a></td></tr>");
+					}	
 				}
 
 				}).fail(function(xhr, status, errorThrown) {

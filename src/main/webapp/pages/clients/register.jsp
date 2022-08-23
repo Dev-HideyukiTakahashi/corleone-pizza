@@ -32,19 +32,19 @@
 								<h4 class="card-title">Cadastro de cliente</h4>
 								<p class="card-description">Preencha todos os campos</p>
 
-								<form class="forms-sample" id="form-register"
-									action="<%=request.getContextPath()%>/register">
+								<form class="forms-sample needs-validation" id="form-register"
+									action="<%=request.getContextPath()%>/register" >
 									<div class="form-group">
-										<label for="exampleInputName">Nome</label> <input type="text"
-											autocomplete="off" class="form-control text-light"
+										<label for="exampleInputName">Nome*</label> <input type="text"
+											autocomplete="off" class="form-control text-light" required="required"
 											placeholder="Nome" name="name" id="name"
 											value="${clientData.name}">
 									</div>
 									<div class="form-group">
-										<label for="exampleInputPhone">Telefone</label> <input
+										<label for="exampleInputPhone">Telefone*</label> <input
 											type="number" class="form-control text-light"
 											autocomplete="off" id="phone" value="${clientData.phone}"
-											placeholder="Telefone" name="phone" required="required">
+											placeholder="Telefone" name="phone" >
 									</div>
 									<div class="form-group">
 										<label for="exampleInputEmail">Email</label> <input
@@ -53,8 +53,8 @@
 											placeholder="Email" name="email">
 									</div>
 									<div class="form-group">
-										<label for="exampleInputAdress">Endereço</label> <input
-											type="text" class="form-control text-light"
+										<label for="exampleInputAdress">Endereço*</label> <input
+											type="text" class="form-control text-light" 
 											value="${clientData.adress}" autocomplete="off"
 											placeholder="Endereço" name="adress" id="adress">
 									</div>
@@ -107,36 +107,45 @@
 			let adressUser    = $("#adress").val();
 			let referenceUser = $("#reference").val();
 			let urlAction 	  = document.getElementById('form-register').action;
-			  
-			$.ajax({
-				method : "POST",
-				url    : urlAction,
-				data   : 
-				{
-					name 	  : nameUser,
-					phone     : phoneUser,
-					email 	  : emailUser,
-					adress 	  : adressUser,
-					reference : referenceUser,
-				},
-			    success : function(response) {
-			    	if(response === "registrado"){
-			    		let msg = "Cliente registrado com sucesso!";
-			    		$('#registerModal').modal('show');
-			    		$("#modal-msg").text(msg);
-			    		document.getElementById('modal-msg').classList.remove('text-danger');
-						cleanForm();
-			    	}
-			    	else{
-			    		let msg = "Já existe um cliente com esse telefone.";
-			       		$('#registerModal').modal('show');
-			    		$("#modal-msg").text(msg);
-			    		document.getElementById('modal-msg').classList.add('text-danger');
-			    	}
-				},
-			}).fail(function(xhr, status, errorThrown) {
-				alert('Erro inesperado ao cadastrar cliente.');
-			});
+			
+			if(nameUser.trim() === '' || phoneUser.trim() === '' || adressUser.trim() === ''){
+	    		let msg = "Preencha todos campos obrigatórios ***";
+	    		$('#registerModal').modal('show');
+	    		$("#modal-msg").text(msg);
+	    		document.getElementById('modal-msg').classList.add('text-danger');
+			}else
+			{
+				$.ajax({
+					method : "POST",
+					url    : urlAction,
+					data   : 
+					{
+						name 	  : nameUser,
+						phone     : phoneUser,
+						email 	  : emailUser,
+						adress 	  : adressUser,
+						reference : referenceUser,
+					},
+				    success : function(response) {
+				    	if(response === "registrado"){
+				    		let msg = "Cliente registrado com sucesso!";
+				    		$('#registerModal').modal('show');
+				    		$("#modal-msg").text(msg);
+				    		document.getElementById('modal-msg').classList.remove('text-danger');
+							cleanForm();
+				    	}
+				    	else{
+				    		let msg = "Já existe um cliente com esse telefone.";
+				       		$('#registerModal').modal('show');
+				    		$("#modal-msg").text(msg);
+				    		document.getElementById('modal-msg').classList.add('text-danger');
+				    	}
+					},
+				}).fail(function(xhr, status, errorThrown) {
+					alert('Erro inesperado ao cadastrar cliente.');
+				});
+			}
+			
 	}
 	</script>
 

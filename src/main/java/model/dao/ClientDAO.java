@@ -50,10 +50,11 @@ public class ClientDAO {
 		{
 			String sql = null;
 			if(option.equals("nameOption") || option == "nameOption") {
-				sql = "SELECT * FROM client WHERE name LIKE concat('%', ?, '%')";
+				field = field.toUpperCase();
+				sql = "SELECT * FROM client WHERE upper(name) LIKE concat('%', ?, '%')";
 			}
 			else if (option.equals("phoneOption") || option == "phoneOption"){
-				sql = "SELECT * FROM client WHERE phone LIKE concat('%', ?, '%')";
+				sql = "SELECT * FROM client WHERE phone = ?";
 			}
 			
 			PreparedStatement ps = connection.prepareStatement(sql);

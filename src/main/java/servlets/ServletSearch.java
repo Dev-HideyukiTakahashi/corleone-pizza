@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -35,17 +37,21 @@ public class ServletSearch extends HttpServlet {
 		
 		if(select.equals("nameOption") && field != null && !field.isEmpty()) {
 			client = clientDAO.clientSearch(select, field);
-			request.setAttribute("clientFound", client);
-			for(Client c: client) {
-				System.out.println(c.getName());
-			}
+			
+			// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
+			ObjectMapper mapper = new ObjectMapper();
+			String JSON = mapper.writeValueAsString(client);
+			// Enviando o JSON no response do AJAX
+			response.getWriter().write(JSON);
 		}
 		else if(select.equals("phoneOption") && field != null && !field.isEmpty()){
 			client = clientDAO.clientSearch(select, field);
-			request.setAttribute("clientFound", client);
-			for(Client c: client) {
-				System.out.println(c);
-			}
+
+			// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
+			ObjectMapper mapper = new ObjectMapper();
+			String JSON = mapper.writeValueAsString(client);
+			// Enviando o JSON no response do AJAX
+			response.getWriter().write(JSON);
 		}
 		else {
 			RequestDispatcher redirecionador = request.getRequestDispatcher("pages/client/find.jsp");
