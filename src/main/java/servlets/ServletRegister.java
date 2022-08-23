@@ -13,46 +13,42 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- *  Mapeado em sistema: /register
- *  Servlet para cadastrar um novo cliente 
+ * Mapeado em sistema: /register Servlet para cadastrar um novo cliente
  */
 public class ServletRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public ServletRegister() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ServletRegister() {
+		super();
 	}
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try 
-		{
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
 			ClientDAO clientDAO = new ClientDAO();
-			
-			String name		 = request.getParameter("name");
-			String phone	 = request.getParameter("phone");
+
+			String name 	 = request.getParameter("name");
+			String phone 	 = request.getParameter("phone");
 			String email 	 = request.getParameter("email"); // Recuperando dados do form em register.jsp
-			String adress    = request.getParameter("adress");
+			String adress	 = request.getParameter("adress");
 			String reference = request.getParameter("reference");
-			
+
 			Client newClient = new Client(name, phone, email, adress, reference);
 
 			// Registrando um novo usuário
-			if(clientDAO.clientExists(newClient)) {
-				request.setAttribute("registerFail", "Já existe cliente cadastrado com esse telefone.");
+			if (clientDAO.clientExists(newClient)) {
 				request.setAttribute("clientData", newClient);
-			}
-			else {
+
+			} else {
 				clientDAO.insertClient(newClient);
-				request.setAttribute("registerSucess", "Cliente registrado com sucesso!");
+				response.getWriter().write("registrado");
 			}
-			
-			RequestDispatcher redirecionador = request.getRequestDispatcher("pages/clients/register.jsp");
-			redirecionador.forward(request, response);
-		}
-		catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
 			redirecionador.forward(request, response);

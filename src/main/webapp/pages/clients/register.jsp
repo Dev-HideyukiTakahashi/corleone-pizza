@@ -29,12 +29,12 @@
 						<div class="card">
 
 							<div class="card-body">
-								<span class="text-success" id="registerSucess">${registerSucess}</span>
-								<span class="text-danger">${registerFail}</span>
+								<span class="text-success" id=registerMsg>${registerMsg}</span>
+								<span class="text-danger" id=registerFail>${registerFail}</span>
 								<h4 class="card-title">Cadastro de cliente</h4>
 								<p class="card-description">Preencha todos os campos</p>
 
-								<form class="forms-sample" method="post" id="form-register"
+								<form class="forms-sample" id="form-register"
 									action="<%=request.getContextPath()%>/register">
 									<div class="form-group">
 										<label for="exampleInputName">Nome</label> <input type="text"
@@ -65,7 +65,7 @@
 										<textarea class="form-control text-light" autocomplete="off"
 											rows="4" name="reference" id="reference"></textarea>
 									</div>
-									<button type="submit" class="btn btn-primary mr-2" id="submit">Cadastrar</button>
+									<button type="button" class="btn btn-primary mr-2" id="submit" onclick="submitClient()">Cadastrar</button>
 									<button type="button" class="btn btn-dark"
 										onclick="cleanForm();">Limpar</button>
 								</form>
@@ -83,8 +83,7 @@
 
 	<!-- Script para comunicar dados ao backend, encaminha os dados para o ServletRegister -->
 	<script type="text/javascript">	
-	$(document).ready(function(){
-		$("form").on("submit" , function(){
+		function submitClient() {
 
 			let nameUser      = $("#name").val();
 			let phoneUser     = $("#phone").val();
@@ -99,21 +98,27 @@
 				data : {
 				name 	  : nameUser,
 				phone     : phoneUser,
-				email 	  : emailUser
+				email 	  : emailUser,
 				adress 	  : adressUser,
-				reference : referenceUser
+				reference : referenceUser,
 				},
 			    success : function(response) {
-					document.getElementById('registerSucess').textContent = response;
-				}
+			    	if(response === "registrado"){
+			    		document.getElementById('registerMsg').classList.remove('text-danger');
+			    		document.getElementById('registerMsg').textContent = "Cliente registrado com sucesso!";
+						cleanForm();
+			    	}
+			    	else{
+			    		document.getElementById('registerMsg').classList.add('text-danger');
+						document.getElementById('registerMsg').textContent = "Já existe um cliente com esse telefone";
+			    	}
+				},
 			}).fail(function(xhr, status, errorThrown) {
-				alert('Erro inesperado ao deletar usuário');
-			})
-		}) 
-	})
+				alert('Erro inesperado ao cadastrar cliente.');
+			});
+	}
 	</script>
 
-	</script>
 
 	<!-- Script para limpar o formulário -->
 	<script type="text/javascript">

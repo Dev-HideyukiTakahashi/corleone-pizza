@@ -48,4 +48,14 @@
     <servlet-name>ServletUpdate</servlet-name>
     <url-pattern>/update</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletSearch</display-name>
+    <servlet-name>ServletSearch</servlet-name>
+    <servlet-class>servlets.ServletSearch</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletSearch</servlet-name>
+    <url-pattern>/search</url-pattern>
+  </servlet-mapping>
 </web-app>

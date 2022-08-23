@@ -31,20 +31,21 @@
 								<h4 class="card-title">Localizar Cliente</h4>
 								<div class="form-group">
 									<label for="select">Selecione o campo da busca</label> <select
-										class="form-control text-primary" id="select"
+										class="form-control text-primary" id="select" name="select"
 										style="width: 20%; font-size: 16px">
-										<option>Telefone</option>
-										<option>Nome</option>
+										<option value="phoneOption">Telefone</option>
+										<option value="nameOption">Nome</option>
 
 									</select>
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input type="text" class="form-control text-light"
-											placeholder="Campo para busca" aria-label="Campo para busca"
-											aria-describedby="basic-addon2">
+										<input type="text" class="form-control text-light" id="field"
+											placeholder="Campo para busca" aria-label="field"
+											required="required" aria-describedby="basic-addon2">
 										<div class="input-group-append">
-											<button class="btn btn-sm btn-primary" type="button">Buscar</button>
+											<button class="btn btn-sm btn-primary" type="button"
+												onclick="searchAjax();">Buscar</button>
 										</div>
 									</div>
 								</div>
@@ -100,5 +101,49 @@
 		</div>
 		<jsp:include page="../javascript.jsp" />
 	</div>
+
+	<!-- Script para checar a escolha do filtro para busca -->
+	<script type="text/javascript">
+		function checkSelect() {
+			let field = $("#field").val();
+			let select = $("#select").val();
+
+			if (field.trim() === '' || field === undefined || field === null) {
+
+				alert("Preencha o campo de busca.");
+			} else {
+				if (select == "phoneOption") {
+					return "phoneOption";
+				} else if (select == "nameOption") {
+					return "nameOption";
+				}
+			}
+
+		}
+	</script>
+
+	<script type="text/javascript">
+		function searchAjax() {
+			let field = $("#field").val();
+			let select = checkSelect();
+
+			if (select != null || select != undefined) {
+				$.ajax({
+
+				method : "get",
+				url : "corleone-pizza/search",
+				data : ,
+				success : function(response) {
+
+					document.getElementById('searchSuccess').textContent = response;
+				}
+
+				}).fail(function(xhr, status, errorThrown) {
+					alert('Erro inesperado na busca do cliente.');
+				});
+			}
+
+		}
+	</script>
 </body>
 </html>
