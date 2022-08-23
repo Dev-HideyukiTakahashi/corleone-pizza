@@ -29,8 +29,6 @@
 						<div class="card">
 
 							<div class="card-body">
-								<span class="text-success" id=registerMsg>${registerMsg}</span>
-								<span class="text-danger" id=registerFail>${registerFail}</span>
 								<h4 class="card-title">Cadastro de cliente</h4>
 								<p class="card-description">Preencha todos os campos</p>
 
@@ -80,6 +78,24 @@
 
 	</div>
 	<jsp:include page="../javascript.jsp" />
+	
+		<!-- Modal -->
+	<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModal" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Cadastro de cliente</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
+	      </div>
+	      <div class="modal-body" >
+	        <h4 id="modal-msg" class="text-success"></h4>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 	<!-- Script para comunicar dados ao backend, encaminha os dados para o ServletRegister -->
 	<script type="text/javascript">	
@@ -94,23 +110,28 @@
 			  
 			$.ajax({
 				method : "POST",
-				url : urlAction,
-				data : {
-				name 	  : nameUser,
-				phone     : phoneUser,
-				email 	  : emailUser,
-				adress 	  : adressUser,
-				reference : referenceUser,
+				url    : urlAction,
+				data   : 
+				{
+					name 	  : nameUser,
+					phone     : phoneUser,
+					email 	  : emailUser,
+					adress 	  : adressUser,
+					reference : referenceUser,
 				},
 			    success : function(response) {
 			    	if(response === "registrado"){
-			    		document.getElementById('registerMsg').classList.remove('text-danger');
-			    		document.getElementById('registerMsg').textContent = "Cliente registrado com sucesso!";
+			    		let msg = "Cliente registrado com sucesso!";
+			    		$('#registerModal').modal('show');
+			    		$("#modal-msg").text(msg);
+			    		document.getElementById('modal-msg').classList.remove('text-danger');
 						cleanForm();
 			    	}
 			    	else{
-			    		document.getElementById('registerMsg').classList.add('text-danger');
-						document.getElementById('registerMsg').textContent = "Já existe um cliente com esse telefone";
+			    		let msg = "Já existe um cliente com esse telefone.";
+			       		$('#registerModal').modal('show');
+			    		$("#modal-msg").text(msg);
+			    		document.getElementById('modal-msg').classList.add('text-danger');
 			    	}
 				},
 			}).fail(function(xhr, status, errorThrown) {
@@ -119,6 +140,12 @@
 	}
 	</script>
 
+	<!-- Script para fechar a janela modal -->
+	<script type="text/javascript">
+	function closeModal() {
+		$('#registerModal').modal('hide');
+	}
+	</script>
 
 	<!-- Script para limpar o formulário -->
 	<script type="text/javascript">

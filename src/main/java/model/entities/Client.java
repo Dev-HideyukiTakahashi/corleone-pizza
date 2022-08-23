@@ -60,4 +60,11 @@ public class Client {
 		this.reference = reference;
 	}
 
+	@Override
+	public String toString() {
+		return "Client [name=" + name + ", phone=" + phone + ", email=" + email + ", adress=" + adress + ", reference="
+				+ reference + "]";
+	}
+
+	
 }

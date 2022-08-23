@@ -1,19 +1,27 @@
 package servlets;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import model.dao.ClientDAO;
+import model.entities.Client;
 
 /**
  *  Mapeado em sistema: /search 
  *  Servlet para buscar dados no banco de dados
  */
 public class ServletSearch extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
+	private ClientDAO clientDAO = new ClientDAO();
+	
 	public ServletSearch() {
 		super();
 	}
@@ -21,8 +29,23 @@ public class ServletSearch extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		request.setAttribute("searchSuccess", "Cliente encontrado no sistema.");
+		String field  = request.getParameter("field");
+		String select = request.getParameter("select");
 		
+		List<Client> client = new ArrayList<>();
+		
+		if(select.equals("nameOption") && field != null && !field.isEmpty()) {
+			client = clientDAO.clientSearch(select, field);
+			System.out.println(client);
+		}
+		else if(select.equals("phoneOption") && field != null && !field.isEmpty()){
+			client = clientDAO.clientSearch(select, field);
+			System.out.println(client);
+		}
+		else {
+			RequestDispatcher redirecionador = request.getRequestDispatcher("pages/client/find.jsp");
+			redirecionador.forward(request, response);
+		}
 		
 	}
 

@@ -24,6 +24,9 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 
+					<form action="<%=request.getContextPath()%>/search" id="form-search">
+					
+					</form>
 					<!-- Inicio do formulário de busca -->
 					<div class="col-md-12 grid-margin stretch-card">
 						<div class="card">
@@ -105,7 +108,7 @@
 	<!-- Script para checar a escolha do filtro para busca -->
 	<script type="text/javascript">
 		function checkSelect() {
-			let field = $("#field").val();
+			let field  = $("#field").val();
 			let select = $("#select").val();
 
 			if (field.trim() === '' || field === undefined || field === null) {
@@ -124,18 +127,22 @@
 
 	<script type="text/javascript">
 		function searchAjax() {
-			let field = $("#field").val();
-			let select = checkSelect();
-
-			if (select != null || select != undefined) {
+			let fieldValue    = $("#field").val();
+			let selectValue   = checkSelect();
+			let urlAction 	  = document.getElementById('form-search').action;
+			
+			if (selectValue != null || selectValue != undefined && fieldValue != null && fieldValue != undefined) {
 				$.ajax({
 
-				method : "get",
-				url : "corleone-pizza/search",
-				data : ,
-				success : function(response) {
-
-					document.getElementById('searchSuccess').textContent = response;
+				method  : "get",
+				url     : urlAction,
+				data    : 
+				{
+					field : fieldValue,
+					select: selectValue,
+				},
+				success : function() {
+					
 				}
 
 				}).fail(function(xhr, status, errorThrown) {
