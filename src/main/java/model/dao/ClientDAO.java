@@ -43,30 +43,25 @@ public class ClientDAO {
 
 	}
 
-	public List<Client> clientSearch(String option, String field) {
-
+	public List<Client> clientSearch(String option, String field) 
+	{
 		List<Client> clientFound = new ArrayList<>();
-		try {
-			String sql = "SELECT * FROM client";
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-
-			if (option.equals("nameOption") || option == "nameOption") {
-				while (rs.next()) {
-					String name = rs.getString("name");
-					if (name.contains(field)) {
-						clientFound.add(clientAssembler(rs));
-					}
-				}
+		try 
+		{
+			String sql = null;
+			if(option.equals("nameOption") || option == "nameOption") {
+				sql = "SELECT * FROM client WHERE name LIKE concat('%', ?, '%')";
 			}
+			else if (option.equals("phoneOption") || option == "phoneOption"){
+				sql = "SELECT * FROM client WHERE phone LIKE concat('%', ?, '%')";
+			}
+			
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, field);
+			ResultSet rs 	     = ps.executeQuery();
 
-			else if (option.equals("phoneOption") || option == "phoneOption") {
-				while (rs.next()) {
-					String phone = rs.getString("phone");
-					if (phone.contains(field)) {
-						clientFound.add(clientAssembler(rs));
-					}
-				}
+			while (rs.next()) {
+				clientFound.add(clientAssembler(rs));
 			}
 
 		} catch (SQLException e) {
@@ -75,23 +70,25 @@ public class ClientDAO {
 		return clientFound;
 	}
 
-	public boolean clientExists(Client client) throws SQLException {
+	public boolean clientExists(Client client) throws SQLException 
+	{
 
 		Client dataBaseClient = new Client();
 
-		String sql = "SELECT * FROM client";
+		String sql 	         = "SELECT * FROM client";
 		PreparedStatement ps = connection.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
+		ResultSet rs	     = ps.executeQuery();
 
 		while (rs.next()) {
-			if (client.getPhone().trim().equalsIgnoreCase(rs.getString("phone").trim())) {
+			if (client.getPhone().equals(rs.getString("phone").trim())) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private Client clientAssembler(ResultSet rs) throws SQLException {
+	private Client clientAssembler(ResultSet rs) throws SQLException 
+	{
 		Client assembler = new Client();
 
 		assembler.setName(rs.getString("name"));

@@ -31,16 +31,21 @@ public class ServletSearch extends HttpServlet {
 		
 		String field  = request.getParameter("field");
 		String select = request.getParameter("select");
-		
 		List<Client> client = new ArrayList<>();
 		
 		if(select.equals("nameOption") && field != null && !field.isEmpty()) {
 			client = clientDAO.clientSearch(select, field);
-			System.out.println(client);
+			request.setAttribute("clientFound", client);
+			for(Client c: client) {
+				System.out.println(c.getName());
+			}
 		}
 		else if(select.equals("phoneOption") && field != null && !field.isEmpty()){
 			client = clientDAO.clientSearch(select, field);
-			System.out.println(client);
+			request.setAttribute("clientFound", client);
+			for(Client c: client) {
+				System.out.println(c);
+			}
 		}
 		else {
 			RequestDispatcher redirecionador = request.getRequestDispatcher("pages/client/find.jsp");

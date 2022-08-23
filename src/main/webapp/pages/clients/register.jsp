@@ -42,7 +42,7 @@
 									</div>
 									<div class="form-group">
 										<label for="exampleInputPhone">Telefone</label> <input
-											type="text" class="form-control text-light"
+											type="number" class="form-control text-light"
 											autocomplete="off" id="phone" value="${clientData.phone}"
 											placeholder="Telefone" name="phone" required="required">
 									</div>

@@ -74,19 +74,10 @@
 										</thead>
 										<tbody>
 											<tr>
-												<td>Cliente Teste</td>
-												<td>11-942542595</td>
+												<td> </td>
+												<td></td>
 												<td>Rua testadora dos teste 85</td>
 												<td>Próximo a rua esperança que não morra o sistema</td>
-												<td class="py-1"><a href="#"> <img
-														src="<%=request.getContextPath()%>/assets/images/favicon.png"
-														alt="image" /></a></td>
-											</tr>
-											<tr>
-												<td>Cliente Teste 2</td>
-												<td>11-942542595</td>
-												<td>Rua dos testes de sistema 22</td>
-												<td>Depois da esquina do teste que deu ruim</td>
 												<td class="py-1"><a href="#"> <img
 														src="<%=request.getContextPath()%>/assets/images/favicon.png"
 														alt="image" /></a></td>
@@ -97,6 +88,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<!-- Final da tabela de busca -->
 					<jsp:include page="../footer.jsp"></jsp:include>
 				</div>
