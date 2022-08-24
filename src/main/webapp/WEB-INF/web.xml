@@ -58,4 +58,14 @@
     <servlet-name>ServletSearch</servlet-name>
     <url-pattern>/search</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletProduct</display-name>
+    <servlet-name>ServletProduct</servlet-name>
+    <servlet-class>servlets.ServletProduct</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletProduct</servlet-name>
+    <url-pattern>/products</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -20,35 +20,33 @@
 			<!-- Navbar do cabeçalho -->
 			<jsp:include page="../navbar.jsp"></jsp:include>
 
-
 			<div class="main-panel">
 				<div class="content-wrapper">
-
-					<form action="<%=request.getContextPath()%>/search" id="form-search"></form>					</form>
+				
+					<form action="<%=request.getContextPath()%>/products" id="form-pizza"></form>					</form>
 					<!-- Inicio da tabela de busca -->
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
 															
-							<div class="form-group">							
-							<h4 class="card-title">Todos Clientes Cadastrados</h4>
+							<div class="form-group">
+							<h4 class="card-title">Todos Sabores de Pizza</h4>
+
 							<button class="btn-info" type="submit"  id="submit"
 								onclick="searchAjax();" style="width: 245px">Listar</button>
-								<span id="countResult" class="text-success h6" style="margin-left: 20px" ></span>
 							</div>				
 
 								<div class="table-responsive">
-									<table class="table table-striped">
+									<table class="table table-striped" style="margin-top: 15px ">
 										<thead>
 											<tr>
-												<th>Nome</th>
-												<th>Telefone</th>
-												<th>Endereço</th>
-												<th>Referência</th>
-												<th>Email</th>
+												<th class="text-center">Código</th>
+												<th class="text-center">Nome</th>
+												<th class="text-center">Descrição</th>
+												<th class="text-center">Preço</th>
 											</tr>
 										</thead>
-										<tbody id="clientFound">
+										<tbody id="pizza-found">
 										</tbody>
 									</table>
 								</div>
@@ -62,56 +60,32 @@
 		<jsp:include page="../javascript.jsp" />
 	</div>
 	
-	<!-- Modal -->
-	<div class="modal fade" id="findModal" tabindex="-1" aria-labelledby="findModal" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Procurar Cliente nos Registros</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
-	      </div>
-	      <div class="modal-body" >
-	        <h4 id="modal-msg" class="text-success"></h4>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-
-
+	
 	<!-- Script para requisição com back-end com AJAX e JACKSON na resposta para receber o JSON -->
 	<script type="text/javascript">
 		function searchAjax() 
 		{
-			let urlAction = document.getElementById('form-search').action;
+			let urlAction = document.getElementById('form-pizza').action;
 			
+			// Limpando possível cache nos resultados da busca
 				$.ajax({
 
 				method  : "get",
 				url     : urlAction,
-				data    : {action : 'searchList'},
+				data    : {prodType : 'Pizza'},
 				success : function(response) 
 				{
 					// Convertendo o envio do argumento de ServletSearch para JSON
 					let json = JSON.parse(response);
 					
 					// Limpando possível cache nos resultados da busca
-					$('#clientFound > tr').remove();
+					$('#pizza-found > tr').remove();
 					
-					// Informando a quantidade de resultados obtidos
-					if(json.length > 0)
-					{
-						document.getElementById('countResult').classList.remove('text-danger');
-						$('#countResult').text(json.length + " registros de cliente.");
-					}
-
 					// Populando os campos do resultado de busca
 					for(let p = 0; p < json.length; p ++)
 					{
-						$('#clientFound').append
-						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td>"+json[p].email+"</td></tr>");
+						$('#pizza-found').append
+						("<tr><td class='text-primary text-center'>"+ [p] + "</td><td class='text-secondary text-center'>" + json[p].prodName +"</td><td class='text-secondary text-center'>" + json[p].prodDescription +  "<a class='mdi mdi-lead-pencil' style='margin-left: 10px'></a></td><td class='text-success text-center'>"+ json[p].prodPriceFormatter + "<a class='mdi mdi-lead-pencil' style='margin-left: 10px'></a></td></tr>");
 					}	
 				}
 

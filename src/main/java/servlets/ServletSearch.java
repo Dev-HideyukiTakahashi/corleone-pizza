@@ -80,9 +80,6 @@ public class ServletSearch extends HttpServlet {
 					redirecionador.forward(request, response);
 				}
 			}
-			
-
-			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
