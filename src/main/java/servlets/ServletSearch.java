@@ -33,12 +33,15 @@ public class ServletSearch extends HttpServlet {
 			throws ServletException, IOException {
 		try
 		{
+			String action = request.getParameter("action");
 			String field  = request.getParameter("field");
 			String select = request.getParameter("select");
 			List<Client> client = new ArrayList<>();
-			if(select.equals("nameOption") && field != null && !field.isEmpty()) 
-			{
-				client = clientDAO.clientSearch(select, field);
+			
+			// Enviando requisição com lista de todos os clientes
+			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchList")) {
+				
+				client = clientDAO.clientSearchAll();
 				
 				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 				ObjectMapper mapper = new ObjectMapper();
@@ -47,21 +50,39 @@ public class ServletSearch extends HttpServlet {
 				// Enviando o JSON no response do AJAX
 				response.getWriter().write(JSON);
 			}
-			else if(select.equals("phoneOption") && field != null && !field.isEmpty())
-			{
-				client = clientDAO.clientSearch(select, field);
+			
+			// Enviando requisição com lista de todos os clientes filtrados por telefone ou nome
+			if(action == null) {
+				if(select.equals("nameOption") && field != null && !field.isEmpty()) 
+				{
+					client = clientDAO.clientSearch(select, field);
+					
+					// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
+					ObjectMapper mapper = new ObjectMapper();
+					String JSON = mapper.writeValueAsString(client);
+					
+					// Enviando o JSON no response do AJAX
+					response.getWriter().write(JSON);
+				}
+				else if(select.equals("phoneOption") && field != null && !field.isEmpty())
+				{
+					client = clientDAO.clientSearch(select, field);
 
-				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
-				ObjectMapper mapper = new ObjectMapper();
-				String JSON = mapper.writeValueAsString(client);
-				// Enviando o JSON no response do AJAX
-				response.getWriter().write(JSON);
+					// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
+					ObjectMapper mapper = new ObjectMapper();
+					String JSON = mapper.writeValueAsString(client);
+					// Enviando o JSON no response do AJAX
+					response.getWriter().write(JSON);
+				}
+				else 
+				{
+					RequestDispatcher redirecionador = request.getRequestDispatcher("pages/clients/find.jsp");
+					redirecionador.forward(request, response);
+				}
 			}
-			else 
-			{
-				RequestDispatcher redirecionador = request.getRequestDispatcher("pages/clients/find.jsp");
-				redirecionador.forward(request, response);
-			}
+			
+
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();

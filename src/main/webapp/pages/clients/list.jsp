@@ -25,45 +25,18 @@
 				<div class="content-wrapper">
 
 					<form action="<%=request.getContextPath()%>/search" id="form-search"></form>					</form>
-					<!-- Inicio do corpo com campos busca -->
-					<div class="col-md-12 grid-margin stretch-card">
-						<div class="card">
-							<div class="card-body">
-							
-								<h4 class="card-title">Localizar Cliente</h4>
-								
-								<div class="form-group">
-									<label for="select">Selecione o campo da busca</label> 
-									<select
-										class="form-control text-primary" id="select" name="select"
-										style="width: 20%; font-size: 16px">
-										<option value="phoneOption">Telefone</option>
-										<option value="nameOption">Nome</option>
-									</select>
-								</div>
-								
-								<div class="form-group">
-									<div class="input-group">
-										<input type="text" class="form-control text-light" id="field"
-											placeholder="Campo para busca" aria-label="field" autocomplete="off"
-											required="required" aria-describedby="basic-addon2">
-										<div class="input-group-append" >
-											<button class="btn btn-sm btn-primary" type="button"  id="submit"
-												onclick="searchAjax();">Buscar</button>
-										</div>
-									</div>
-								</div>
-									<!-- Contador de resultados impresso na tela -->
-									<span id="countResult" class="text-success h6"></span>
-							</div>
-						</div>
-					</div>
-					<!-- Final do corpo com campos de busca -->
 					<!-- Inicio da tabela de busca -->
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title">Resultado da busca</h4>
+															
+							<div class="form-group">							
+							<h4 class="card-title">Todos Clientes Cadastrados</h4>
+							<button class="btn-info" type="submit"  id="submit"
+								onclick="searchAjax();">Listar</button>
+								<span id="countResult" class="text-success h6" style="margin-left: 20px" ></span>
+							</div>				
+
 								<div class="table-responsive">
 									<table class="table table-striped">
 										<thead>
@@ -76,14 +49,12 @@
 											</tr>
 										</thead>
 										<tbody id="clientFound">
-										<!-- O resutado (no caso <td>) vem por uma requisição AJAX -->
 										</tbody>
 									</table>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- Final da tabela de busca -->
 					<jsp:include page="../footer.jsp"></jsp:include>
 				</div>
 			</div>
@@ -109,75 +80,27 @@
 	  </div>
 	</div>
 
-	<!-- Script para checar qual foi a escolha de filtro no campo de busca -->
-	<script type="text/javascript">
-		function checkSelect() 
-		{
-			let field  = $("#field").val();
-			let select = $("#select").val();
-			
-			if (field.trim() === '' || field === undefined || field === null)  // Checando se o campo de busca foi preenchido
-			{
-	    		let msg = "Preencha o campo de busca, com nome ou telefone.";
-	    		$('#findModal').modal('show');
-	    		document.getElementById('modal-msg').classList.add('text-danger');
-	    		$("#modal-msg").text(msg);	
-	    		
-			} 
-			else 
-			{
-				if (select == "phoneOption") {return "phoneOption";} 
-				else if (select == "nameOption") {return "nameOption";}
-			}
-
-		}
-	</script>
-	<!-- Script para acionar o click submit quando apertar ENTER -->
-	<script type="text/javascript">
-	
-	$(document).keyup(function(event){
-		if (event.keyCode === 13) {
-	  	$('#submit').click();
-	  }
-	});
-	</script>
 
 	<!-- Script para requisição com back-end com AJAX e JACKSON na resposta para receber o JSON -->
 	<script type="text/javascript">
 		function searchAjax() 
 		{
-			let fieldValue    = $("#field").val();
-			let selectValue   = checkSelect();
 			let urlAction 	  = document.getElementById('form-search').action;
 			
-			if (selectValue != null || selectValue != undefined && fieldValue != null && fieldValue != undefined) 
-			{
 				$.ajax({
 
 				method  : "get",
 				url     : urlAction,
-				data    : 
-				{
-					field : fieldValue,
-					select: selectValue,
-				},
+				data    : {action : 'searchList'},
 				success : function(response) 
 				{
 					// Convertendo o envio do argumento de ServletSearch para JSON
 					let json = JSON.parse(response);
 					
-					// Limpando possível cache nos resultados da busca
-					$('#clientFound > tr').text('');
-					
 					// Informando a quantidade de resultados obtidos
 					if(json.length > 0)
 					{
 						document.getElementById('countResult').classList.remove('text-danger');
-						$('#countResult').text(json.length + " registros de cliente.");
-					}
-					else
-					{
-						document.getElementById('countResult').classList.add('text-danger');
 						$('#countResult').text(json.length + " registros de cliente.");
 					}
 
@@ -192,15 +115,9 @@
 				}).fail(function(xhr, status, errorThrown) {
 					alert('Erro inesperado na busca do cliente.');
 				});
-			}
+			
 		}
 	</script>
 	
-	<!-- Script para fechar a janela modal -->
-	<script type="text/javascript">
-	function closeModal() {
-		$('#findModal').modal('hide');
-	}
-	</script>
 </body>
 </html>

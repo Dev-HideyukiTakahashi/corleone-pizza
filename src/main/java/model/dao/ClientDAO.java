@@ -71,6 +71,26 @@ public class ClientDAO {
 		return clientFound;
 	}
 	
+	public List<Client> clientSearchAll() 
+	{
+		List<Client> clientFound = new ArrayList<>();
+		try 
+		{
+			String sql = "SELECT * FROM client";
+			
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs 	     = ps.executeQuery();
+
+			while (rs.next()) {
+				clientFound.add(clientAssembler(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return clientFound;
+	}
+	
 	public void clientDelete(String valueDelete) throws SQLException 
 	{
 		String sql = "DELETE FROM client WHERE phone = ?";
