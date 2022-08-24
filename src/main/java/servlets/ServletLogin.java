@@ -40,8 +40,6 @@ public class ServletLogin extends HttpServlet
 		else {
 			doPost(request, response);
 		}
-		
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -95,8 +93,5 @@ public class ServletLogin extends HttpServlet
 			RequestDispatcher redirect = request.getRequestDispatcher("/error.jsp");
 			redirect.forward(request, response);
 		}
-		
-		
 	}
-
 }

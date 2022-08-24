@@ -1,19 +1,18 @@
 package servlets;
 
+import java.io.IOException;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.ClientDAO;
 import model.entities.Client;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 /**
- * Mapeado em sistema: /register Servlet para cadastrar um novo cliente
+ * Mapeado em sistema: /register 
+ * Servlet para cadastrar um novo cliente
  */
 public class ServletRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +27,8 @@ public class ServletRegister extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		try {
+		try 
+		{
 			ClientDAO clientDAO = new ClientDAO();
 
 			String name 	 = request.getParameter("name");
@@ -43,17 +43,17 @@ public class ServletRegister extends HttpServlet {
 			if (clientDAO.clientExists(newClient)) {
 				request.setAttribute("clientData", newClient);
 
-			} else {
+			}
+			else 
+			{
 				clientDAO.insertClient(newClient);
 				response.getWriter().write("registrado");
 			}
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
 			redirecionador.forward(request, response);
 		}
-
 	}
-
 }

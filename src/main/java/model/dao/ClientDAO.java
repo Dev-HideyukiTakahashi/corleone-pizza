@@ -53,7 +53,7 @@ public class ClientDAO {
 				field = field.toUpperCase();
 				sql = "SELECT * FROM client WHERE upper(name) LIKE concat('%', ?, '%')";
 			}
-			else if (option.equals("phoneOption") || option == "phoneOption"){
+			else{
 				sql = "SELECT * FROM client WHERE phone = ?";
 			}
 			
@@ -70,11 +70,19 @@ public class ClientDAO {
 		}
 		return clientFound;
 	}
+	
+	public void clientDelete(String valueDelete) throws SQLException 
+	{
+		String sql = "DELETE FROM client WHERE phone = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1, valueDelete);
+		ps.executeUpdate();
+		
+		connection.commit();
+	}
 
 	public boolean clientExists(Client client) throws SQLException 
 	{
-
-		Client dataBaseClient = new Client();
 
 		String sql 	         = "SELECT * FROM client";
 		PreparedStatement ps = connection.prepareStatement(sql);
