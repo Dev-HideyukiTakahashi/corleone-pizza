@@ -51,6 +51,8 @@
 						href="<%=request.getContextPath()%>/pages/clients/find.jsp">Buscar</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="<%=request.getContextPath()%>/pages/clients/delete.jsp">Deletar</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/pages/clients/list.jsp">Listar</a></li>
 				</ul>
 			</div></li>
 
@@ -65,7 +67,7 @@
 					<li class="nav-item"><a class="nav-link"
 						href="pages/ui-features/buttons.html">Cardápio</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">Incluir Pizza</a></li>
+						href="pages/ui-features/dropdowns.html">Manipular Pizza</a></li>
 				</ul>
 			</div></li>
 
@@ -84,7 +86,7 @@
 					<li class="nav-item"><a class="nav-link"
 						href="pages/ui-features/dropdowns.html">Vinhos</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">Incluir Bebida</a></li>
+						href="pages/ui-features/dropdowns.html">Manipular Bebida</a></li>
 				</ul>
 			</div></li>
 		<li class="nav-item menu-items"><a class="nav-link"
