@@ -59,6 +59,5 @@ public class Client {
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-
 	
 }

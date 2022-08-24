@@ -80,6 +80,23 @@ public class ClientDAO {
 		
 		connection.commit();
 	}
+	
+	public void clientUpdate(Client client) throws SQLException 
+	{
+		String sql = "UPDATE client SET name= ?, phone= ?, email=?, adress=?, reference=? WHERE phone= ?";
+		
+		PreparedStatement ps = connection.prepareStatement(sql);
+		
+		ps.setString(1, client.getName());
+		ps.setString(2, client.getPhone());
+		ps.setString(3, client.getEmail());
+		ps.setString(4, client.getAdress());
+		ps.setString(5, client.getReference());
+		ps.setString(6, client.getPhone());
+		ps.executeUpdate();
+		
+		connection.commit();
+	}
 
 	public boolean clientExists(Client client) throws SQLException 
 	{

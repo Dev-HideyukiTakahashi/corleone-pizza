@@ -13,6 +13,7 @@ import model.entities.Client;
 /**
  * Mapeado em sistema: /register 
  * Servlet para cadastrar um novo cliente
+ * O Filter está responsavel pelo rollback
  */
 public class ServletRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;

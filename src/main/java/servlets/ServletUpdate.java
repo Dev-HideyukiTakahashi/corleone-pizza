@@ -15,8 +15,9 @@ import model.dao.ClientDAO;
 import model.entities.Client;
 
 /**
- * Mapeado em sistema: 
- * /update Servlet para atualizar/update um novo cliente
+ * Mapeado em sistema: /update 
+ * Servlet para atualizar um novo cliente
+ * O Filter está responsavel pelo rollback
  */
 public class ServletUpdate extends HttpServlet {
 	
@@ -58,7 +59,6 @@ public class ServletUpdate extends HttpServlet {
 			if(valueDelete != null) {
 				clientDAO.clientDelete(valueDelete);
 			}
-
 			/* Final Algoritmo Delete ------------------------------------->    */
 		}
 		catch(Exception e) {
@@ -76,11 +76,18 @@ public class ServletUpdate extends HttpServlet {
 		try
 		{
 			Client client = new Client();
+			
+			String name 	 = request.getParameter("name");
+			String phone 	 = request.getParameter("phone");
+			String email 	 = request.getParameter("email"); // Recuperando dados do form em register.jsp
+			String adress	 = request.getParameter("adress");
+			String reference = request.getParameter("reference");
 
-			String nome = "teste update";
-			client.setName(nome);
-
-			request.setAttribute("clientUpdate", client);
+			Client newClient = new Client(name, phone, email, adress, reference);
+			
+			clientDAO.clientUpdate(newClient);
+			
+			response.getWriter().write("atualizado");
 		}
 		catch(Exception e) {
 			e.printStackTrace();

@@ -31,12 +31,7 @@
 								<h4 class="card-title">Buscar cliente por nº de telefone</h4>
 								
 								<div class="form-group">
-									<label for="select">Selecione o campo da busca</label> 
-									<select
-										class="form-control text-primary" id="select" name="select"
-										style="width: 20%; font-size: 16px">
-										<option value="phoneOption">Telefone</option>
-									</select>
+									<button class='btn-info' disabled="disabled">Telefone</button>
 								</div>
 								
 								<div class="form-group">
@@ -68,7 +63,7 @@
 												<th>Telefone</th>
 												<th>Endereço</th>
 												<th>Referência</th>
-												<th>Excluir</th>
+												<th class='text-center'>Excluir</th>
 											</tr>
 										</thead>
 										<tbody id="clientFound">
@@ -91,7 +86,7 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Cadastro de cliente</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">Deletar Cliente</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
 	      </div>
 	      <div class="modal-body" >
@@ -163,7 +158,7 @@
 					for(let p = 0; p < json.length; p ++)
 					{
 						$('#clientFound').append
-						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1'><a onclick='deleteAjax(" + json[p].phone +");'><img src='../../assets/images/file-icons/delete.png' alt='Excluir' /></a></td></tr>");
+						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1 text-center'><a href='#' onclick='deleteAjax(" + json[p].phone +");'><img src='../../assets/images/file-icons/delete.png' alt='Excluir' /></a></td></tr>");
 					}	
 				}
 

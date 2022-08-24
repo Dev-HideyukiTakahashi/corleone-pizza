@@ -17,6 +17,7 @@ import model.entities.Client;
 /**
  *  Mapeado em sistema: /search 
  *  Servlet para buscar dados no banco de dados
+ *  O Filter está responsavel pelo rollback
  */
 public class ServletSearch extends HttpServlet {
 	
