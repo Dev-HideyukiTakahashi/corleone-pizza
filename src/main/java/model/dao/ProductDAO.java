@@ -54,17 +54,36 @@ public class ProductDAO {
 		return item;
 	}
 	
-	public void productUpdate(String code, String description) throws SQLException 
+	public void productUpdate(String code, String value, String option) 
 	{
-		Product item = new Product();
-		String sql   = "UPDATE products	SET description=? WHERE code=?";
+		try 
+		{
+			Product item = new Product();
+			String sql   = null;
+			if(option.equals("updatePizza") || option == "updatePizza") {
+				sql = "UPDATE products SET description=? WHERE code=?";
+			}
+			else if(option.equals("updatePrice") || option == "updatePrice") {
+				sql = "UPDATE products SET price=? WHERE code=?";
+			}
+			
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, value);
+			ps.setString(2, code);
+			ps.executeUpdate();
+			
+			connection.commit();
+		}
+		catch(SQLException e) {
+			try {
+				connection.rollback();
+				e.printStackTrace();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 		
-		PreparedStatement ps = connection.prepareStatement(sql);
-		ps.setString(1, description);
-		ps.setString(2, code);
-		ps.executeUpdate();
-		
-		connection.commit();
+
 	}
 	
 	

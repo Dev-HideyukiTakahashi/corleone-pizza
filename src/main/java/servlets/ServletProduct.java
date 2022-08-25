@@ -15,7 +15,8 @@ import model.dao.ProductDAO;
 import model.entities.Product;
 
 /**
- * Mapeado em sistema: /products Servlet para manipular pizza e bebidas com
+ * Mapeado em sistema: 
+ * /pizzas Servlet para manipular pizza e bebidas com
  * banco de dados O Filter está responsavel pelo rollback
  */
 public class ServletProduct extends HttpServlet {
@@ -38,6 +39,18 @@ public class ServletProduct extends HttpServlet {
 
 			// Enviando requisição com todos os dados do produto pelo código
 			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("pizzaCode")) 
+			{
+				Product item = new Product();
+				item = productDAO.productByCode(code);
+				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
+				ObjectMapper mapper = new ObjectMapper();
+				String JSON = mapper.writeValueAsString(item);
+				// Enviando o JSON no response do AJAX
+				response.getWriter().write(JSON);
+			}
+			
+			// Enviando requisição com todos os dados do produto pelo código
+			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("priceCode")) 
 			{
 				Product item = new Product();
 				item = productDAO.productByCode(code);
@@ -74,17 +87,24 @@ public class ServletProduct extends HttpServlet {
 		try 
 		{
 			String code        = request.getParameter("code");
-			String description = request.getParameter("description");
+			String value = request.getParameter("description");
 			String updateData  = request.getParameter("updateData");
 			
-			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateData")) 
+			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePizza")) 
 			{
+				String option = "updatePizza";
 				Product item = new Product();
-				productDAO.productUpdate(code, description);
+				productDAO.productUpdate(code, value, option);
 				response.getWriter().write("atualizado");
 			}
 			
-			
+			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePrice")) 
+			{
+				String option = "updatePrice";
+				Product item = new Product();
+				productDAO.productUpdate(code, value, option);
+				response.getWriter().write("atualizado");
+			}
 		}
 		catch(Exception e) 
 		{
