@@ -66,6 +66,9 @@ public class ProductDAO {
 			else if(option.equals("updatePrice") || option == "updatePrice") {
 				sql = "UPDATE products SET price=? WHERE code=?";
 			}
+			else if(option.equals("updateName") || option == "updateName") {
+				sql = "UPDATE products SET item=? WHERE code=?";
+			}
 			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, value);

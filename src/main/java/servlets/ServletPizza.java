@@ -15,17 +15,16 @@ import model.dao.ProductDAO;
 import model.entities.Product;
 
 /**
- * Mapeado em sistema: 
- * /pizzas Servlet para manipular pizza e bebidas com
- * banco de dados O Filter está responsavel pelo rollback
+ * Mapeado em sistema: /pizzas 
+ * Servlet para manipular os dados das pizzas
  */
-public class ServletProduct extends HttpServlet {
+public class ServletPizza extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 
 	private ProductDAO productDAO = new ProductDAO();
 	
-	public ServletProduct() {
+	public ServletPizza() {
 		super();
 	}
 
@@ -38,7 +37,7 @@ public class ServletProduct extends HttpServlet {
 			String code        = request.getParameter("code");
 
 			// Enviando requisição com todos os dados do produto pelo código
-			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("pizzaCode")) 
+			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("search")) 
 			{
 				Product item = new Product();
 				item = productDAO.productByCode(code);
@@ -47,19 +46,7 @@ public class ServletProduct extends HttpServlet {
 				String JSON = mapper.writeValueAsString(item);
 				// Enviando o JSON no response do AJAX
 				response.getWriter().write(JSON);
-			}
-			
-			// Enviando requisição com todos os dados do produto pelo código
-			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("priceCode")) 
-			{
-				Product item = new Product();
-				item = productDAO.productByCode(code);
-				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
-				ObjectMapper mapper = new ObjectMapper();
-				String JSON = mapper.writeValueAsString(item);
-				// Enviando o JSON no response do AJAX
-				response.getWriter().write(JSON);
-			}
+			}			
 
 			// Enviando requisição com lista de todos os produtos de acordo com filtro
 			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("Pizza")) 
@@ -69,7 +56,7 @@ public class ServletProduct extends HttpServlet {
 				items = productDAO.productSearch(prodType);
 				
 				ObjectMapper mapper = new ObjectMapper();
-				String JSON = mapper.writeValueAsString(items);
+				String JSON 	    = mapper.writeValueAsString(items);
 				
 				response.getWriter().write(JSON);
 			}
@@ -87,7 +74,7 @@ public class ServletProduct extends HttpServlet {
 		try 
 		{
 			String code        = request.getParameter("code");
-			String value = request.getParameter("description");
+			String value	   = request.getParameter("description");
 			String updateData  = request.getParameter("updateData");
 			
 			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePizza")) 
@@ -101,6 +88,14 @@ public class ServletProduct extends HttpServlet {
 			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePrice")) 
 			{
 				String option = "updatePrice";
+				Product item = new Product();
+				productDAO.productUpdate(code, value, option);
+				response.getWriter().write("atualizado");
+			}
+			
+			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
+			{
+				String option = "updateName";
 				Product item = new Product();
 				productDAO.productUpdate(code, value, option);
 				response.getWriter().write("atualizado");

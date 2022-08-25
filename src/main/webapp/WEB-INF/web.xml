@@ -68,4 +68,14 @@
     <servlet-name>ServletProduct</servlet-name>
     <url-pattern>/products</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletPizza</display-name>
+    <servlet-name>ServletPizza</servlet-name>
+    <servlet-class>servlets.ServletPizza</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletPizza</servlet-name>
+    <url-pattern>/pizza</url-pattern>
+  </servlet-mapping>
 </web-app>

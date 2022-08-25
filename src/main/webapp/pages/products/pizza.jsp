@@ -23,7 +23,7 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 				
-					<form action="<%=request.getContextPath()%>/products" id="form-pizza"></form>					</form>
+					<form action="<%=request.getContextPath()%>/pizza" id="form-pizza"></form>					</form>
 					<!-- Inicio da tabela de busca -->
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
@@ -102,6 +102,27 @@
 	</div>
 	
 	
+	<!-- Modal -->
+	<div class="modal fade" id="updateNamePizza" tabindex="-1" aria-labelledby="updateNamePizza" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5  style="margin-left:3px" class="modal-title text-success" id="updateName-name"></h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
+	      </div>
+	      <div class="modal-body">
+	        <input id="updateName-input" class="form-control text-light" value="" autocomplete="off"></input>
+	      </div>
+	      <div class="modal-footer">
+	      	<p style="margin-right: 15px">Cod: <span id="updateName-code" class="text-warning"></span> </p>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Cancelar</button>
+	        <button type="button" class="btn btn-primary" onclick="updateName();">Salvar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
 	<!-- Script para requisição de busca -->
 	<script type="text/javascript">
 		function searchAjax() 
@@ -128,7 +149,7 @@
 					for(let p = 0; p < json.length; p ++)
 					{
 						$('#pizza-found').append
-						('<tr><td class="text-primary text-center">'+ json[p].prodCode + '</td><td class="text-secondary text-center" id="">' + json[p].prodName +'</td><td class="text-secondary text-center">' + json[p].prodDescription +  '<button class="mdi mdi-lead-pencil" onclick="updateDescriptionData('+json[p].prodCode+')" style="margin-left: 10px"></button></td><td class="text-success text-center">'+ json[p].prodPriceFormatter + '<button class="mdi mdi-lead-pencil" onclick="updatePriceData('+json[p].prodCode+')" style="margin-left: 10px"></button></td></tr>');
+						('<tr><td class="text-primary text-center">'+ json[p].prodCode + '</td><td class="text-secondary text-center" id="">' + json[p].prodName +'<button class="mdi mdi-lead-pencil" onclick="updateNameData('+json[p].prodCode+')" style="margin-left: 10px"></button></td><td class="text-secondary text-center">' + json[p].prodDescription +  '<button class="mdi mdi-lead-pencil" onclick="updateDescriptionData('+json[p].prodCode+')" style="margin-left: 10px"></button></td><td class="text-success text-center">'+ json[p].prodPriceFormatter + '<button class="mdi mdi-lead-pencil" onclick="updatePriceData('+json[p].prodCode+')" style="margin-left: 10px"></button></td></tr>');
 					}
 					
 					//Algoritmo para ordernar a tabela;
@@ -156,7 +177,7 @@
 				data    : 
 				{
 					code : code,
-				    type : 'pizzaCode',
+				    type : 'search',
 					},
 				success : function(response) 
 				{
@@ -167,6 +188,39 @@
 					$('#updatePizza-input').val(json.prodDescription);
 					$('#updatePizza-name').text(json.prodName);
 					$('#updatePizza-code').text(json.prodCode);
+				}
+
+				}).fail(function(xhr, status, errorThrown) {
+					alert('Erro inesperado na busca do cliente.');
+				});	
+		}
+	</script>
+	
+		<!-- Script para requisição dos dados para atualização da pizza no modal -->
+	<script type="text/javascript">
+	
+		function updateNameData(code){
+			
+			let urlAction = document.getElementById('form-pizza').action;
+			
+			$.ajax({
+
+				method  : "get",
+				url     : urlAction,
+				data    : 
+				{
+					code : code,
+				    type : 'search',
+					},
+				success : function(response) 
+				{
+					// Convertendo o envio do argumento de ServletSearch para JSON
+					let json		= JSON.parse(response);
+					
+					$('#updateNamePizza').modal('show');
+					$('#updateName-input').val(json.prodName);
+					$('#updateName-name').text(json.prodName);
+					$('#updateName-code').text(json.prodCode);
 				}
 
 				}).fail(function(xhr, status, errorThrown) {
@@ -189,7 +243,7 @@
 				data    : 
 				{
 					code : code,
-				    type : 'priceCode',
+				    type : 'search',
 					},
 				success : function(response) 
 				{
@@ -249,7 +303,7 @@
 	</script>
 	
 	
-	<!-- Script para atualização da descrição da pizza -->
+	<!-- Script para atualização da preço da pizza -->
 	<script type="text/javascript">
 		function updatePrice() {
 
@@ -275,6 +329,48 @@
 			    		$('#update-success').text("Descrição da pizza " + nameUpdate + " atualizada");
 			    		document.getElementById('update-success').classList.remove('text-danger');
 			    		$('#updatePricePizza').modal('hide');
+						searchAjax();
+			    	}
+			    	else
+			    	{
+			    		$('#update-success').text("Descrição não atualizada, tente novamente.")
+			    	}
+				},
+			}).fail(function(xhr, status, errorThrown) {
+				alert('Erro inesperado ao cadastrar cliente.');
+			});
+		}
+	</script>
+	
+	
+	
+	<!-- Script para atualização da name da pizza -->
+	<script type="text/javascript">
+		function updateName() {
+
+			let descriptionUpdate = $("#updateName-input").val();
+			let codeUpdate		  = $("#updateName-code").text();
+			let nameUpdate		  = $("#updateName-name").text();
+			let urlAction 		  = document.getElementById('form-pizza').action;
+
+			$.ajax
+			({
+				method : "POST",
+				url    : urlAction,
+				data   : 
+				{
+					description 	  : descriptionUpdate,
+					code			  : codeUpdate,
+					updateData		  : "updateName",
+				},
+			    success : function(response) 
+			    {
+			    	if(response === "atualizado")
+			    	{
+			    		console.log("SUCCESSSSSSs")
+			    		$('#update-success').text("Nome da pizza " + nameUpdate + " atualizada");
+			    		document.getElementById('update-success').classList.remove('text-danger');
+			    		$('#updateNamePizza').modal('hide');
 						searchAjax();
 			    	}
 			    	else
