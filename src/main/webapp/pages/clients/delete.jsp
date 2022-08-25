@@ -31,7 +31,7 @@
 								<h4 class="card-title">Buscar cliente por nº de telefone</h4>
 								
 								<div class="form-group">
-									<button class='btn-info' disabled="disabled">Telefone</button>
+									<button class='btn-inverse-info' disabled="disabled" style= "padding: 4.5px;">Telefone</button>
 								</div>
 								
 								<div class="form-group">
@@ -41,7 +41,7 @@
 											required="required" aria-describedby="basic-addon2">
 										<div class="input-group-append" >
 											<button class="btn btn-sm btn-primary" type="button"  id="btn-search"
-												onclick="searchAjax();">Buscar</button>
+												onclick="searchAjax();" >Buscar</button>
 										</div>
 									</div>
 								</div>

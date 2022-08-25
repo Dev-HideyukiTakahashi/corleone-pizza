@@ -7,7 +7,6 @@
 
 <!-- Cabeçalho da página -->
 <jsp:include page="../head.jsp"></jsp:include>
-
 <body>
 
 	<div class="container-scroller">
@@ -31,13 +30,15 @@
 							<div class="card-body">
 															
 							<div class="form-group">							
-							<h4 class="card-title">Todos Clientes Cadastrados</h4>
-							<button class="btn-info" type="submit"  id="submit"
-								onclick="searchAjax();" style="width: 245px">Listar</button>
+							<h4 class="card-title">Todos ClientesCadastrados</h4>
+							<button class="btn-inverse-info" type="submit"  id="submit"
+								onclick="searchAjax();" style="width: 25%; padding: 4.5px">Listar</button>
 								<span id="countResult" class="text-success h6" style="margin-left: 20px" ></span>
 							</div>				
-
-								<div class="table-responsive">
+							<!-- Input para busca com highlights -->
+							<input id='query' class="form-control text-secondary" style="width: 50%; " placeholder='Buscar por...' type='text'>
+							
+								<div class="table-responsive" id="teste">
 									<table class="table table-striped">
 										<thead>
 											<tr>
@@ -48,7 +49,7 @@
 												<th>Email</th>
 											</tr>
 										</thead>
-										<tbody id="clientFound">
+										<tbody id="client-found">
 										</tbody>
 									</table>
 								</div>
@@ -60,6 +61,7 @@
 			</div>
 		</div>
 		<jsp:include page="../javascript.jsp" />
+
 	</div>
 	
 	<!-- Modal -->
@@ -98,7 +100,7 @@
 					let json = JSON.parse(response);
 					
 					// Limpando possível cache nos resultados da busca
-					$('#clientFound > tr').remove();
+					$('#client-found > tr').remove();
 					
 					// Informando a quantidade de resultados obtidos
 					if(json.length > 0)
@@ -110,9 +112,10 @@
 					// Populando os campos do resultado de busca
 					for(let p = 0; p < json.length; p ++)
 					{
-						$('#clientFound').append
-						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td>"+json[p].email+"</td></tr>");
+						$('#client-found').append
+						("<tr><td class='text-secondary'>"+ json[p].name + "</td><td class='text-secondary'>" + json[p].phone +"</td><td class='text-secondary'>" + json[p].adress + "</td><td class='text-secondary'>"+ json[p].reference + "</td><td class='text-secondary'>"+json[p].email+"</td></tr>");
 					}	
+					
 				}
 
 				}).fail(function(xhr, status, errorThrown) {
@@ -121,6 +124,28 @@
 			
 		}
 	</script>
+
 	
+	<!-- Script para busca com highlights -->
+	<script src="https://cdn.jsdelivr.net/mark.js/8.6.0/mark.min.js"></script>
+	<script type="text/javascript">
+	// cria uma instância definindo o elemento onde será "marcada" as palavras.
+	var instance = new Mark(document.getElementById('client-found'))
+
+	function highlight(word){
+	  instance.unmark({
+	    done: function(){
+	      instance.mark(word)
+	    }
+	  })
+	}
+
+	document
+	  .getElementById('query')
+	  .addEventListener('input', function(){
+	    highlight(this.value)
+	})
+
+	</script>	
 </body>
 </html>

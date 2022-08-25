@@ -31,7 +31,7 @@
 								<h4 class="card-title">Buscar cliente por nº de telefone</h4>
 								
 								<div class="form-group">
-									<button class='btn-inverse-info' disabled="disabled">Telefone</button>
+									<button class='btn-inverse-info' disabled="disabled" style= "padding: 4.5px;">Telefone</button>
 								</div>
 								
 								<div class="form-group">

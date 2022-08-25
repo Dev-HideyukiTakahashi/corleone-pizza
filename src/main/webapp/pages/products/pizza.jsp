@@ -31,19 +31,24 @@
 															
 							<div class="form-group">
 								<h4 class="card-title">Todos Sabores de Pizza</h4>
-	
-								<button class="btn-info" type="submit"  id="submit"
-								onclick="searchAjax();" style="width: 245px">Listar</button>
+								<div style="display: flex; width: 100%; justify-content: space-between;">
+								    <button class="btn-inverse-info" type="submit" 
+									onclick="searchAjax();" style="width: 25%">Listar</button>
+									<!-- Input para busca com highlights -->
+									<input id='query' class="form-control text-secondary" style="width: 50%; " placeholder='Buscar por...' type='text'>
+								</div>
 							</div>			
+							<button style="width: 25%; padding: 4.5px" class="btn-inverse-success" type="submit"  id="submit"
+								onclick="searchAjax();">Novo Sabor</button>
 							<span id="update-success" class="text-success"></span>
 								<div class="table-responsive">
 									<table id="pizza-table" class="table table-striped" style="margin-top: 15px ">
 										<thead>
 											<tr>
-												<th class="text-center">Código</th>
-												<th class="text-center">Nome</th>
-												<th class="text-center">Descrição</th>
-												<th class="text-center">Preço</th>
+												<th>Código</th>
+												<th>Nome</th>
+												<th>Descrição</th>
+												<th>Preço</th>
 											</tr>
 										</thead>
 										<tbody id="pizza-found">
@@ -149,7 +154,7 @@
 					for(let p = 0; p < json.length; p ++)
 					{
 						$('#pizza-found').append
-						('<tr><td class="text-primary text-center">'+ json[p].prodCode + '</td><td class="text-secondary text-center" id="">' + json[p].prodName +'<button class="mdi mdi-lead-pencil" onclick="updateNameData('+json[p].prodCode+')" style="margin-left: 10px"></button></td><td class="text-secondary text-center">' + json[p].prodDescription +  '<button class="mdi mdi-lead-pencil" onclick="updateDescriptionData('+json[p].prodCode+')" style="margin-left: 10px"></button></td><td class="text-success text-center">'+ json[p].prodPriceFormatter + '<button class="mdi mdi-lead-pencil" onclick="updatePriceData('+json[p].prodCode+')" style="margin-left: 10px"></button></td></tr>');
+						('<tr><td class="text-primary text-center">'+ json[p].prodCode + '</td><td class="text-secondary"><button class="mdi mdi-lead-pencil" onclick="updateNameData('+json[p].prodCode+')" style="margin-right: 10px"></button>' + json[p].prodName +'</td><td class="text-secondary"><button class="mdi mdi-lead-pencil" onclick="updateDescriptionData('+json[p].prodCode+')" style="margin-right: 10px"></button>' + json[p].prodDescription +  '</td><td class="text-success">'+ json[p].prodPriceFormatter + '<button class="mdi mdi-lead-pencil" onclick="updatePriceData('+json[p].prodCode+')" style="margin-left: 10px"></button></td></tr>');
 					}
 					
 					//Algoritmo para ordernar a tabela;
@@ -326,7 +331,7 @@
 			    {
 			    	if(response === "atualizado")
 			    	{
-			    		$('#update-success').text("Descrição da pizza " + nameUpdate + " atualizada");
+			    		$('#update-success').text("Preço da pizza " + nameUpdate + " atualizada");
 			    		document.getElementById('update-success').classList.remove('text-danger');
 			    		$('#updatePricePizza').modal('hide');
 						searchAjax();
@@ -415,10 +420,33 @@
 	<!-- Script para fechar a janela modal -->
 	<script type="text/javascript">
 	function closeModal() {
-		$('#updateData').modal('hide');
+		$('#updatePricePizza').modal('hide');
+		$('#updateNamePizza').modal('hide');
+		$('#updateDescriptionPizza').modal('hide');
 	}
 	</script>
 	
+	<!-- Script para busca com highlights -->
+	<script src="https://cdn.jsdelivr.net/mark.js/8.6.0/mark.min.js"></script>
+	<script type="text/javascript">
+	// cria uma instância definindo o elemento onde será "marcada" as palavras.
+	var instance = new Mark(document.getElementById('pizza-found'))
+
+	function highlight(word){
+	  instance.unmark({
+	    done: function(){
+	      instance.mark(word)
+	    }
+	  })
+	}
+
+	document
+	  .getElementById('query')
+	  .addEventListener('input', function(){
+	    highlight(this.value)
+	})
+
+	</script>	
 	
 </body>
 </html>

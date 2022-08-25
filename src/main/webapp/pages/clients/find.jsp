@@ -36,7 +36,7 @@
 									<label for="select">Selecione o campo da busca</label> 
 									<select
 										class="form-control text-primary" id="select" name="select"
-										style="width: 20%; font-size: 16px">
+										style="width: 20%; font-size: 16px;height: auto;">
 										<option value="phoneOption">Telefone</option>
 										<option value="nameOption">Nome</option>
 									</select>
