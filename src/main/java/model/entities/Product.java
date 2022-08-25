@@ -2,31 +2,33 @@ package model.entities;
 
 public class Product {
 
-//	private Long prodCod;
 	private String prodName;
 	private String prodDescription;
 	private Double prodPrice;
 	private String prodPriceFormatter;
 	private String prodType;
+	private String prodCode;
 
 	public Product() {
 
 	}
 
 	public Product(String prodName, String prodDescription, Double prodPrice, String prodPriceFormatter,
-			String prodType) {
+			String prodType, String prodCode) {
 		this.prodName = prodName;
 		this.prodDescription = prodDescription;
 		this.prodPrice = prodPrice;
 		this.prodPriceFormatter = prodPriceFormatter;
 		this.prodType = prodType;
+		this.prodCode = prodCode;
 	}
 
-	public Product(String prodName, String prodDescription, Double prodPrice, String prodType) {
-		this.prodName = prodName;
-		this.prodDescription = prodDescription;
-		this.prodPrice = prodPrice;
-		this.prodType = prodType;
+	public String getProdCode() {
+		return prodCode;
+	}
+
+	public void setProdCode(String prodCode) {
+		this.prodCode = prodCode;
 	}
 
 	public String getProdName() {
