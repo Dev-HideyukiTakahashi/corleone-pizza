@@ -24,7 +24,7 @@ public class ProductDAO {
 	{
 		List<Product> itemFound = new ArrayList<>();
 		String sql = null;
-		if(prodType.equals("Pizza") || prodType == "Pizza") {
+		if(prodType.equals("pizza") || prodType == "pizza") {
 			sql = "SELECT * FROM products WHERE type_item = 'Pizza'";
 		}
 		
@@ -65,6 +65,7 @@ public class ProductDAO {
 			}
 			else if(option.equals("updatePrice") || option == "updatePrice") {
 				sql = "UPDATE products SET price=? WHERE code=?";
+				value = value.replace(",", ".");
 			}
 			else if(option.equals("updateName") || option == "updateName") {
 				sql = "UPDATE products SET item=? WHERE code=?";

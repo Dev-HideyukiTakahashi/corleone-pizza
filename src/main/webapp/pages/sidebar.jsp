@@ -65,7 +65,7 @@
 			<div class="collapse" id="ui-basic2">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/pages/products/pizza.jsp">Sabores</a></li>
+						href="<%=request.getContextPath()%>/pizza?prodType=pizza">Sabores</a></li>
 				</ul>
 			</div></li>
 
@@ -84,7 +84,7 @@
 					<li class="nav-item"><a class="nav-link"
 						href="pages/ui-features/dropdowns.html">Vinhos</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">Manipular Bebida</a></li>
+						href="<%=request.getContextPath()%>/pages/products/drinks.jsp">Manipular Bebida</a></li>
 				</ul>
 			</div></li>
 		<li class="nav-item menu-items"><a class="nav-link"

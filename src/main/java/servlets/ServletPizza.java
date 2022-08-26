@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ServletPizza extends HttpServlet {
 			String prodType    = request.getParameter("prodType");
 			String type		   = request.getParameter("type");
 			String code        = request.getParameter("code");
-
+			
 			// Enviando requisição com todos os dados do produto pelo código
 			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("search")) 
 			{
@@ -49,16 +50,17 @@ public class ServletPizza extends HttpServlet {
 			}			
 
 			// Enviando requisição com lista de todos os produtos de acordo com filtro
-			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("Pizza")) 
+			// Responsável por carregar dinamicamente a pagina 'sabores'
+			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("pizza")) 
 			{
 				List<Product> items = new ArrayList<>();
 				
 				items = productDAO.productSearch(prodType);
 				
-				ObjectMapper mapper = new ObjectMapper();
-				String JSON 	    = mapper.writeValueAsString(items);
+				request.setAttribute("pizzaData", items);	
+				RequestDispatcher redireciona = request.getRequestDispatcher("pages/products/pizzas.jsp");
+				redireciona.forward(request, response);		
 				
-				response.getWriter().write(JSON);
 			}
 		}
 		catch(Exception e) {
@@ -79,26 +81,17 @@ public class ServletPizza extends HttpServlet {
 			
 			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePizza")) 
 			{
-				String option = "updatePizza";
-				Product item = new Product();
-				productDAO.productUpdate(code, value, option);
-				response.getWriter().write("atualizado");
+				productDAO.productUpdate(code, value, "updatePizza");
 			}
 			
 			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePrice")) 
 			{
-				String option = "updatePrice";
-				Product item = new Product();
-				productDAO.productUpdate(code, value, option);
-				response.getWriter().write("atualizado");
+				productDAO.productUpdate(code, value, "updatePrice");
 			}
 			
 			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
 			{
-				String option = "updateName";
-				Product item = new Product();
-				productDAO.productUpdate(code, value, option);
-				response.getWriter().write("atualizado");
+				productDAO.productUpdate(code, value, "updateName");
 			}
 		}
 		catch(Exception e) 
@@ -108,7 +101,12 @@ public class ServletPizza extends HttpServlet {
 			redirecionador.forward(request, response);
 		}
 		
-		
+	}
+	
+	
+	public void listView(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException 
+	{
+
 	}
 
 }
