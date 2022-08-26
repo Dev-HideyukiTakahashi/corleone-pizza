@@ -43,12 +43,11 @@ public class ServletSearch extends HttpServlet {
 				
 				client = clientDAO.clientSearchAll();
 				
-				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
-				ObjectMapper mapper = new ObjectMapper();
-				String JSON = mapper.writeValueAsString(client);
-				
-				// Enviando o JSON no response do AJAX
-				response.getWriter().write(JSON);
+				request.setAttribute("clientData", client); 
+				request.setAttribute("clientDataSize", client.size()); 
+				RequestDispatcher redireciona = request.getRequestDispatcher("pages/clients/list.jsp");
+
+				redireciona.forward(request, response);				
 			}
 			
 			// Enviando requisição com lista de todos os clientes filtrados por telefone ou nome

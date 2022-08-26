@@ -52,7 +52,7 @@
 					<li class="nav-item"><a class="nav-link"
 						href="<%=request.getContextPath()%>/pages/clients/delete.jsp">Deletar</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/pages/clients/list.jsp">Listar</a></li>
+						href="<%=request.getContextPath()%>/search?action=searchList">Listar</a></li>
 				</ul>
 			</div></li>
 
