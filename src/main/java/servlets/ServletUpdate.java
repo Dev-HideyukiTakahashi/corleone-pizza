@@ -25,6 +25,9 @@ public class ServletUpdate extends HttpServlet {
 	
 	private ClientDAO clientDAO = new ClientDAO();
 	
+	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	private ServletUtil connectedId = new ServletUtil();
+	
 	public ServletUpdate() {
 
 		super();
@@ -40,7 +43,7 @@ public class ServletUpdate extends HttpServlet {
 			
 			if(field != null && !field.isEmpty()) 
 			{
-				client = clientDAO.clientSearch("empty", field);
+				client = clientDAO.clientSearch("empty", field, connectedId.getUserConnected(request));
 				
 				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 				ObjectMapper mapper = new ObjectMapper();

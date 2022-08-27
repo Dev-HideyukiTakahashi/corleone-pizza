@@ -9,10 +9,12 @@ import java.util.List;
 
 import config.DatabaseConnection;
 import model.entities.Client;
+import servlets.ServletLogin;
 
 public class ClientDAO {
 
 	private Connection connection;
+	
 
 	public ClientDAO() {
 		connection = DatabaseConnection.getConnection();
@@ -43,53 +45,102 @@ public class ClientDAO {
 
 	}
 
-	public List<Client> clientSearch(String option, String field) 
+	/**
+	 * Buscando usuário por telefone ou nome
+	 * @param option -> opção selecionada
+	 * @param field
+	 * @param connectedId
+	 * @return List<Client>
+	 */
+	public List<Client> clientSearch(String option, String field, Long connectedId) 
 	{
 		List<Client> clientFound = new ArrayList<>();
 		try 
 		{
 			String sql = null;
-			if(option.equals("nameOption") || option == "nameOption") {
+			
+			if(option.equals("nameOption") || option == "nameOption") 
+			{
 				field = field.toUpperCase();
-				sql = "SELECT * FROM client WHERE upper(name) LIKE concat('%', ?, '%')";
+				// Checando se o usuário logado é um admin ou um usuario
+				// O admin busca todos os registros do BD, usuário apenas os seus registros
+				sql =  (connectedId != 1) 
+						? "SELECT * FROM client WHERE upper(name) LIKE (?) AND admin_id = ?" 
+						: "SELECT * FROM client WHERE upper(name) LIKE (?)";
 			}
-			else{
-				sql = "SELECT * FROM client WHERE phone LIKE concat('%', ?, '%')";
+			else
+			{
+				sql =  (connectedId != 1) 
+						? "SELECT * FROM client WHERE phone LIKE (?) AND admin_id = ?" 
+						: "SELECT * FROM client WHERE phone LIKE (?)";
 			}
 			
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, field);
-			ResultSet rs 	     = ps.executeQuery();
-
-			while (rs.next()) {
-				clientFound.add(clientAssembler(rs));
+			// Se o usuário for admin, cai na condicional de extrair TODOS(*) dados do BD
+			// não precisa do argumento 'admin_id', que só é necessário para restringir a persistência de um usuário 'não admin'
+			ResultSet rs;
+			if(connectedId == 1) 
+			{
+				PreparedStatement ps = connection.prepareStatement(sql);
+				ps.setString(1, "%"+ field + "%");
+				rs = ps.executeQuery();
+			}
+			else 
+			{				
+				PreparedStatement ps = connection.prepareStatement(sql);
+				ps.setString(1, "%"+ field + "%");
+				ps.setLong(2, connectedId);
+				rs = ps.executeQuery();
 			}
 
-		} catch (SQLException e) {
+			while (rs.next()) 
+			{
+				clientFound.add(clientAssembler(rs));
+			}
+		} 
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 		return clientFound;
 	}
 	
-	public List<Client> clientSearchAll() 
+	// Buscando todos cliente para gerar a lista dinâmica na página find.jsp
+	public List<Client> clientSearchAll(Long connectedId) 
 	{
 		List<Client> clientFound = new ArrayList<>();
 		try 
 		{
-			String sql = "SELECT * FROM client";
+			String sql;
 			
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ResultSet rs 	     = ps.executeQuery();
+			sql =  (connectedId != 1) 
+					? "SELECT * FROM client WHERE admin_id = ?" 
+					: "SELECT * FROM client";
+			
+			ResultSet rs; 	
+			if(connectedId == 1) 
+			{
+				PreparedStatement ps = connection.prepareStatement(sql);
+				rs = ps.executeQuery();
+			}
+			else 
+			{				
+				PreparedStatement ps = connection.prepareStatement(sql);
+				ps.setLong(1, connectedId);
+				rs = ps.executeQuery();
+			}
 
 			while (rs.next()) {
 				clientFound.add(clientAssembler(rs));
 			}
 
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 		return clientFound;
 	}
+	
 	
 	public void clientDelete(String valueDelete) throws SQLException 
 	{
@@ -136,7 +187,6 @@ public class ClientDAO {
 	private Client clientAssembler(ResultSet rs) throws SQLException 
 	{
 		Client assembler = new Client();
-
 		assembler.setName(rs.getString("name"));
 		assembler.setPhone(rs.getString("phone"));
 		assembler.setEmail(rs.getString("email"));

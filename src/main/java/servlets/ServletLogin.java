@@ -23,6 +23,8 @@ public class ServletLogin extends HttpServlet
 	private static final long serialVersionUID = 1L;
 	
 	private AdminDAO adminDAO = new AdminDAO();
+	
+	private static Long idAdmin = null;
        
     public ServletLogin() {
         super();
@@ -61,8 +63,13 @@ public class ServletLogin extends HttpServlet
 				{
 					// Usuario e senha confirmados com BD, inicia a sessão com os dados do usuario logado
 					Admin adminLogin = adminDAO.adminData(login);
-					request.getSession().setAttribute("adminLogin", adminLogin.getAdminName());
-					if(adminLogin.getId() == 1) {
+					request.getSession().setAttribute("adminName", adminLogin.getAdminName());
+					request.getSession().setAttribute("adminLogin", adminLogin.getLogin());
+					
+					// Configurando qual usuário está utilizando o sistema, o método get está no final do código
+					idAdmin = adminLogin.getId();
+					
+					if(idAdmin == 1) {
 						request.getSession().setAttribute("adminOffice", "Administrador");
 						// Poderia ter um identificador no banco de dados para foto de perfil
 						request.getSession().setAttribute("adminImg", "/assets/images/faces/face.jpg");
@@ -104,4 +111,9 @@ public class ServletLogin extends HttpServlet
 			redirect.forward(request, response);
 		}
 	}
+
+	public static Long getIdAdmin() {
+		return idAdmin;
+	}
+	
 }

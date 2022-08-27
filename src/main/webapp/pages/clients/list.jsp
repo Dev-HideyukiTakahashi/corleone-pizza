@@ -40,7 +40,7 @@
 										<table class="table table-striped">
 											<thead>
 												<tr>
-													<th >Nome</th>
+													<th>Nome</th>
 													<th>Telefone</th>
 													<th>Endereço</th>
 													<th>Referência</th>

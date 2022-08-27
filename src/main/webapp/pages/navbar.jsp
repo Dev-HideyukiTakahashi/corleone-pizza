@@ -178,7 +178,8 @@
 						<img class="img-xs rounded-circle"
 							src="<%=request.getContextPath()%><%=session.getAttribute("adminImg") %>"
 							alt="">
-						<p class="mb-0 d-none d-sm-block navbar-profile-name"><%=session.getAttribute("adminLogin") %></p>
+						<p class="mb-0 d-none d-sm-block navbar-profile-name"><%=session.getAttribute("adminName") %></p>
+						<span hidden=""><%=session.getAttribute("adminLogin") %></span>
 						<i class="mdi mdi-menu-down d-none d-sm-block"></i>
 					</div>
 			</a>

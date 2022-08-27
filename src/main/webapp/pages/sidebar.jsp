@@ -21,8 +21,9 @@
 							alt="img"><span class="count bg-success"></span>
 					</div>
 					<div class="profile-name">
-						<h5 class="mb-0 font-weight-normal"><%=session.getAttribute("adminLogin") %></h5>
+						<h5 class="mb-0 font-weight-normal"><%=session.getAttribute("adminName") %></h5>
 						<span><%=session.getAttribute("adminOffice") %></span>
+						<span hidden=""><%=session.getAttribute("adminLogin") %></span>
 					</div>
 				</div>
 			</div>

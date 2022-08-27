@@ -25,6 +25,9 @@ public class ServletSearch extends HttpServlet {
 
 	private ClientDAO clientDAO = new ClientDAO();
 	
+	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	private ServletUtil connectedId = new ServletUtil();
+	
 	public ServletSearch() {
 		super();
 	}
@@ -41,7 +44,7 @@ public class ServletSearch extends HttpServlet {
 			// Enviando requisição com lista de todos os clientes
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchList")) {
 				
-				client = clientDAO.clientSearchAll();
+				client = clientDAO.clientSearchAll(connectedId.getUserConnected(request));
 				
 				request.setAttribute("clientData", client); 
 				request.setAttribute("clientDataSize", client.size()); 
@@ -54,8 +57,7 @@ public class ServletSearch extends HttpServlet {
 			if(action == null) {
 				if(select.equals("nameOption") && field != null && !field.isEmpty()) 
 				{
-					client = clientDAO.clientSearch(select, field);
-					
+					client = clientDAO.clientSearch(select, field, connectedId.getUserConnected(request));
 					// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 					ObjectMapper mapper = new ObjectMapper();
 					String JSON = mapper.writeValueAsString(client);
@@ -65,7 +67,7 @@ public class ServletSearch extends HttpServlet {
 				}
 				else if(select.equals("phoneOption") && field != null && !field.isEmpty())
 				{
-					client = clientDAO.clientSearch(select, field);
+					client = clientDAO.clientSearch(select, field, connectedId.getUserConnected(request));
 
 					// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 					ObjectMapper mapper = new ObjectMapper();
