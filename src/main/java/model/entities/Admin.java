@@ -1,7 +1,5 @@
 package model.entities;
 
-import java.util.Objects;
-
 public class Admin {
 
 	private String adminName;
@@ -10,18 +8,20 @@ public class Admin {
 	private String login;
 	private String password;
 	private String partner;
+	private Long id;
 
 	public Admin() {
 
 	}
 
-	public Admin(String adminName, String phone, String email, String login, String password, String partner) {
+	public Admin(String adminName, String phone, String email, String login, String password, String partner, Long id) {
 		this.adminName = adminName;
-		this.phone     = phone;
-		this.email     = email;
-		this.login     = login;
-		this.password  = password;
-		this.partner   = partner;
+		this.phone = phone;
+		this.email = email;
+		this.login = login;
+		this.password = password;
+		this.partner = partner;
+		this.id = id;
 	}
 
 	public String getAdminName() {
@@ -72,21 +72,11 @@ public class Admin {
 		this.partner = partner;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(login);
+	public Long getId() {
+		return id;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Admin other = (Admin) obj;
-		return Objects.equals(login, other.login);
+	public void setId(Long id) {
+		this.id = id;
 	}
-
 }

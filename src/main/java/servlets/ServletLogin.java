@@ -59,10 +59,19 @@ public class ServletLogin extends HttpServlet
 				// Comparando os dados preenchidos com o banco de dados
 				if(adminDAO.validateLogin(login, password))
 				{
-					// Usuario e senha confirmados com BD, inicia a sessão na aplicação
-//					request.getSession().setAttribute("user", login);
+					// Usuario e senha confirmados com BD, inicia a sessão com os dados do usuario logado
 					Admin adminLogin = adminDAO.adminData(login);
 					request.getSession().setAttribute("adminLogin", adminLogin.getAdminName());
+					if(adminLogin.getId() == 1) {
+						request.getSession().setAttribute("adminOffice", "Administrador");
+						// Poderia ter um identificador no banco de dados para foto de perfil
+						request.getSession().setAttribute("adminImg", "/assets/images/faces/face.jpg");
+					}
+					else {
+						request.getSession().setAttribute("adminOffice", "Usuário");
+						// Poderia ter um identificador no banco de dados para foto de perfil
+						request.getSession().setAttribute("adminImg", "/assets/images/faces/face2.jpg");
+					}
 					
 					// Se o usuário não tentou acessar nenhuma page antes da tela de login redirecionar a main
 					if(url == null || url.equals("null"))

@@ -39,7 +39,7 @@
 										<label for="exampleInputName">Nome*</label> 
 										<input type="text"
 											autocomplete="off" class="form-control text-light" 
-											placeholder="Nome" name="name" id="name"
+											placeholder="Nome Completo" name="name" id="name"
 											value="${clientData.name}">
 									</div>
 									
@@ -48,7 +48,7 @@
 										<input
 											type="number" class="form-control text-light"
 											autocomplete="off" id="phone" value="${clientData.phone}"
-											placeholder="Telefone" name="phone" >
+											placeholder="Apenas números" name="phone" >
 									</div>
 									
 									<div class="form-group">

@@ -54,7 +54,7 @@ public class ClientDAO {
 				sql = "SELECT * FROM client WHERE upper(name) LIKE concat('%', ?, '%')";
 			}
 			else{
-				sql = "SELECT * FROM client WHERE phone = ?";
+				sql = "SELECT * FROM client WHERE phone LIKE concat('%', ?, '%')";
 			}
 			
 			PreparedStatement ps = connection.prepareStatement(sql);

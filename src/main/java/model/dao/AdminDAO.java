@@ -63,6 +63,7 @@ public class AdminDAO
 				adminLogin.setLogin(rs.getString("login"));
 				adminLogin.setPassword(rs.getString("senha"));
 				adminLogin.setPartner(rs.getString("partner"));
+				adminLogin.setId(rs.getLong("id"));
 			} 
 		}
 		catch(SQLException e) 

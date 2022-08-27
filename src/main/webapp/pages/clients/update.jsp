@@ -24,6 +24,7 @@
 				<div class="content-wrapper">
 
 					<form action="<%=request.getContextPath()%>/update" id="form-search"></form>
+					<form action="<%=request.getContextPath()%>/assets/images/file-icons/update.png" id="form-img"></form>
 					<!-- Inicio do corpo da página de exclusão -->
 					<div class="col-md-12 grid-margin stretch-card">
 						<div class="card">
@@ -212,11 +213,14 @@
 						document.getElementById('searchResult').classList.add('text-danger');
 						$('#searchResult').text("Cliente não localizado no registro.");
 					}
+					
+					//Recuperando o contexto para imagem na tabela
+					let img = document.getElementById('form-img').action;
 					// Populando os campos do resultado de busca, deletar por nº telefone
 					for(let p = 0; p < json.length; p ++)
 					{
 						$('#clientFound').append
-						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1 text-center'><a href='#register-form' id='btn-update'><img src='../../assets/images/file-icons/update.png' alt='Atualizar' /></a></td></tr>");
+						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1 text-center'><a href='#register-form' id='btn-update'><img src='"+img+"' alt='Atualizar' /></a></td></tr>");
 				       
 						$(document).on("click", "#btn-update", function()
 						{

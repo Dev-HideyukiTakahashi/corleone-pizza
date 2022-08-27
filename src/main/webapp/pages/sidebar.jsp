@@ -17,12 +17,12 @@
 				<div class="profile-pic">
 					<div class="count-indicator">
 						<img class="img-xs rounded-circle "
-							src="<%=request.getContextPath()%>/assets/images/faces/face.jpg"
-							alt=""><span class="count bg-success"></span>
+							src="<%=request.getContextPath()%><%=session.getAttribute("adminImg") %>"
+							alt="img"><span class="count bg-success"></span>
 					</div>
 					<div class="profile-name">
 						<h5 class="mb-0 font-weight-normal"><%=session.getAttribute("adminLogin") %></h5>
-						<span>Administrador</span>
+						<span><%=session.getAttribute("adminOffice") %></span>
 					</div>
 				</div>
 			</div>
@@ -105,7 +105,7 @@
 		<li class="nav-item menu-items"><a class="nav-link"
 			href="pages/charts/chartjs.html"> <span class="menu-icon">
 					<i class="mdi mdi-lead-pencil"></i>
-			</span> <span class="menu-title">Feedback</span>
+			</span> <span class="menu-title">Anotações</span>
 		</a></li>
 	</ul>
 </nav>
