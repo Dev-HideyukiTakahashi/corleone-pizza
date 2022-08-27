@@ -19,13 +19,13 @@ import model.entities.Product;
  * Mapeado em sistema: /pizzas 
  * Servlet para manipular os dados das pizzas
  */
-public class ServletPizza extends HttpServlet {
+public class PizzaController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 
 	private ProductDAO productDAO = new ProductDAO();
 	
-	public ServletPizza() {
+	public PizzaController() {
 		super();
 	}
 

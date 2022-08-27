@@ -24,7 +24,7 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 				
-					<form action="<%=request.getContextPath()%>/pizza" id="form-pizza"></form>					</form>
+					<form action="<%=request.getContextPath()%>/PizzaController" id="form-pizza"></form>					</form>
 					<!-- Inicio da tabela de busca -->
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
@@ -37,11 +37,6 @@
 									<input id='query' class="form-control text-secondary" style="width: 50%; " placeholder='Buscar por...' type='text'>
 								</div>
 							</div>
-							<div style= "justify-content: space-between;display: flex;">
-								<button style="width: 25%; padding: 4.5px" class="btn-inverse-success" type="submit"  id="submit"
-								onclick="">Novo Sabor</button>
-									<span id="update-success" class="text-warning" style="margin-top: 15px"></span>
-							</div>	
 								<div class="table-responsive">
 									<table id="pizza-table" class="table table-striped" style="margin-top: 15px ">
 										<thead>
@@ -90,7 +85,7 @@
 	      <div class="modal-footer">
 	      	<p style="margin-right: 15px">Cod: <span id="updateModal-code" class="text-warning"></span> </p>
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Cancelar</button>
-	        <button type="button" class="btn btn-primary" onclick="updateData();">Salvar</button>
+	        <button type="button" class="btn btn-primary" onclick="updateData();" id="btn-modal">Salvar</button>
 	      </div>
 	    </div>
 	  </div>
@@ -119,15 +114,10 @@
 				},
 			    success : function(response) 
 			    {
-			    	
-		    		$('#update-success').text(nameUpdate + " teve os dados atualizados");
-		    		document.getElementById('update-success').classList.remove('text-danger');
 		    		$('#updateModal').modal('hide');
-		    		
 				},
 			}).fail(function(xhr, status, errorThrown) {
-				document.getElementById('update-success').classList.add('text-danger');
-				$('#update-success').text("Erro ao atualizar, tente novamente.")
+				alert("Erro desconhecido ao alterar dados")
 			});
 		}
 	</script>
@@ -245,6 +235,17 @@
 	})
 
 	</script>	
+	
+	
+	<!-- Script para dar um refresh na página "f5" -->
+	<script type="text/javascript">
+	var btn = document.querySelector("#btn-modal");
+	btn.addEventListener("click", function() {
+	    
+	    location.reload();
+	});
+	
+	</script>
 	
 </body>
 </html>

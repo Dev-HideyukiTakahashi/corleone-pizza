@@ -65,7 +65,7 @@
 			<div class="collapse" id="ui-basic2">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/pizza?prodType=pizza">Sabores</a></li>
+						href="<%=request.getContextPath()%>/PizzaController?prodType=pizza">Sabores</a></li>
 				</ul>
 			</div></li>
 

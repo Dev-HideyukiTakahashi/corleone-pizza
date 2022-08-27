@@ -78,4 +78,24 @@
     <servlet-name>ServletPizza</servlet-name>
     <url-pattern>/pizza</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>teste</display-name>
+    <servlet-name>teste</servlet-name>
+    <servlet-class>servlets.teste</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>teste</servlet-name>
+    <url-pattern>/teste</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PizzaController</display-name>
+    <servlet-name>PizzaController</servlet-name>
+    <servlet-class>servlets.PizzaController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PizzaController</servlet-name>
+    <url-pattern>/PizzaController</url-pattern>
+  </servlet-mapping>
 </web-app>
