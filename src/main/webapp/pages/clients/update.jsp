@@ -153,7 +153,7 @@
 	        <h4 id="modal-msg" class="text-success"></h4>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Close</button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();"><a href="<%=request.getContextPath()%>/pages/clients/update.jsp">Close</a> </button>
 	      </div>
 	    </div>
 	  </div>
@@ -317,6 +317,16 @@
 	function closeModal() {
 		$('#updateModal').modal('hide');
 	}
+	</script>
+	
+	<!-- Script para dar um refresh na página "f5" -->
+	<script type="text/javascript">
+	var btn = document.querySelector("#btn-modal");
+	btn.addEventListener("click", function() {
+	    
+	    location.reload();
+	});
+	
 	</script>
 	
 </body>

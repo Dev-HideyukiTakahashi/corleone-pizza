@@ -65,7 +65,7 @@ public class ProductDAO {
 			}
 			else if(option.equals("updatePrice") || option == "updatePrice") {
 				sql = "UPDATE products SET price=? WHERE code=?";
-				value = value.replace(",", ".");
+				value = value.replace(",", ".").replace("-", ".");
 			}
 			else if(option.equals("updateName") || option == "updateName") {
 				sql = "UPDATE products SET item=? WHERE code=?";
@@ -86,8 +86,6 @@ public class ProductDAO {
 				e1.printStackTrace();
 			}
 		}
-		
-
 	}
 	
 	

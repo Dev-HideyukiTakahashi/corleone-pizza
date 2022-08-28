@@ -168,6 +168,7 @@
 					{
 						$('#updateModal').modal('show');
 						$('#updateModal-input').val(json.prodPrice);
+						$('#updateModal-input').prop('type', 'number');
 						$('#updateModal-name').text(json.prodName);
 						$('#updateModal-code').text(json.prodCode);
 						$('#request-field').val('updatePrice');
