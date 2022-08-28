@@ -161,7 +161,7 @@
 					for(let p = 0; p < json.length; p ++)
 					{
 						$('#clientFound').append
-						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1 text-center'><a href='#' onclick='deleteAjax(" + json[p].phone +");'><img src='"+img+"' alt='Excluir' /></a></td></tr>");
+						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1 text-center'><a href='#' onclick='deleteAjax(" + json[p].phone.replace('-', '') +");'><img src='"+img+"' alt='Excluir' /></a></td></tr>");
 					}	
 				}
 
@@ -179,7 +179,6 @@
 	{
 		let urlAction = document.getElementById('form-search').action;
 		let option = confirm("Tem certeza que deseja excluir?"); //Pop up boolean de confirmação deletar
-		
 		if(option)
 		{
 			$.ajax({

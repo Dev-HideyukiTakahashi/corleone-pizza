@@ -99,7 +99,7 @@
 									<div class="form-group">
 										<label for="exampleInputPhone">Telefone*</label> 
 										<input
-											type="number" class="form-control text-light"
+											type="text" class="form-control text-light" 
 											autocomplete="off" id="phone" 
 											placeholder="Telefone" name="phone" required="required">
 									</div>
@@ -223,7 +223,7 @@
 						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1 text-center'><a href='#register-form' id='btn-update'><img src='"+img+"' alt='Atualizar' /></a></td></tr>");
 				       
 						$(document).on("click", "#btn-update", function()
-						{
+						{	
 							document.getElementById("name").value = json[p].name;
 							document.getElementById("phone").value = json[p].phone;
 							document.getElementById("email").value = json[p].email;

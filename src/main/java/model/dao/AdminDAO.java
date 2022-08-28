@@ -15,7 +15,7 @@ public class AdminDAO
 	
 	public AdminDAO() 
 	{
-		connection = DatabaseConnection.getConnection();
+		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 	
 	public boolean validateLogin(String login, String password) 

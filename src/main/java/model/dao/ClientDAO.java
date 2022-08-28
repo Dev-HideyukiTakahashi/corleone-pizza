@@ -17,12 +17,13 @@ public class ClientDAO {
 	
 
 	public ClientDAO() {
-		connection = DatabaseConnection.getConnection();
+		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 
-	public void insertClient(Client client) {
+	
+	public void insertClient(Client client, Long connectedId) {
 		try {
-			String sql = "INSERT INTO client(name, phone, email, adress, reference) " + "VALUES (?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO client(name, phone, email, adress, reference, admin_id) " + "VALUES (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -31,6 +32,7 @@ public class ClientDAO {
 			ps.setString(3, client.getEmail());
 			ps.setString(4, client.getAdress());
 			ps.setString(5, client.getReference());
+			ps.setLong(6, connectedId);
 			ps.execute();
 
 			connection.commit();
@@ -144,9 +146,10 @@ public class ClientDAO {
 	
 	public void clientDelete(String valueDelete) throws SQLException 
 	{
-		String sql = "DELETE FROM client WHERE phone = ?";
+		String sql = "DELETE FROM client WHERE phone LIKE (?)";
 		PreparedStatement ps = connection.prepareStatement(sql);
-		ps.setString(1, valueDelete);
+
+		ps.setString(1, "%"+ valueDelete.substring(3) + "%");
 		ps.executeUpdate();
 		
 		connection.commit();

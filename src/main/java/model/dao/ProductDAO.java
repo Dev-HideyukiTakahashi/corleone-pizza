@@ -17,7 +17,7 @@ public class ProductDAO {
 	private Connection connection;
 
 	public ProductDAO() {
-		connection = DatabaseConnection.getConnection();
+		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 	
 	public List<Product> productSearch(String prodType) throws SQLException 

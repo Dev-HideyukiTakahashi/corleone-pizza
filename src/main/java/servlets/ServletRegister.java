@@ -16,7 +16,13 @@ import model.entities.Client;
  * O Filter está responsavel pelo rollback
  */
 public class ServletRegister extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
+
+	private ClientDAO clientDAO = new ClientDAO();
+	
+	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	private ServletUtil connectedId = new ServletUtil();
 
 	public ServletRegister() {
 		super();
@@ -41,13 +47,14 @@ public class ServletRegister extends HttpServlet {
 			Client newClient = new Client(name, phone, email, adress, reference);
 
 			// Registrando um novo usuário
+			// Verificando se já existe um cliente com esse telefone
 			if (clientDAO.clientExists(newClient)) {
 				request.setAttribute("clientData", newClient);
-
 			}
+			// Se não existe cliente com esse telefone, valida para novo cadastro
 			else 
 			{
-				clientDAO.insertClient(newClient);
+				clientDAO.insertClient(newClient, connectedId.getUserConnected(request));
 				response.getWriter().write("registrado");
 			}
 

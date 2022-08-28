@@ -46,9 +46,9 @@
 									<div class="form-group">
 										<label for="exampleInputPhone">Telefone*</label> 
 										<input
-											type="number" class="form-control text-light"
+											type="text" class="form-control text-light"
 											autocomplete="off" id="phone" value="${clientData.phone}"
-											placeholder="Apenas números" name="phone" >
+											placeholder="Telefone" name="phone" >
 									</div>
 									
 									<div class="form-group">
@@ -128,7 +128,6 @@
 			let adressUser    = $("#adress").val();
 			let referenceUser = $("#reference").val();
 			let urlAction 	  = document.getElementById('form-register').action;
-			
 			if(nameUser.trim() === '' || phoneUser.trim() === '' || adressUser.trim() === '')
 			{
 	    		let msg = "Preencha todos campos obrigatórios ***";
@@ -195,25 +194,5 @@
 		}
 	</script>
 
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

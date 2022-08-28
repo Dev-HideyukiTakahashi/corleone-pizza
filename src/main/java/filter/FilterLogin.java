@@ -78,7 +78,7 @@ public class FilterLogin extends HttpFilter {
 		
 	}
 	public void init(FilterConfig fConfig) throws ServletException {
-		connection = DatabaseConnection.getConnection();
+		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 
 }
