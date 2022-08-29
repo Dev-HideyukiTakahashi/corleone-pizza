@@ -138,4 +138,52 @@ public class AdminDAO
 		return users;
 	}
 
+	public Admin findUserId(Long id) throws SQLException {
+		
+		String sql = "SELECT * FROM tb_admin WHERE id = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setLong(1, id);
+		ResultSet rs = ps.executeQuery();
+		
+		Admin user = new Admin();
+		while(rs.next()) {
+			user.setAdminName(rs.getString("admin_name"));
+			user.setPhone(rs.getString("phone"));
+			user.setEmail(rs.getString("email"));
+			user.setLogin(rs.getString("login"));
+			user.setPassword(rs.getString("senha"));
+			user.setPartner(rs.getString("partner"));
+			user.setId(rs.getLong("id"));
+		}
+		
+		return user;
+	}
+
+	public void updateUser(Admin newUser) {
+		try {
+			String sql = "UPDATE tb_admin SET admin_name=?, phone=?, email=?, login=?, senha=?, partner=? WHERE id = ?;";
+
+			PreparedStatement ps = connection.prepareStatement(sql);
+
+			ps.setString(1, newUser.getAdminName());
+			ps.setString(2, newUser.getPhone());
+			ps.setString(3, newUser.getEmail());
+			ps.setString(4, newUser.getLogin());
+			ps.setString(5, newUser.getPassword());
+			ps.setString(6, newUser.getPartner());
+			ps.setLong(7, newUser.getId());
+			ps.executeUpdate();
+
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+	}
+
 }

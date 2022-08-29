@@ -70,7 +70,6 @@ public class ServletUpdate extends HttpServlet {
 			redirecionador.forward(request, response);
 		}
 		
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

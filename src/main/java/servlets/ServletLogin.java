@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,18 +38,23 @@ public class ServletLogin extends HttpServlet
 		{
 			String action    = request.getParameter("action"); // Argumento vindo da página JSP
 			String idRequest = request.getParameter("idRequest");
-			
-			
 			// Deletar usuario por id
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("delete"))
 			{
-				
 				Long id = Long.parseLong(idRequest);
 				adminDAO.deleteUserId(id);
-
-				RequestDispatcher redirect = request.getRequestDispatcher("/login?action=searchList");
-				redirect.forward(request, response);
-
+			}
+			
+			
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("search")) // Buscar usuario por id
+			{
+				Long id	   = Long.parseLong(idRequest);
+				Admin user = adminDAO.findUserId(id);
+				
+				ObjectMapper mapper = new ObjectMapper();
+				String JSON 		= mapper.writeValueAsString(user);
+				response.getWriter().write(JSON);
+				
 			}
 			
 			// Logout
@@ -88,13 +95,23 @@ public class ServletLogin extends HttpServlet
 			String newLogin	     = request.getParameter("newLogin");
 			String newPassword   = request.getParameter("newPassword");
 			String newPartner    = request.getParameter("newPartner");
+			String newId 		 = request.getParameter("newId");
 			
 			String action		 = request.getParameter("action");
 			
+			// Novo usuario
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("insert") ) 
 			{
 				Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, newPassword, newPartner, null);
 				adminDAO.insertUser(newUser);
+			}
+			
+			// Atualizando usuario
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("update") ) 
+			{
+				Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, newPassword, newPartner, null);
+				newUser.setId(Long.parseLong(newId));
+				adminDAO.updateUser(newUser);
 			}
 			
 			// Request de parâmetros da tela de login
