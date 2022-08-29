@@ -101,7 +101,7 @@
 	        <h4 id="modal-msg" class="text-success"></h4>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Close</button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Fechar</button>
 	      </div>
 	    </div>
 	  </div>

@@ -43,6 +43,18 @@ public class AdminDAO
 		return false; // Não encontrou usuário com os dados informados
 	}
 	
+	// deletando usuário por id
+	public void deleteUserId(Long id) throws SQLException {
+		
+		String sql = "DELETE FROM tb_admin WHERE id = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setLong(1, id);
+		ps.executeUpdate();
+		
+		connection.commit();
+	}
+	
+	
 	// inserindo novo usuário no banco
 	public void insertUser(Admin user) {
 		try {

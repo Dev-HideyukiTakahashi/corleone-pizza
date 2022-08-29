@@ -32,7 +32,7 @@
 															
 							<div class="form-group">
 								<h4 class="card-title">Todos Sabores de Pizza</h4>
-								<div style="display: flex; width: 100%; justify-content: space-between;">
+								<div>
 									<!-- Input para busca com highlights -->
 									<input id='query' class="form-control text-secondary" style="width: 50%; " placeholder='Buscar por...' type='text'>
 								</div>

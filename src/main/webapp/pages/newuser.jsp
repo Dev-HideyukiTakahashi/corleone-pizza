@@ -24,7 +24,7 @@
 
 			<div class="main-panel">
 				<div class="content-wrapper">
-					<!-- Inicio do corpo formulário para cadastrar cliente -->
+					<!-- Inicio do corpo formulário para cadastrar usuário -->
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
@@ -85,7 +85,7 @@
 									<button type="button" class="btn btn-dark"
 										onclick="cleanForm();">Limpar</button>
 								</form>
-								<!-- Final do corpo formulário para cadastrar cliente -->
+								<!-- Final do corpo formulário para cadastrar novo usuário -->
 							</div>
 						</div>
 					</div>

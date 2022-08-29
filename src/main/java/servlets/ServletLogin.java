@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.AdminDAO;
 import model.entities.Admin;
-import model.entities.Client;
 
 /**
  * 	Mapeado em sistema: /login
@@ -35,7 +34,21 @@ public class ServletLogin extends HttpServlet
 	{
 		try
 		{
-			String action = request.getParameter("action"); // Argumento vindo da 'navbar / Log out'
+			String action    = request.getParameter("action"); // Argumento vindo da página JSP
+			String idRequest = request.getParameter("idRequest");
+			
+			
+			// Deletar usuario por id
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("delete"))
+			{
+				
+				Long id = Long.parseLong(idRequest);
+				adminDAO.deleteUserId(id);
+
+				RequestDispatcher redirect = request.getRequestDispatcher("/login?action=searchList");
+				redirect.forward(request, response);
+
+			}
 			
 			// Logout
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("logout")) 
@@ -50,7 +63,6 @@ public class ServletLogin extends HttpServlet
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchList")) 
 			{
 				List<Admin> users = new ArrayList<>();
-				
 				users = adminDAO.userSearchAll();
 				
 				request.setAttribute("userData", users); 
@@ -79,13 +91,10 @@ public class ServletLogin extends HttpServlet
 			
 			String action		 = request.getParameter("action");
 			
-			if(action != null) 
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("insert") ) 
 			{
-				if(action.equalsIgnoreCase("insert") || !action.isEmpty()) 
-				{
-					Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, newPassword, newPartner, null);
-					adminDAO.insertUser(newUser);
-				}
+				Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, newPassword, newPartner, null);
+				adminDAO.insertUser(newUser);
 			}
 			
 			// Request de parâmetros da tela de login

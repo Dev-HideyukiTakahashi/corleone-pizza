@@ -153,7 +153,7 @@
 	        <h4 id="modal-msg" class="text-success"></h4>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();"><a href="<%=request.getContextPath()%>/pages/clients/update.jsp">Close</a> </button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();"><a href="<%=request.getContextPath()%>/pages/clients/update.jsp">Fechar</a> </button>
 	      </div>
 	    </div>
 	  </div>

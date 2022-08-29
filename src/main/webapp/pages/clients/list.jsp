@@ -36,7 +36,7 @@
 									<!-- Input para busca com highlights -->
 									<input id='query' class="form-control text-secondary" style="width: 50%; " placeholder='Buscar por...' type='text'>
 									
-									<div class="table-responsive" id="teste">
+									<div class="table-responsive">
 										<table class="table table-striped">
 											<thead>
 												<tr>
@@ -53,7 +53,7 @@
 												<c:forEach items="${clientData}" var="cd">
 													<tr>
 														<td class="text-secondary"><c:out value="${cd.name}"></c:out> </td>
-														<td class="text-warning"><c:out value="${cd.phone}"></c:out> </td>
+														<td class="text-warning"><c:out   value="${cd.phone}"></c:out> </td>
 														<td class="text-secondary"><c:out value="${cd.adress}"></c:out> </td>
 														<td class="text-secondary"><c:out value="${cd.reference}"></c:out> </td>
 														<td class="text-secondary"><c:out value="${cd.email}"></c:out> </td>
