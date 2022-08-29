@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import config.DatabaseConnection;
 import model.entities.Admin;
-import model.entities.Client;
 
 public class AdminDAO 
 {
@@ -99,6 +100,30 @@ public class AdminDAO
 		}
 		
 		return adminLogin;
+	}
+
+	public List<Admin> userSearchAll() throws SQLException {
+		
+		String sql 	 		 = "SELECT * FROM tb_admin";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs 		 = ps.executeQuery();
+		
+		List<Admin> users = new ArrayList<>();
+		
+		while(rs.next()) {
+			Admin user  = new Admin();
+			user.setAdminName(rs.getString("admin_name"));
+			user.setPhone(rs.getString("phone"));
+			user.setEmail(rs.getString("email"));
+			user.setLogin(rs.getString("login"));
+			user.setPassword(rs.getString("senha"));
+			user.setPartner(rs.getString("partner"));
+			user.setId(rs.getLong("id"));
+			
+			users.add(user);
+		}
+		
+		return users;
 	}
 
 }

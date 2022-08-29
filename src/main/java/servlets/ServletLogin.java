@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.AdminDAO;
 import model.entities.Admin;
+import model.entities.Client;
 
 /**
  * 	Mapeado em sistema: /login
@@ -30,16 +33,35 @@ public class ServletLogin extends HttpServlet
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		String action = request.getParameter("action"); // Argumento vindo da 'navbar / Log out'
-		
-		if(action != null && !action.isEmpty() && action.equalsIgnoreCase("logout")) 
+		try
 		{
-			request.getSession().invalidate(); // Termina a sessão do usuário
-			RequestDispatcher redirect = request.getRequestDispatcher("index.jsp");
-			redirect.forward(request, response);
+			String action = request.getParameter("action"); // Argumento vindo da 'navbar / Log out'
+			
+			// Logout
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("logout")) 
+			{
+				request.getSession().invalidate(); // Termina a sessão do usuário
+				RequestDispatcher redirect = request.getRequestDispatcher("index.jsp");
+				redirect.forward(request, response);
+			}
+			
+			// Listar todos usuários na tela
+			// Enviando requisição com lista de todos os clientes
+			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchList")) 
+			{
+				List<Admin> users = new ArrayList<>();
+				
+				users = adminDAO.userSearchAll();
+				
+				request.setAttribute("userData", users); 
+				request.setAttribute("userDataSize", users.size()); 
+				RequestDispatcher redireciona = request.getRequestDispatcher("pages/listuser.jsp");
+
+				redireciona.forward(request, response);				
+			}
 		}
-		else {
-			doPost(request, response);
+		catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 

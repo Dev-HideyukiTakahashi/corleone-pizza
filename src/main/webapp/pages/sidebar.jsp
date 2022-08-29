@@ -50,7 +50,7 @@
 					<li class="nav-item"><a class="nav-link"
 						href="<%=request.getContextPath()%>/pages/newuser.jsp">Novo Usuário</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/pages/listuser.jsp">Listar</a></li>
+						href="<%=request.getContextPath()%>/login?action=searchList">Listar</a></li>
 				</ul>
 			</div></li>
 		</c:if>
