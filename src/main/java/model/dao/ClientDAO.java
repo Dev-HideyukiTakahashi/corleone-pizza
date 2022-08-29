@@ -44,7 +44,6 @@ public class ClientDAO {
 				e1.printStackTrace();
 			}
 		}
-
 	}
 
 	/**

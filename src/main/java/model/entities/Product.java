@@ -5,7 +5,7 @@ public class Product {
 	private String prodName;
 	private String prodDescription;
 	private Double prodPrice;
-	private String prodPriceFormatter;
+	private String prodPriceFormatter; // Formatador de vírgula para exibir na tela
 	private String prodType;
 	private String prodCode;
 
@@ -13,14 +13,11 @@ public class Product {
 
 	}
 
-	public Product(String prodName, String prodDescription, Double prodPrice, String prodPriceFormatter,
-			String prodType, String prodCode) {
+	public Product(String prodName, String prodDescription, Double prodPrice, String prodType) {
 		this.prodName = prodName;
 		this.prodDescription = prodDescription;
 		this.prodPrice = prodPrice;
-		this.prodPriceFormatter = prodPriceFormatter;
 		this.prodType = prodType;
-		this.prodCode = prodCode;
 	}
 
 	public String getProdCode() {

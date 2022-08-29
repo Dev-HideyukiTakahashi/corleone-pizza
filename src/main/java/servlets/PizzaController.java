@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.websocket.Session;
 import model.dao.ProductDAO;
 import model.entities.Product;
 
@@ -22,6 +23,9 @@ import model.entities.Product;
 public class PizzaController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	
+	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	private ServletUtil connectedId = new ServletUtil();
 
 	private ProductDAO productDAO = new ProductDAO();
 	
@@ -31,6 +35,8 @@ public class PizzaController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		Boolean isAdmin = null;
 		try
 		{
 			String prodType    = request.getParameter("prodType");
@@ -57,16 +63,25 @@ public class PizzaController extends HttpServlet {
 				
 				items = productDAO.productSearch(prodType);
 				
-				request.setAttribute("pizzaData", items);	
+				// Checando se o usuário logado é userAdmin(ID: 1)
+				isAdmin = connectedId.getUserConnected(request) == 1L ? true : false;
+				
+				request.setAttribute("pizzaData", items);
+				request.setAttribute("isAdmin", isAdmin);
 				RequestDispatcher redireciona = request.getRequestDispatcher("pages/products/pizzas.jsp");
 				redireciona.forward(request, response);		
-				
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
-			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
-			redirecionador.forward(request, response);
+			if(isAdmin == null) {
+				RequestDispatcher redirecionador = request.getRequestDispatcher("/endsession.jsp");
+				redirecionador.forward(request, response);
+			}
+			else {
+				e.printStackTrace();
+				RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
+				redirecionador.forward(request, response);
+			}
 		}
 	}
 
@@ -75,6 +90,7 @@ public class PizzaController extends HttpServlet {
 		
 		try 
 		{
+			// Requisição update
 			String code        = request.getParameter("code");
 			String value	   = request.getParameter("description");
 			String updateData  = request.getParameter("updateData");
@@ -92,6 +108,21 @@ public class PizzaController extends HttpServlet {
 			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
 			{
 				productDAO.productUpdate(code, value, "updateName");
+			}
+			
+			
+			// Requisição insert
+			String action  			  = request.getParameter("action");
+			String newName    	      = request.getParameter("newName");
+			String newDescription     = request.getParameter("newDescription");
+			String newPrice           = request.getParameter("newPrice");
+
+			
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("insert")) {
+				Double price    = Double.parseDouble(newPrice.replace(",", ".").replace("-", "."));
+				Product product = new Product(newName, newDescription, price, "Pizza");
+				
+				productDAO.productInsert(product);
 			}
 		}
 		catch(Exception e) 

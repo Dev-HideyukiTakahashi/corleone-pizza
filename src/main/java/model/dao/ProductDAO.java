@@ -89,6 +89,32 @@ public class ProductDAO {
 	}
 	
 	
+	public void productInsert(Product pizza) 
+	{
+		
+
+		try 
+		{
+			String sql = "INSERT INTO products(item, description, price, type_item) VALUES (?, ?, ?, ?)";
+			
+			PreparedStatement ps;
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, pizza.getProdName());
+			ps.setString(2, pizza.getProdDescription());
+			ps.setDouble(3, pizza.getProdPrice());
+			ps.setString(4, pizza.getProdType());
+			ps.execute();
+			
+			connection.commit();
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 	private Product productAssembler(ResultSet rs) throws SQLException 
 	{
 		NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));

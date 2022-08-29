@@ -9,7 +9,7 @@
 <!-- Cabeçalho da página -->
 <jsp:include page="../head.jsp"></jsp:include>
 
-<body onload="orderTable()">
+<body>
 
 	<div class="container-scroller">
 
@@ -24,7 +24,7 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 				
-					<form action="<%=request.getContextPath()%>/PizzaController" id="form-pizza"></form>					</form>
+					<form action="<%=request.getContextPath()%>/PizzaController" id="form-pizza"></form>					
 					<!-- Inicio da tabela de busca -->
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
@@ -37,6 +37,9 @@
 									<input id='query' class="form-control text-secondary" style="width: 50%; " placeholder='Buscar por...' type='text'>
 								</div>
 							</div>
+							<!-- Checando se o usuário logado é userAdmin -->
+							<c:if test="${isAdmin}"><button class="btn-inverse-success" style="width: 25%" id="btn-insert">Adicionar Pizza</button></c:if>
+							
 								<div class="table-responsive">
 									<table id="pizza-table" class="table table-striped" style="margin-top: 15px ">
 										<thead>
@@ -45,6 +48,7 @@
 												<th>Nome</th>
 												<th>Descrição</th>
 												<th>Preço</th>
+												<th>Pedir</th>
 											</tr>
 										</thead>
 										<tbody id="pizza-found">
@@ -52,8 +56,9 @@
 												<tr>
 													<td class="text-primary text-center"><c:out value="${pd.prodCode}"></c:out></td>
 													<td class="text-secondary"><button class="mdi mdi-lead-pencil" onclick="modelView(${pd.prodCode}, 'name');" style="margin-right: 10px"></button><c:out value="${pd.prodName}"></c:out></td>
-													<td class="text-secondary"><button class="mdi mdi-lead-pencil" onclick="modelView(${pd.prodCode}, 'description');" style="margin-right: 10px"></button><c:out value="${pd.prodDescription}"></c:out></td>
-													<td class="text-success"><button class="mdi mdi-lead-pencil" onclick="modelView(${pd.prodCode}, 'price');" style="margin-right: 10px"></button><c:out value="${pd.prodPrice}"></c:out></td>
+													<td class="text-secondary"><c:if test="${isAdmin}"><button class="mdi mdi-lead-pencil" onclick="modelView(${pd.prodCode}, 'description');" style="margin-right: 10px"></button></c:if><c:out value="${pd.prodDescription}"></c:out></td>
+													<td class="text-success"><c:if test="${isAdmin}"><button class="mdi mdi-lead-pencil" onclick="modelView(${pd.prodCode}, 'price');" style="margin-right: 10px"></button></c:if><c:out value="${pd.prodPrice}"></c:out></td>
+													<td class='py-1'><a href='#'><img src='<%=request.getContextPath()%>/assets/images/favicon.png' alt='Pedir' /></a></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -70,8 +75,8 @@
 	</div>
 
 	
-	<!-- Modal updateModal -->
-	<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModal" aria-hidden="true">
+	<!-- Modal update Modal -->
+	<div class="modal fade" id="update-modal" tabindex="-1" aria-labelledby="update-modal" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -91,6 +96,30 @@
 	  </div>
 	</div>
 	
+	<!-- Modal insert Modal -->
+	<div class="modal fade" id="insert-modal" tabindex="-1" aria-labelledby="insert-modal" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5  style="margin-left:3px" class="modal-title text-success">Adicionar novo sabor</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
+	      </div>
+	      <div class="modal-body">
+	      	<label class="text-secondary" style="margin-top: 15px">Nome</label> 
+	        <input class="form-control text-light" autocomplete="off" id="insertModal-name"></input>
+	      	<label class="text-secondary" style="margin-top: 15px">Descrição</label> 
+	        <input class="form-control text-light" autocomplete="off" id="insertModal-description"></input>
+	      	<label class="text-secondary" style="margin-top: 15px">Preço</label> 
+	        <input class="form-control text-light" autocomplete="off" type="number" id="insertModal-price"></input>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Cancelar</button>
+	        <button type="button" class="btn btn-primary" onclick="insertData();" id="btn2-modal">Salvar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
 	
 	<!-- Script para atualização do campo da pizza -->
 	<script type="text/javascript">
@@ -100,6 +129,7 @@
 			let requestField	  = $("#request-field").val();
 			let codeUpdate		  = $("#updateModal-code").text();
 			let nameUpdate		  = $("#updateModal-name").text();
+
 			let urlAction 		  = document.getElementById('form-pizza').action;
 			
 			$.ajax
@@ -114,10 +144,41 @@
 				},
 			    success : function(response) 
 			    {
-		    		$('#updateModal').modal('hide');
+		    		$('#update-modal').modal('hide');
 				},
 			}).fail(function(xhr, status, errorThrown) {
 				alert("Erro desconhecido ao alterar dados")
+			});
+		}
+	</script>
+	
+	<!-- Script para inserir um novo de pizza -->
+	<script type="text/javascript">
+		function insertData() {
+			
+			let nameInsert 		  = $("#insertModal-name").val();
+			let descriptionInsert = $("#insertModal-description").val();
+			let priceInsert 	  = $("#insertModal-price").val();
+			
+			let urlAction 		  = document.getElementById('form-pizza').action;
+			
+			$.ajax
+			({
+				method : "POST",
+				url    : urlAction,
+				data   : 
+				{
+					action			   : "insert",
+					newName 	 	   : nameInsert,
+					newDescription     : descriptionInsert,
+					newPrice 	       : priceInsert,
+				},
+			    success : function(response) 
+			    {
+		    		$('#insert-modal').modal('hide');
+				},
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Erro desconhecido ao inserir dados")
 			});
 		}
 	</script>
@@ -149,7 +210,7 @@
 					// Mostrando o modal com os dados da requisição
 					if(value === 'name')
 					{
-						$('#updateModal').modal('show');
+						$('#update-modal').modal('show');
 						$('#updateModal-input').val(json.prodName);
 						$('#updateModal-name').text(json.prodName);
 						$('#updateModal-code').text(json.prodCode);
@@ -158,7 +219,7 @@
 					}
 					else if(value === 'description')
 					{
-						$('#updateModal').modal('show');
+						$('#update-modal').modal('show');
 						$('#updateModal-input').val(json.prodDescription);
 						$('#updateModal-name').text(json.prodName);
 						$('#updateModal-code').text(json.prodCode);
@@ -166,7 +227,7 @@
 					}
 					else if(value === 'price')
 					{
-						$('#updateModal').modal('show');
+						$('#update-modal').modal('show');
 						$('#updateModal-input').val(json.prodPrice);
 						$('#updateModal-input').prop('type', 'number');
 						$('#updateModal-name').text(json.prodName);
@@ -180,38 +241,11 @@
 		}
 	</script>
 	
-	
-	<!-- Script para ordernar a tabela por ordem de código -->
-	<script type="text/javascript">
-	function orderTable() {
-		 var table, rows, switching, i, x, y, shouldSwitch;
-		  table = document.getElementById("pizza-table");
-		  switching = true;
-		  while (switching) {
-		    switching = false;
-		    rows = table.rows;
-		    for (i = 1; i < (rows.length - 1); i++) {
-		      shouldSwitch = false;
-		      x = rows[i].getElementsByTagName("TD")[0];
-		      y = rows[i + 1].getElementsByTagName("TD")[0];
-		      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-		        shouldSwitch = true;
-		        break;
-		      }
-		    }
-		    if (shouldSwitch) {
-		      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-		      switching = true;
-		    }
-		  }
-		  
-		}
-	</script>
-	
 	<!-- Script para fechar a janela modal -->
 	<script type="text/javascript">
 	function closeModal() {
-		$('#updateModal').modal('hide');
+		$('#update-modal').modal('hide');
+		$('#insert-modal').modal('hide');
 	}
 	</script>
 	
@@ -241,6 +275,7 @@
 	<!-- Script para dar um refresh na página "f5" -->
 	<script type="text/javascript">
 	var btn = document.querySelector("#btn-modal");
+	var btn = document.querySelector("#btn2-modal");
 	btn.addEventListener("click", function() {
 	    
 	    location.reload();
@@ -248,5 +283,14 @@
 	
 	</script>
 	
+	<!-- Script 'listener' para insert-data (abrir o modal) -->
+	<script type="text/javascript">
+	var btn = document.querySelector("#btn-insert");
+	btn.addEventListener("click", function() {
+	    
+		$('#insert-modal').modal('show');
+	});
+	
+	</script>
 </body>
 </html>

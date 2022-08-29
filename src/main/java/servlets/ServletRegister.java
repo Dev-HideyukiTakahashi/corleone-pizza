@@ -36,7 +36,6 @@ public class ServletRegister extends HttpServlet {
 			throws ServletException, IOException {
 		try 
 		{
-			ClientDAO clientDAO = new ClientDAO();
 
 			String name 	 = request.getParameter("name");
 			String phone 	 = request.getParameter("phone");

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import config.DatabaseConnection;
 import model.entities.Admin;
+import model.entities.Client;
 
 public class AdminDAO 
 {
@@ -39,6 +40,32 @@ public class AdminDAO
 		}
 		
 		return false; // Não encontrou usuário com os dados informados
+	}
+	
+	// inserindo novo usuário no banco
+	public void insertUser(Admin user) {
+		try {
+			String sql = "INSERT INTO tb_admin(admin_name, phone, email, login, senha, partner)VALUES (?, ?, ?, ?, ?, ?)";
+
+			PreparedStatement ps = connection.prepareStatement(sql);
+
+			ps.setString(1, user.getAdminName());
+			ps.setString(2, user.getPhone());
+			ps.setString(3, user.getEmail());
+			ps.setString(4, user.getLogin());
+			ps.setString(5, user.getPassword());
+			ps.setString(6, user.getPartner());
+			ps.execute();
+
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 	
 	public Admin adminData(String login) 

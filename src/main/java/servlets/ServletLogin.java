@@ -24,8 +24,6 @@ public class ServletLogin extends HttpServlet
 	
 	private AdminDAO adminDAO = new AdminDAO();
 	
-	private static Long idAdmin = null;
-       
     public ServletLogin() {
         super();
     }
@@ -49,15 +47,33 @@ public class ServletLogin extends HttpServlet
 	{
 		try
 		{
+			// Requisição da página newuser submitUser()
+			String newName 	     = request.getParameter("newName");
+			String newPhone 	 = request.getParameter("newPhone");
+			String newEmail 	 = request.getParameter("newEmail"); // Recuperando dados do form em newuser.jsp
+			String newLogin	     = request.getParameter("newLogin");
+			String newPassword   = request.getParameter("newPassword");
+			String newPartner    = request.getParameter("newPartner");
+			
+			String action		 = request.getParameter("action");
+			
+			if(action != null) 
+			{
+				if(action.equalsIgnoreCase("insert") || !action.isEmpty()) 
+				{
+					Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, newPassword, newPartner, null);
+					adminDAO.insertUser(newUser);
+				}
+			}
+			
+			// Request de parâmetros da tela de login
 			String login     = request.getParameter("login");
 			String password  = request.getParameter("password");		
 			String url       = request.getParameter("url");
 			
-			
 			// Validando se os dados foram preenchidos antes de acessar o sistema
 			if(login != null && !login.isEmpty() && password != null && !password.isEmpty()) 
 			{
-				
 				// Comparando os dados preenchidos com o banco de dados
 				if(adminDAO.validateLogin(login, password))
 				{
@@ -66,10 +82,11 @@ public class ServletLogin extends HttpServlet
 					request.getSession().setAttribute("adminName", adminLogin.getAdminName());
 					request.getSession().setAttribute("adminLogin", adminLogin.getLogin());
 					
-					// Configurando qual usuário está utilizando o sistema, o método get está no final do código
-					idAdmin = adminLogin.getId();
+					// Configurando qual usuário está utilizando o sistema
+					Boolean isAdmin = adminLogin.getId() == 1? true : false;
+					request.getSession().setAttribute("isAdmin", isAdmin);
 					
-					if(idAdmin == 1) {
+					if(isAdmin) {
 						request.getSession().setAttribute("adminOffice", "Administrador");
 						// Poderia ter um identificador no banco de dados para foto de perfil
 						request.getSession().setAttribute("adminImg", "/assets/images/faces/face.jpg");
@@ -85,7 +102,7 @@ public class ServletLogin extends HttpServlet
 					{
 						url = "pages/main.jsp";
 					}
-					
+
 					// Se o usuário tentou acessar alguma página sem logar, após o login com sucesso o mesmo acessa a página desejada
 					RequestDispatcher redirect = request.getRequestDispatcher(url);
 					redirect.forward(request, response);
@@ -112,8 +129,4 @@ public class ServletLogin extends HttpServlet
 		}
 	}
 
-	public static Long getIdAdmin() {
-		return idAdmin;
-	}
-	
 }

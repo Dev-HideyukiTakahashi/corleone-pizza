@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
 	<div
@@ -16,7 +18,7 @@
 			<div class="profile-desc">
 				<div class="profile-pic">
 					<div class="count-indicator">
-						<img class="img-xs rounded-circle "
+						<img class="img-xs rounded-circle"
 							src="<%=request.getContextPath()%><%=session.getAttribute("adminImg") %>"
 							alt="img"><span class="count bg-success"></span>
 					</div>
@@ -35,7 +37,24 @@
 					class="mdi mdi-speedometer"></i>
 			</span> <span class="menu-title">Dashboard</span>
 		</a></li>
-
+		<!-- Checando se o usuário logado é o admin -->
+		<c:if test="${isAdmin}">
+			<li class="nav-item menu-items"><a class="nav-link"
+				data-toggle="collapse" href="#ui-basic8" aria-expanded="false"
+				aria-controls="ui-basic8"> <span class="menu-icon"> <i
+						class="mdi mdi-account-card-details"></i>
+				</span> <span class="menu-title">Funcionários</span><i class="menu-arrow"></i>
+			</a>
+				<div class="collapse" id="ui-basic8">
+					<ul class="nav flex-column sub-menu">
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/pages/newuser.jsp">Novo Usuário</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/pages/listuser.jsp">Listar</a></li>
+				</ul>
+			</div></li>
+		</c:if>
+				
 		<li class="nav-item menu-items"><a class="nav-link"
 			data-toggle="collapse" href="#ui-basic" aria-expanded="false"
 			aria-controls="ui-basic"> <span class="menu-icon"> <i
