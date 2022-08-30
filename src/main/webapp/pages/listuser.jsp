@@ -177,14 +177,14 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Atualização de Funcionário</h5>
+	        <h5 class="modal-title">Atualização de Funcionário</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
 	      </div>
 	      <div class="modal-body" >
-	        <h4 class="text-success">Funcionário atualizado com sucesso!</h4>
+	        <h4 class="text-success"  id="register-msg"></h4>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" ><a href="<%=request.getContextPath()%>/login?action=searchList">Close</a></button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" ><a href="<%=request.getContextPath()%>/login?action=searchList" class="text-dark" style="text-decoration: none">Close</a></button>
 	      </div>
 	    </div>
 	  </div>
@@ -264,7 +264,7 @@
 		
 	</script>
 	
-	
+	<!-- Script de update -->
 	<script type="text/javascript">
 		function updateUser() {
 			
@@ -278,28 +278,48 @@
 			
 			let urlAction = document.getElementById('form-search').action;
 			
-			$.ajax({
-				method : "POST",
-				url    : urlAction,
-				data   : 
-				{
-					newId        : userId,
-					newName      : userName,
-					newPhone     : userPhone,
-					newEmail     : userEmail,
-					newLogin     : userLogin,
-					newPassword  : userPassword,
-					newPartner   : userPartner,
-					action		 : "update",
-				},
-			    success : function(response) 
-			    {
-		    		$('#registerModal').modal('show');
-		    		
-				},
-			}).fail(function(xhr, status, errorThrown) {
-				alert('Erro inesperado ao cadastrar cliente.');
-			});
+			if(userName.trim() === '' || userPhone.trim() === '' || userPassword.trim() === '')
+			{
+	    		let msg = "Os campos não podem estar em branco ***";
+	    		document.getElementById('register-msg').classList.add('text-danger');
+	    		$('#registerModal').modal('show');
+	    		$("#register-msg").text(msg);
+
+			}
+			else{
+				$.ajax({
+					method : "POST",
+					url    : urlAction,
+					data   : 
+					{
+						newId        : userId,
+						newName      : userName,
+						newPhone     : userPhone,
+						newEmail     : userEmail,
+						newLogin     : userLogin,
+						oldPassword  : userPassword,
+						newPartner   : userPartner,
+						action		 : "update",
+					},
+				    success : function(response) 
+				    {
+				    	if(response === "atualizado"){
+				    		$('#registerModal').modal('show');
+				    		document.getElementById('register-msg').classList.remove('text-danger');
+				       		$('#register-msg').text('Funcionário atualizado com sucesso!');
+				    	}
+				    	else{
+				    		$('#registerModal').modal('show');
+				    		$('#register-msg').text('Erro ao atualizar dados de funcionário.');
+				    		document.getElementById('register-msg').classList.add('text-danger');
+				    	}
+
+			    		
+					},
+				}).fail(function(xhr, status, errorThrown) {
+					alert('Erro inesperado ao cadastrar cliente.');
+				});
+			}
 			
 		}
 	</script>

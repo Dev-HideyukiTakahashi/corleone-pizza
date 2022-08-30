@@ -157,7 +157,7 @@
 						newPhone     : userPhone,
 						newEmail     : userEmail,
 						newLogin     : userLogin,
-						newPassword  : userPassword,
+						oldPassword  : userPassword,
 						newPartner   : userPartner,
 						action		 : "insert",
 					},

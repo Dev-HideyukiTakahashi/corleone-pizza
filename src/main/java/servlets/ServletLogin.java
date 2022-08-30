@@ -26,6 +26,9 @@ public class ServletLogin extends HttpServlet
 	
 	private static final long serialVersionUID = 1L;
 	
+	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	private ServletUtil connectedId = new ServletUtil();
+	
 	private AdminDAO adminDAO = new AdminDAO();
 	
     public ServletLogin() {
@@ -36,6 +39,11 @@ public class ServletLogin extends HttpServlet
 	{
 		try
 		{
+			
+			// Configurando qual usuário está utilizando o sistema
+			Boolean isAdmin = connectedId.getUserConnected(request) == 1? true : false;
+			request.getSession().setAttribute("isAdmin", isAdmin);
+			
 			String action    = request.getParameter("action"); // Argumento vindo da página JSP
 			String idRequest = request.getParameter("idRequest");
 			// Deletar usuario por id
@@ -54,6 +62,18 @@ public class ServletLogin extends HttpServlet
 				ObjectMapper mapper = new ObjectMapper();
 				String JSON 		= mapper.writeValueAsString(user);
 				response.getWriter().write(JSON);
+				
+			}
+			
+			// Carregando dados nos settings
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("settings")) {
+
+				Admin userSettings = adminDAO.findUserId(connectedId.getUserConnected(request));
+				
+				request.setAttribute("userSettings", userSettings); 
+				RequestDispatcher redireciona = request.getRequestDispatcher("pages/userdata.jsp");
+
+				redireciona.forward(request, response);		
 				
 			}
 			
@@ -93,18 +113,19 @@ public class ServletLogin extends HttpServlet
 			String newPhone 	 = request.getParameter("newPhone");
 			String newEmail 	 = request.getParameter("newEmail"); // Recuperando dados do form em newuser.jsp
 			String newLogin	     = request.getParameter("newLogin");
-			String newPassword   = request.getParameter("newPassword");
+			String oldPassword   = request.getParameter("oldPassword");
 			String newPartner    = request.getParameter("newPartner");
 			String newId 		 = request.getParameter("newId");
 			
 			String action		 = request.getParameter("action");
 			
+
 			// Novo usuario
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("insert") ) 
 			{
-				Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, newPassword, newPartner, null);
 				if(!adminDAO.loginExists(newLogin)) 
 				{
+					Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, oldPassword, newPartner, null);
 					adminDAO.insertUser(newUser);
 					response.getWriter().write("registrado");
 				}
@@ -113,9 +134,27 @@ public class ServletLogin extends HttpServlet
 			// Atualizando usuario
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("update") ) 
 			{
-				Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, newPassword, newPartner, null);
-				newUser.setId(Long.parseLong(newId));
-				adminDAO.updateUser(newUser);
+				
+				String newPassword   = request.getParameter("newPassword");
+				Admin settingsUser   = adminDAO.findUserId(Long.parseLong(newId));
+				boolean passMeet 	 = adminDAO.validateLogin(settingsUser.getLogin(), oldPassword);
+				
+				if(newPassword == null) {
+					Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, oldPassword, newPartner, Long.parseLong(newId));
+					adminDAO.updateUser(newUser);
+					response.getWriter().write("atualizado");
+				}
+				
+				if(passMeet && newPassword != null && !newPassword.isEmpty()) {
+
+					Admin newUser = new Admin(newName, newPhone, newEmail, settingsUser.getLogin(), newPassword, newPartner, Long.parseLong(newId));
+					adminDAO.updateUser(newUser);
+					response.getWriter().write("atualizado");
+				}
+				else if (!passMeet && newPassword != null && !newPassword.isEmpty()) {
+					response.getWriter().write("passNot");
+				}
+				System.out.println();
 			}
 			
 			// Request de parâmetros da tela de login

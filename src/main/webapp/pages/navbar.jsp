@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav class="navbar p-0 fixed-top d-flex flex-row">
 	<div
 		class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
@@ -188,7 +189,9 @@
 					aria-labelledby="profileDropdown">
 					<h6 class="p-3 mb-0">Profile</h6>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item preview-item">
+					<!-- O admin não tem acesso a configurações de conta  -->
+					<c:if test="${!isAdmin}">
+					<a class="dropdown-item preview-item" href="<%=request.getContextPath()%>/login?action=settings">
 						<div class="preview-thumbnail">
 							<div class="preview-icon bg-dark rounded-circle">
 								<i class="mdi mdi-settings text-success"></i>
@@ -198,6 +201,8 @@
 							<p class="preview-subject mb-1">Configurações</p>
 						</div>
 					</a>
+					</c:if>
+					
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item preview-item" href="<%=request.getContextPath()%>/login?action=logout">
 						<div class="preview-thumbnail">
