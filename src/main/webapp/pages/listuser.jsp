@@ -324,7 +324,14 @@
 		    highlight(this.value)
 		})
 	
-		</script>	
+	</script>	
+	
+	<!-- Script para fechar a janela modal -->
+	<script type="text/javascript">
+	function closeModal() {
+		$('#deleteModal').modal('hide');
+	}
+	</script>
 		
 	
 	</body>

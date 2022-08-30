@@ -103,7 +103,11 @@ public class ServletLogin extends HttpServlet
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("insert") ) 
 			{
 				Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, newPassword, newPartner, null);
-				adminDAO.insertUser(newUser);
+				if(!adminDAO.loginExists(newLogin)) 
+				{
+					adminDAO.insertUser(newUser);
+					response.getWriter().write("registrado");
+				}
 			}
 			
 			// Atualizando usuario
@@ -162,10 +166,9 @@ public class ServletLogin extends HttpServlet
 					redirecionador.forward(request, response);
 				}
 			}
-			else     // Não preencheu nenhum campo e clicou em login
+			else if(action == null || action.isEmpty())    // Não preencheu nenhum campo e clicou em login
 			{
 				RequestDispatcher redirect = request.getRequestDispatcher("/index.jsp");
-				request.setAttribute("msg", "Todos campos precisam ser preenchidos");
 				redirect.forward(request, response);
 			}
 		}

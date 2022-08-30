@@ -163,11 +163,21 @@
 					},
 				    success : function(response) 
 				    {
-			    		let msg = "Funcionário registrado com sucesso!";
-			    		$('#registerModal').modal('show');
-			    		$("#modal-msg").text(msg);
-			    		document.getElementById('modal-msg').classList.remove('text-danger');
-						cleanForm();
+				    	if(response === "registrado")
+			    		{
+				    		let msg = "Funcionário registrado com sucesso!";
+				    		$('#registerModal').modal('show');
+				    		$("#modal-msg").text(msg);
+				    		document.getElementById('modal-msg').classList.remove('text-danger');
+							cleanForm();
+			    		}
+				    	else{
+				    		let msg = "Já existe funcionário com esse login";
+				    		$('#registerModal').modal('show');
+				    		$("#modal-msg").text(msg);
+				    		document.getElementById('modal-msg').classList.add('text-danger');
+				    	}
+
 					},
 				}).fail(function(xhr, status, errorThrown) {
 					alert('Erro inesperado ao cadastrar cliente.');

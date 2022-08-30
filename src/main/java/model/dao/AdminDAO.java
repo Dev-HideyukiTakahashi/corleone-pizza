@@ -183,7 +183,22 @@ public class AdminDAO
 				e1.printStackTrace();
 			}
 		}
-		
 	}
+	
+	
+	public boolean loginExists(String login) throws SQLException 
+	{
+	
+		String sql   = "SELECT * FROM tb_admin WHERE login = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1, login);
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			return true;
+		}
+		return false;
+	}
+	
 
 }
