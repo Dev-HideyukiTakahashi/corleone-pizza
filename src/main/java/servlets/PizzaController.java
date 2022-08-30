@@ -35,7 +35,6 @@ public class PizzaController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 		Boolean isAdmin = null;
 		try
 		{
@@ -46,8 +45,7 @@ public class PizzaController extends HttpServlet {
 			// Enviando requisição com todos os dados do produto pelo código
 			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("search")) 
 			{
-				Product item = new Product();
-				item = productDAO.productByCode(code);
+				Product item = productDAO.productByCode(code);
 				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 				ObjectMapper mapper = new ObjectMapper();
 				String JSON = mapper.writeValueAsString(item);

@@ -100,7 +100,16 @@ public class ServletLogin extends HttpServlet
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			if(connectedId == null) {
+				e.printStackTrace();
+				RequestDispatcher redirect = request.getRequestDispatcher("/endsession.jsp");
+				redirect.forward(request, response);
+			}else {
+				e.printStackTrace();
+				RequestDispatcher redirect = request.getRequestDispatcher("/error.jsp");
+				redirect.forward(request, response);
+			}
+
 		}
 	}
 

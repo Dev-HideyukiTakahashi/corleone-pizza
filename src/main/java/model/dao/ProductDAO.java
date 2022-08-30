@@ -44,7 +44,7 @@ public class ProductDAO {
 		String sql = "SELECT * FROM products WHERE code = ?";
 		
 		PreparedStatement ps = connection.prepareStatement(sql);
-		ps.setString(1, prodCode);
+		ps.setLong(1, Long.parseLong(prodCode));
 		ResultSet rs 	     = ps.executeQuery();
 
 		while (rs.next()) {
@@ -73,7 +73,7 @@ public class ProductDAO {
 			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, value);
-			ps.setString(2, code);
+			ps.setLong(2, Long.parseLong(code));
 			ps.executeUpdate();
 			
 			connection.commit();

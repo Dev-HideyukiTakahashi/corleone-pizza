@@ -145,6 +145,11 @@
 			    success : function(response) 
 			    {
 		    		$('#update-modal').modal('hide');
+		    		
+		    		// Recarrega a página
+		    		location.reload();
+		    		
+		    		
 				},
 			}).fail(function(xhr, status, errorThrown) {
 				alert("Erro desconhecido ao alterar dados")
@@ -176,6 +181,9 @@
 			    success : function(response) 
 			    {
 		    		$('#insert-modal').modal('hide');
+		    		
+		    		// Recarrega a página
+		    		location.reload();
 				},
 			}).fail(function(xhr, status, errorThrown) {
 				alert("Erro desconhecido ao inserir dados")
@@ -201,11 +209,8 @@
 				success : function(response) 
 				{
 					// Convertendo o envio do argumento de ServletSearch para JSON
-					let json		= JSON.parse(response);
+					let json = JSON.parse(response);
 					
-					
-					let codeUpdate = code
-					let valueUpdate;
 					
 					// Mostrando o modal com os dados da requisição
 					if(value === 'name')
@@ -272,16 +277,6 @@
 	</script>	
 	
 	
-	<!-- Script para dar um refresh na página "f5" -->
-	<script type="text/javascript">
-	var btn = document.querySelector("#btn-modal");
-	var btn = document.querySelector("#btn2-modal");
-	btn.addEventListener("click", function() {
-	    
-	    location.reload();
-	});
-	
-	</script>
 	
 	<!-- Script 'listener' para insert-data (abrir o modal) -->
 	<script type="text/javascript">
