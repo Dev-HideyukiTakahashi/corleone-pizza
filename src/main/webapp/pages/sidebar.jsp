@@ -19,7 +19,7 @@
 				<div class="profile-pic">
 					<div class="count-indicator">
 						<img class="img-xs rounded-circle"
-							src="<%=request.getContextPath()%><%=session.getAttribute("adminImg") %>"
+							src="<%=session.getAttribute("adminImg")%>"
 							alt="img"><span class="count bg-success"></span>
 					</div>
 					<div class="profile-name">

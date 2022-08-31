@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,17 +31,45 @@
 						<div class="card">
 							<div class="card-body">
 							
-								<h4 class="card-title">Configurações da conta</h4>
-								<p class="card-description">Atualize os dados de cadastro</p>
+								<h4 class="card-title" >Configurações da conta</h4>
+								<p class="card-description">Foto do perfil</p>
 
-								<form class="forms-sample" id="form-newuser" method="post"
+								<form class="forms-sample" id="form-newuser" method="post" enctype="multipart/form-data"
 									action="<%=request.getContextPath()%>/login" >
 									
-									<input id="id" type="hidden" value="${userSettings.id}" />
+									<input id="id" type="hidden" value="${userSettings.id}" name="newId"/>
+									<input type="hidden" name="action" value="update"/>
+									
+									<!-- UPLOAD DE FOTO -->
+									<div class="form-group form-default input-group mb-4">
+										<div class="input-group-prepend">
+											<c:if
+												test="${userSettings.photo != '' && userSettings.photo != null}">
+												<a href="#"> <img alt="Imagem user"
+													src="${userSettings.photo}"  width="200px"
+													id="fotoembase64"></a>
+
+											</c:if>
+											<!-- Se não tem foto, usar a foto padrão -->
+											<c:if
+												test="${userSettings.photo == '' || userSettings.photo == null}">
+												<img alt="Imagem user"
+													src="assets/images/faces/logo.png" width="200px"
+													id="fotoembase64">
+											</c:if>
+										</div>
+										<input type="file" id="filefoto" 
+											onchange="visualizarImg('fotoembase64', 'filefoto')"
+											accept="image/*" class="form-control-file"
+											name="filePhoto"
+											style="margin-top: 15px; margin-left: 5px">
+									</div>
+									<!-- UPLOAD DE FOTO -->
+									
 									
 									<div class="form-group">
 										<label>Nome*</label> 
-										<input type="text"
+										<input type="text" name="newName"
 											autocomplete="off" class="form-control text-light" 
 											placeholder="Nome Completo" id="name" value="${userSettings.adminName}">
 									</div>
@@ -47,41 +77,41 @@
 									<div class="form-group">
 										<label>Telefone*</label> 
 										<input
-											type="text" class="form-control text-light"
+											type="text" class="form-control text-light" name="newPhone"
 											autocomplete="off" id="phone" value="${userSettings.phone}" 
-											placeholder="Telefone" name="phone" >
+											placeholder="Telefone" >
 									</div>
 									
 									<div class="form-group">
 										<label for="exampleInputEmail">Email</label> 
 										<input
-											type="email" class="form-control text-light"
+											type="email" class="form-control text-light" name="newEmail"
 											autocomplete="off" id="email" value="${userSettings.email}" 
-											placeholder="Email" name="email">
+											placeholder="Email">
 									</div>
 									
 									<div class="form-group">
 										<label>Senha*</label> 
-										<input type="password"
+										<input type="password" name="oldPassword"
 											autocomplete="off" class="form-control text-light" 
-											placeholder="Digite a senha atual" name="password" id="password">
+											placeholder="Digite a senha atual" id="password">
 									</div>
 									
 									<div class="form-group">
 										<label>Nova Senha*</label> 
-										<input type="password"
+										<input type="password" name="newPassword"
 											autocomplete="off" class="form-control text-light" 
-											placeholder="Digite a nova senha" name="password" id="new-password">
+											placeholder="Digite a nova senha ou confirme a sua atual" id="new-password">
 									</div>
 									
 									<div class="form-group">
 										<label for="exampleInputName">Partner</label> 
 										<input type="text" value="${userSettings.partner}" 
 											autocomplete="off" class="form-control text-light" 
-											placeholder="Filial do usuário" name="partner" id="partner">
+											placeholder="Filial do usuário" name="newPartner" id="partner">
 									</div>
 									
-									<button type="button" class="btn btn-primary mr-2" id="submit" onclick="updateUser()">Atualizar</button>
+									<button type="submit" class="btn btn-primary mr-2" id="submit" >Atualizar</button>
 									<button type="button" class="btn btn-dark"
 										onclick="cleanForm();">Limpar</button>
 								</form>
@@ -93,94 +123,9 @@
 				</div>
 			</div>
 		</div>
-
-	</div>
-	
-	
-	<!-- Modal Update -->
-	<div class="modal fade" id="update-modal" tabindex="-1" aria-labelledby="update-modal" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">Atualização de Funcionário</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
-	      </div>
-	      <div class="modal-body" >
-	        <h4 class="text-success"  id="register-msg"></h4>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
-	      </div>
-	    </div>
-	  </div>
 	</div>
 	
 	<jsp:include page="javascript.jsp" />
-	
-	
-	<!-- Script de update -->
-	<script type="text/javascript">
-		function updateUser() {
-			
-			let userId       	 = $("#id").val();
-			let userName     	 = $("#name").val();
-			let userPhone    	 = $("#phone").val();
-			let userEmail    	 = $("#email").val();
-			let userPassword 	 = $("#password").val();
-			let userNewPassword  = $("#new-password").val();
-			let userPartner 	 = $("#partner").val();
-			
-			let urlAction = document.getElementById('form-newuser').action;
-			
-			if(userName.trim() === '' || userPhone.trim() === '' || userPassword.trim() === '' || userNewPassword.trim() === '')
-			{
-	    		let msg = "Os campos não podem estar em branco ***";
-	    		$('#update-modal').modal('show');
-	    		$("#register-msg").text(msg);
-	    		document.getElementById('register-msg').classList.add('text-danger');
-			}
-			else{
-				$.ajax({
-					method : "POST",
-					url    : urlAction,
-					data   : 
-					{
-						newId        : userId,
-						newName      : userName,
-						newPhone     : userPhone,
-						newEmail     : userEmail,
-						oldPassword  : userPassword,
-						newPassword  : userNewPassword,
-						newPartner   : userPartner,
-						action		 : "update",
-					},
-				    success : function(response) 
-				    {
-				    	if(response === "atualizado"){
-				    		$('#update-modal').modal('show');
-				    		document.getElementById('register-msg').classList.remove('text-danger');
-				       		$('#register-msg').text('Funcionário atualizado com sucesso!');
-				    	}
-				    	else if (response === "passNot"){
-				    		$('#update-modal').modal('show');
-				    		$('#register-msg').text('Senha atual incorreta');
-				    		document.getElementById('register-msg').classList.add('text-danger');
-				    	}
-				    	else{
-				    		$('#update-modal').modal('show');
-				    		$('#register-msg').text('Erro ao atualizar dados de funcionário.');
-				    		document.getElementById('register-msg').classList.add('text-danger');
-				    	}
-
-			    		
-					},
-				}).fail(function(xhr, status, errorThrown) {
-					alert('Erro inesperado ao cadastrar cliente.');
-				});
-				
-			}
-		}
-	</script>
 	
 	<!-- Script para acionar o click submit quando apertar ENTER -->
 	<script type="text/javascript">
@@ -191,7 +136,6 @@
 	  }
 	});
 	</script>
-
 	
 	<!-- Script para limpar o formulário -->
 	<script type="text/javascript">
@@ -207,11 +151,23 @@
 		}
 	</script>
 
-	<!-- Script para fechar a janela modal -->
+	<!-- Script para atualizar a foto dinamicamente quando selecionar uma nova -->
 	<script type="text/javascript">
-	function closeModal() {
-		$('#update-modal').modal('hide');
-	}
+		function visualizarImg(fotoembase64, filefoto) {
+			let preview = document.getElementById('fotoembase64') // campo img do html
+			let fileUser = document.getElementById('filefoto').files[0] // pode retornar varios, pegar o primeiro
+			let reader = new FileReader();
+			reader.onloadend = function() {
+				preview.src = reader.result; // carrega a foto na tela
+			};
+
+			if (fileUser) {
+				reader.readAsDataURL(fileUser); // Preview da imagem
+			} else {
+				preview.src = '';
+			}
+		}
 	</script>
+	
 </body>
 </html>

@@ -4,14 +4,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.jakartaee.commons.compress.utils.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.dao.AdminDAO;
 import model.entities.Admin;
 
@@ -20,6 +26,9 @@ import model.entities.Admin;
  *  Servlet para controlar a tela de login
  *  O Filter está responsavel pelo rollback
  */
+
+
+@MultipartConfig     //Anotação necessária para receber upload, no form html -> multipart/form-data
 @WebServlet(urlPatterns = {"/pages/login", "/ServletLogin"})
 public class ServletLogin extends HttpServlet 
 {
@@ -37,13 +46,12 @@ public class ServletLogin extends HttpServlet
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		// Configurando qual usuário está utilizando o sistema
+		Boolean isAdmin = null;
 		try
 		{
-			
-			// Configurando qual usuário está utilizando o sistema
-			Boolean isAdmin = connectedId.getUserConnected(request) == 1? true : false;
+			isAdmin = connectedId.getUserConnected(request) == 1? true : false;
 			request.getSession().setAttribute("isAdmin", isAdmin);
-			
 			String action    = request.getParameter("action"); // Argumento vindo da página JSP
 			String idRequest = request.getParameter("idRequest");
 			// Deletar usuario por id
@@ -72,7 +80,6 @@ public class ServletLogin extends HttpServlet
 				
 				request.setAttribute("userSettings", userSettings); 
 				RequestDispatcher redireciona = request.getRequestDispatcher("pages/userdata.jsp");
-
 				redireciona.forward(request, response);		
 				
 			}
@@ -100,7 +107,7 @@ public class ServletLogin extends HttpServlet
 			}
 		}
 		catch(Exception e) {
-			if(connectedId == null) {
+			if(isAdmin == null) {
 				e.printStackTrace();
 				RequestDispatcher redirect = request.getRequestDispatcher("/endsession.jsp");
 				redirect.forward(request, response);
@@ -127,7 +134,6 @@ public class ServletLogin extends HttpServlet
 			String newId 		 = request.getParameter("newId");
 			
 			String action		 = request.getParameter("action");
-			
 
 			// Novo usuario
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("insert") ) 
@@ -143,27 +149,48 @@ public class ServletLogin extends HttpServlet
 			// Atualizando usuario
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("update") ) 
 			{
-				
 				String newPassword   = request.getParameter("newPassword");
 				Admin settingsUser   = adminDAO.findUserId(Long.parseLong(newId));
 				boolean passMeet 	 = adminDAO.validateLogin(settingsUser.getLogin(), oldPassword);
-				
+		
+				// Método da conta do ADMIN para manipular as contas de usuários
 				if(newPassword == null) {
 					Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, oldPassword, newPartner, Long.parseLong(newId));
+				
 					adminDAO.updateUser(newUser);
 					response.getWriter().write("atualizado");
 				}
 				
+				// Confirma se o antigo password está correto e se deseja um novo password
 				if(passMeet && newPassword != null && !newPassword.isEmpty()) {
 
 					Admin newUser = new Admin(newName, newPhone, newEmail, settingsUser.getLogin(), newPassword, newPartner, Long.parseLong(newId));
+
+					// UPLOAD DE FOTO
+					if(ServletFileUpload.isMultipartContent(request)) 
+					{
+
+						Part part   = request.getPart("filePhoto"); // pega a foto no formulário html
+						if(part.getSize() > 0) { // Confirmando se passou alguma foto 
+							byte[] foto = IOUtils.toByteArray(part.getInputStream()); // converte a imagem para byte
+							String imagemBase64 = "data:" + part.getContentType() + ";base64,"+ new Base64().encodeBase64String(foto); // converte os bytes para base 64 string
+							
+							newUser.setPhoto(imagemBase64);
+							newUser.setExtension(part.getContentType().split("\\/")[1]); // pegando a extensão do arquivo, vem como image/png, precisamos apenas de png
+						}
+					}
+					
 					adminDAO.updateUser(newUser);
-					response.getWriter().write("atualizado");
+					
+					// Após atualizar a página redireciona para a página principal e atualiza todas as fotos do sistema
+					RequestDispatcher redirect = request.getRequestDispatcher("pages/main.jsp");
+					request.getSession().setAttribute("adminImg", newUser.getPhoto());
+					redirect.forward(request, response);
 				}
 				else if (!passMeet && newPassword != null && !newPassword.isEmpty()) {
 					response.getWriter().write("passNot");
 				}
-				System.out.println();
+				
 			}
 			
 			// Request de parâmetros da tela de login
@@ -191,12 +218,19 @@ public class ServletLogin extends HttpServlet
 						// Poderia ter um identificador no banco de dados para foto de perfil
 						request.getSession().setAttribute("adminImg", "/assets/images/faces/face.jpg");
 					}
-					else {
+					else if(adminLogin.getPhoto() != null && !adminLogin.getPhoto().equals("null")){
+						
 						request.getSession().setAttribute("adminOffice", "Usuário");
-						// Poderia ter um identificador no banco de dados para foto de perfil
-						request.getSession().setAttribute("adminImg", "/assets/images/faces/face2.jpg");
+						
+						//Foto do banco de dados
+						request.getSession().setAttribute("adminImg", adminLogin.getPhoto());
+						
+					}else {
+						request.getSession().setAttribute("adminOffice", "Usuário");
+						// Foto padrão de sistema
+						request.getSession().setAttribute("adminImg", "/assets/images/faces/logo.png");
 					}
-					
+
 					// Se o usuário não tentou acessar nenhuma page antes da tela de login redirecionar a main
 					if(url == null || url.equals("null"))
 					{

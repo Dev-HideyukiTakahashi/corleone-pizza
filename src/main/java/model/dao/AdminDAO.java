@@ -104,6 +104,8 @@ public class AdminDAO
 				adminLogin.setPassword(rs.getString("senha"));
 				adminLogin.setPartner(rs.getString("partner"));
 				adminLogin.setId(rs.getLong("id"));
+				adminLogin.setPhoto(rs.getString("photo"));
+				adminLogin.setExtension(rs.getString("extension"));
 			} 
 		}
 		catch(SQLException e) 
@@ -154,6 +156,8 @@ public class AdminDAO
 			user.setPassword(rs.getString("senha"));
 			user.setPartner(rs.getString("partner"));
 			user.setId(rs.getLong("id"));
+			user.setPhoto(rs.getString("photo"));
+			user.setExtension(rs.getString("extension"));
 		}
 		
 		return user;
@@ -175,6 +179,24 @@ public class AdminDAO
 			ps.executeUpdate();
 
 			connection.commit();
+			
+			// Atualizando a foto do usuário
+			if (newUser.getPhoto() != null && !newUser.getPhoto().isEmpty()) 
+			{
+				sql = "update tb_admin set photo =?, extension=? where id = ?";
+
+				ps = connection.prepareStatement(sql);
+
+				ps.setString(1, newUser.getPhoto());
+				ps.setString(2, newUser.getExtension());
+				ps.setLong(3, newUser.getId());
+
+				ps.execute();
+
+				connection.commit();
+			}
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {

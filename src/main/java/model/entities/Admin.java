@@ -9,6 +9,8 @@ public class Admin {
 	private String password;
 	private String partner;
 	private Long id;
+	private String photo;
+	private String extension;
 
 	public Admin() {
 
@@ -22,6 +24,22 @@ public class Admin {
 		this.password = password;
 		this.partner = partner;
 		this.id = id;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
 	}
 
 	public String getAdminName() {
