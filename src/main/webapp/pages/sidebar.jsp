@@ -18,10 +18,18 @@
 			<div class="profile-desc">
 				<div class="profile-pic">
 					<div class="count-indicator">
+					<!-- Caso não ter foto, é uma padrão -->
+					<c:if test="${adminPhoto != null && adminPhoto != ''}">
 						<img class="img-xs rounded-circle"
-							src="<%=request.getContextPath()%>/<%=session.getAttribute("adminImg")%>"
+							src="<%=session.getAttribute("adminPhoto") %>"
 							alt="img">
-							
+					</c:if>
+					<c:if test="${adminPhoto == null || adminPhoto == ''}">
+						<img class="img-xs rounded-circle"
+							src="<%=request.getContextPath()%>/assets/images/faces/logo.png"
+							alt="img">
+					</c:if>
+					
 							<span class="count bg-success"></span>
 					</div>
 					<div class="profile-name">

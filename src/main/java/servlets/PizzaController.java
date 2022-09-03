@@ -12,8 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.websocket.Session;
 import model.dao.ProductDAO;
+import model.entities.Admin;
 import model.entities.Product;
 
 /**
@@ -95,17 +95,19 @@ public class PizzaController extends HttpServlet {
 			
 			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePizza")) 
 			{
-				productDAO.productUpdate(code, value, "updatePizza");
+				productDAO.productUpdate(code, value, "updatePizza", 1L);
 			}
 			
-			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePrice")) 
+			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePrice")) 
 			{
-				productDAO.productUpdate(code, value, "updatePrice");
+				productDAO.productUpdate(code, value, "updatePrice", 1L);
 			}
 			
-			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
+			// Método que pode ser acessado por admin ou usuário
+			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
 			{
-				productDAO.productUpdate(code, value, "updateName");
+				Long user = connectedId.getUserConnected(request);
+				productDAO.productUpdate(code, value, "updateName", user);
 			}
 			
 			

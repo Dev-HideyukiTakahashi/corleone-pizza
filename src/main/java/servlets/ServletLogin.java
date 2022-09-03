@@ -184,7 +184,7 @@ public class ServletLogin extends HttpServlet
 					
 					// Após atualizar a página redireciona para a página principal e atualiza todas as fotos do sistema
 					RequestDispatcher redirect = request.getRequestDispatcher("pages/main.jsp");
-					request.getSession().setAttribute("adminImg", newUser.getPhoto());
+					request.getSession().setAttribute("adminPhoto", newUser.getPhoto());
 					redirect.forward(request, response);
 				}
 				else if (!passMeet && newPassword != null && !newPassword.isEmpty()) {
@@ -208,27 +208,17 @@ public class ServletLogin extends HttpServlet
 					Admin adminLogin = adminDAO.adminData(login);
 					request.getSession().setAttribute("adminName", adminLogin.getAdminName());
 					request.getSession().setAttribute("adminLogin", adminLogin.getLogin());
-					
+					request.getSession().setAttribute("adminPhoto", adminLogin.getPhoto());
+							
 					// Configurando qual usuário está utilizando o sistema
 					Boolean isAdmin = adminLogin.getId() == 1? true : false;
 					request.getSession().setAttribute("isAdmin", isAdmin);
 					
 					if(isAdmin) {
 						request.getSession().setAttribute("adminOffice", "Administrador");
-						// Poderia ter um identificador no banco de dados para foto de perfil
-						request.getSession().setAttribute("adminImg", "assets/images/faces/face.jpg");
 					}
-					else if(adminLogin.getPhoto() != null && !adminLogin.getPhoto().equals("null")){
-						
+					else{
 						request.getSession().setAttribute("adminOffice", "Usuário");
-						
-						//Foto do banco de dados
-						request.getSession().setAttribute("adminImg", adminLogin.getPhoto());
-						
-					}else {
-						request.getSession().setAttribute("adminOffice", "Usuário");
-						// Foto padrão de sistema
-						request.getSession().setAttribute("adminImg", "assets/images/faces/logo.png");
 					}
 
 					// Se o usuário não tentou acessar nenhuma page antes da tela de login redirecionar a main

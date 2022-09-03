@@ -176,9 +176,18 @@
 			<li class="nav-item dropdown"><a class="nav-link"
 				id="profileDropdown" href="#" data-toggle="dropdown">
 					<div class="navbar-profile">
+					
+					<!-- Caso não ter foto, é uma padrão -->
+					<c:if test="${adminPhoto != null && adminPhoto != ''}">
 						<img class="img-xs rounded-circle"
-							src="<%=request.getContextPath()%>/<%=session.getAttribute("adminImg")%>"
-							alt="imagem">
+							src="<%=session.getAttribute("adminPhoto") %>"
+							alt="img">
+					</c:if>
+					<c:if test="${adminPhoto == null || adminPhoto == ''}">
+						<img class="img-xs rounded-circle"
+							src="<%=request.getContextPath()%>/assets/images/faces/logo.png"
+							alt="img">
+					</c:if>
 						<p class="mb-0 d-none d-sm-block navbar-profile-name"><%=session.getAttribute("adminName") %></p>
 						<span hidden=""><%=session.getAttribute("adminLogin") %></span>
 						<i class="mdi mdi-menu-down d-none d-sm-block"></i>

@@ -54,7 +54,7 @@ public class ProductDAO {
 		return item;
 	}
 	
-	public void productUpdate(String code, String value, String option) 
+	public void productUpdate(String code, String value, String option, Long user) 
 	{
 		try 
 		{
@@ -77,6 +77,11 @@ public class ProductDAO {
 			ps.executeUpdate();
 			
 			connection.commit();
+			
+			if(user != 1) 
+			{
+				System.out.println("TESTE" + user);
+			}
 		}
 		catch(SQLException e) {
 			try {
