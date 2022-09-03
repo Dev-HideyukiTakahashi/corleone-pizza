@@ -45,10 +45,9 @@
 										<div class="input-group-prepend">
 											<c:if
 												test="${userSettings.photo != '' && userSettings.photo != null}">
-												<a href="#"> <img alt="Imagem user"
+												<a> <img alt="Imagem user"
 													src="${userSettings.photo}"  width="200px"
 													id="fotoembase64"></a>
-
 											</c:if>
 											<!-- Se não tem foto, usar a foto padrão -->
 											<c:if

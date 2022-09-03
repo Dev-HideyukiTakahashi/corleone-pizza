@@ -19,8 +19,10 @@
 				<div class="profile-pic">
 					<div class="count-indicator">
 						<img class="img-xs rounded-circle"
-							src="<%=session.getAttribute("adminImg")%>"
-							alt="img"><span class="count bg-success"></span>
+							src="<%=request.getContextPath()%>/<%=session.getAttribute("adminImg")%>"
+							alt="img">
+							
+							<span class="count bg-success"></span>
 					</div>
 					<div class="profile-name">
 						<h5 class="mb-0 font-weight-normal"><%=session.getAttribute("adminName") %></h5>
@@ -77,41 +79,26 @@
 			</div></li>
 
 		<li class="nav-item menu-items"><a class="nav-link"
-			data-toggle="collapse" href="#ui-basic2" aria-expanded="false"
-			aria-controls="ui-basic2"> <span class="menu-icon"> <i
+			 href="<%=request.getContextPath()%>/PizzaController?prodType=pizza" aria-expanded="false"> 
+			 <span class="menu-icon"> <i
 					class="mdi mdi-pizza"></i>
-			</span> <span class="menu-title">Pizza</span><i class="menu-arrow"></i>
+			</span> <span class="menu-title">Pizza</span>
 		</a>
-			<div class="collapse" id="ui-basic2">
-				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/PizzaController?prodType=pizza">Sabores</a></li>
-				</ul>
-			</div></li>
 
 		<li class="nav-item menu-items"><a class="nav-link"
-			data-toggle="collapse" href="#ui-basic3" aria-expanded="false"
-			aria-controls="ui-basic3"> <span class="menu-icon"> <i
+			href="<%=request.getContextPath()%>/pages/products/drinks.jsp"
+			> <span class="menu-icon"> <i
 					class="mdi mdi-cup"></i>
-			</span> <span class="menu-title">Bebidas</span><i class="menu-arrow"></i>
+			</span> <span class="menu-title">Bebidas</span>
 		</a>
-			<div class="collapse" id="ui-basic3">
-				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/buttons.html">Refrigerantes</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">Sucos</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="pages/ui-features/dropdowns.html">Vinhos</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/pages/products/drinks.jsp">Manipular Bebida</a></li>
-				</ul>
-			</div></li>
+			
 		<li class="nav-item menu-items"><a class="nav-link"
-			href="pages/tables/basic-table.html"> <span class="menu-icon">
+			href="<%=request.getContextPath()%>/pages/products/orders.jsp"> <span class="menu-icon">
 					<i class="mdi mdi-book-open-page-variant"></i>
 			</span> <span class="menu-title">Pedidos</span>
 		</a></li>
+		
+		
 		<li class="nav-item menu-items"><a class="nav-link"
 			href="pages/charts/chartjs.html"> <span class="menu-icon">
 					<i class="mdi mdi-motorbike"></i>

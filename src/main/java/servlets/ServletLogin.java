@@ -216,7 +216,7 @@ public class ServletLogin extends HttpServlet
 					if(isAdmin) {
 						request.getSession().setAttribute("adminOffice", "Administrador");
 						// Poderia ter um identificador no banco de dados para foto de perfil
-						request.getSession().setAttribute("adminImg", "/assets/images/faces/face.jpg");
+						request.getSession().setAttribute("adminImg", "assets/images/faces/face.jpg");
 					}
 					else if(adminLogin.getPhoto() != null && !adminLogin.getPhoto().equals("null")){
 						
@@ -228,7 +228,7 @@ public class ServletLogin extends HttpServlet
 					}else {
 						request.getSession().setAttribute("adminOffice", "Usuário");
 						// Foto padrão de sistema
-						request.getSession().setAttribute("adminImg", "/assets/images/faces/logo.png");
+						request.getSession().setAttribute("adminImg", "assets/images/faces/logo.png");
 					}
 
 					// Se o usuário não tentou acessar nenhuma page antes da tela de login redirecionar a main

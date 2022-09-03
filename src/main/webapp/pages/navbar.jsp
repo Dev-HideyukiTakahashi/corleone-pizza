@@ -177,7 +177,7 @@
 				id="profileDropdown" href="#" data-toggle="dropdown">
 					<div class="navbar-profile">
 						<img class="img-xs rounded-circle"
-							src="<%=session.getAttribute("adminImg")%>"
+							src="<%=request.getContextPath()%>/<%=session.getAttribute("adminImg")%>"
 							alt="imagem">
 						<p class="mb-0 d-none d-sm-block navbar-profile-name"><%=session.getAttribute("adminName") %></p>
 						<span hidden=""><%=session.getAttribute("adminLogin") %></span>
