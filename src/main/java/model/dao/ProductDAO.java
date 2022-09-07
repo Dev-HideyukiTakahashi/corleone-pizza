@@ -147,7 +147,7 @@ public class ProductDAO {
 		assembler.setProdPrice(rs.getDouble(("price")));
 		assembler.setProdPriceFormatter(formatter.format(value));
 		assembler.setProdType(rs.getString("type_item"));
-		assembler.setProdCode(rs.getString("code"));
+		assembler.setProdCode(rs.getInt("code"));
  
 		return assembler;
 	}

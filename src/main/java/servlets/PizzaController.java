@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,10 +60,12 @@ public class PizzaController extends HttpServlet {
 			// Responsável por carregar dinamicamente a pagina 'sabores'
 			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("pizza")) 
 			{
-				List<Product> items = new ArrayList<>();
+				List<Product> items = productDAO.productSearch(prodType);
 				
-				items = productDAO.productSearch(prodType);
-				
+				Collections.sort(items);
+				for(Product p : items) {
+					System.out.println(p.getProdCode());
+				}
 				// Checando se o usuário logado é userAdmin(ID: 1)
 				isAdmin = connectedId.getUserConnected(request) == 1L ? true : false;
 				

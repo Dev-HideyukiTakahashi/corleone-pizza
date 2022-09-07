@@ -1,13 +1,15 @@
 package model.entities;
 
-public class Product {
+import java.util.Objects;
+
+public class Product implements Comparable<Product> {
 
 	private String prodName;
 	private String prodDescription;
 	private Double prodPrice;
 	private String prodPriceFormatter; // Formatador de vírgula para exibir na tela
 	private String prodType;
-	private String prodCode;
+	private Integer prodCode;
 
 	public Product() {
 
@@ -20,11 +22,11 @@ public class Product {
 		this.prodType = prodType;
 	}
 
-	public String getProdCode() {
+	public Integer getProdCode() {
 		return prodCode;
 	}
 
-	public void setProdCode(String prodCode) {
+	public void setProdCode(Integer prodCode) {
 		this.prodCode = prodCode;
 	}
 
@@ -66,6 +68,12 @@ public class Product {
 
 	public void setProdPriceFormatter(String prodPriceFormatter) {
 		this.prodPriceFormatter = prodPriceFormatter;
+	}
+
+	@Override
+	public int compareTo(Product o) {
+
+		return this.getProdCode().compareTo(o.getProdCode());
 	}
 
 }
