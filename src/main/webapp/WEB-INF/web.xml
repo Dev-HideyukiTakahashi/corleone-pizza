@@ -98,4 +98,14 @@
     <servlet-name>PizzaController</servlet-name>
     <url-pattern>/PizzaController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LogController</display-name>
+    <servlet-name>LogController</servlet-name>
+    <servlet-class>servlets.LogController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogController</servlet-name>
+    <url-pattern>/log</url-pattern>
+  </servlet-mapping>
 </web-app>

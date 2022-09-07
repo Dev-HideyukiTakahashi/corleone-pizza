@@ -26,54 +26,9 @@
 		<ul class="navbar-nav navbar-nav-right">
 			<li class="nav-item dropdown d-none d-lg-block"><a
 				class="nav-link btn btn-success create-new-button"
-				id="createbuttonDropdown" data-toggle="dropdown"
-				aria-expanded="false" href="#">+ Novo Pedido</a>
-				<div
-					class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-					aria-labelledby="createbuttonDropdown">
-					<h6 class="p-3 mb-0">Novo Pedido</h6>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item preview-item" href="<%=request.getContextPath()%>/pages/clients/register.jsp">
-						<div class="preview-thumbnail">
-							<div class="preview-icon bg-dark rounded-circle" >
-								<i class="mdi mdi-account-plus text-primary"></i>
-							</div>
-						</div>
-
-						<div class="preview-item-content">
-							<p class="preview-subject ellipsis mb-1">Cliente Novo</p>
-						</div>
-					</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item preview-item">
-						<div class="preview-thumbnail">
-							<div class="preview-icon bg-dark rounded-circle">
-								<i class="mdi mdi-account-box text-info"></i>
-							</div>
-						</div>
-						<div class="preview-item-content">
-							<p class="preview-subject ellipsis mb-1">Cliente Registrado</p>
-						</div>
-					</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item preview-item">
-						<div class="preview-thumbnail">
-							<div class="preview-icon bg-dark rounded-circle">
-								<i class="mdi mdi-lead-pencil text-danger"></i>
-							</div>
-						</div>
-						<div class="preview-item-content">
-							<p class="preview-subject ellipsis mb-1">Feedback</p>
-						</div>
-					</a>
-					<div class="dropdown-divider"></div>
-					<p class="p-3 mb-0 text-center"></p>
-				</div></li>
-
-
-
-
-
+				id="createbuttonDropdown" aria-expanded="false"
+				href="<%=request.getContextPath()%>/pages/orders/checkout.jsp">+
+					Pedido</a>
 			<li class="nav-item nav-settings d-none d-lg-block"><a
 				class="nav-link" href="#"> <i class="mdi mdi-pizza"></i>
 			</a></li>
@@ -176,21 +131,20 @@
 			<li class="nav-item dropdown"><a class="nav-link"
 				id="profileDropdown" href="#" data-toggle="dropdown">
 					<div class="navbar-profile">
-					
-					<!-- Caso não ter foto, é uma padrão -->
-					<c:if test="${adminPhoto != null && adminPhoto != ''}">
-						<img class="img-xs rounded-circle"
-							src="<%=session.getAttribute("adminPhoto") %>"
-							alt="img">
-					</c:if>
-					<c:if test="${adminPhoto == null || adminPhoto == ''}">
-						<img class="img-xs rounded-circle"
-							src="<%=request.getContextPath()%>/assets/images/faces/logo.png"
-							alt="img">
-					</c:if>
-						<p class="mb-0 d-none d-sm-block navbar-profile-name"><%=session.getAttribute("adminName") %></p>
-						<span hidden=""><%=session.getAttribute("adminLogin") %></span>
-						<i class="mdi mdi-menu-down d-none d-sm-block"></i>
+
+						<!-- Caso não ter foto, é uma padrão -->
+						<c:if test="${adminPhoto != null && adminPhoto != ''}">
+							<img class="img-xs rounded-circle"
+								src="<%=session.getAttribute("adminPhoto")%>" alt="img">
+						</c:if>
+						<c:if test="${adminPhoto == null || adminPhoto == ''}">
+							<img class="img-xs rounded-circle"
+								src="<%=request.getContextPath()%>/assets/images/faces/logo.png"
+								alt="img">
+						</c:if>
+						<p class="mb-0 d-none d-sm-block navbar-profile-name"><%=session.getAttribute("adminName")%></p>
+						<span hidden=""><%=session.getAttribute("adminLogin")%></span> <i
+							class="mdi mdi-menu-down d-none d-sm-block"></i>
 					</div>
 			</a>
 				<div
@@ -200,20 +154,22 @@
 					<div class="dropdown-divider"></div>
 					<!-- O admin não tem acesso a configurações de conta  -->
 					<c:if test="${!isAdmin}">
-					<a class="dropdown-item preview-item" href="<%=request.getContextPath()%>/login?action=settings">
-						<div class="preview-thumbnail">
-							<div class="preview-icon bg-dark rounded-circle">
-								<i class="mdi mdi-settings text-success"></i>
+						<a class="dropdown-item preview-item"
+							href="<%=request.getContextPath()%>/login?action=settings">
+							<div class="preview-thumbnail">
+								<div class="preview-icon bg-dark rounded-circle">
+									<i class="mdi mdi-settings text-success"></i>
+								</div>
 							</div>
-						</div>
-						<div class="preview-item-content">
-							<p class="preview-subject mb-1">Configurações</p>
-						</div>
-					</a>
+							<div class="preview-item-content">
+								<p class="preview-subject mb-1">Configurações</p>
+							</div>
+						</a>
 					</c:if>
-					
+
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item preview-item" href="<%=request.getContextPath()%>/login?action=logout">
+					<a class="dropdown-item preview-item"
+						href="<%=request.getContextPath()%>/login?action=logout">
 						<div class="preview-thumbnail">
 							<div class="preview-icon bg-dark rounded-circle">
 								<i class="mdi mdi-logout text-danger"></i>

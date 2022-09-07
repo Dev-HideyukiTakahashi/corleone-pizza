@@ -5,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import config.DatabaseConnection;
+import model.entities.Admin;
 import model.entities.Product;
 
 public class ProductDAO {
@@ -54,7 +57,7 @@ public class ProductDAO {
 		return item;
 	}
 	
-	public void productUpdate(String code, String value, String option, Long user) 
+	public void productUpdate(String code, String value, String option, Admin user) 
 	{
 		try 
 		{
@@ -78,10 +81,22 @@ public class ProductDAO {
 			
 			connection.commit();
 			
-			if(user != 1) 
+			// Se algum usuário diferente do admin alterar dados, registro no log
+			if(user != null && user.getId() != 1) 
 			{
-				System.out.println("TESTE" + user);
-			}
+				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+				
+				LocalDateTime date = LocalDateTime.now();
+				String log = "Usuário '"+user.getAdminName()+"', alterou dados do produto:\nCódigo: "
+						+ code +"\nNome alterado: '" + value + "'";
+				
+				sql = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
+				ps = connection.prepareStatement(sql);
+				ps.setString(1, dateFormat.format(date));
+				ps.setString(2, log);
+				ps.execute();
+				connection.commit();
+		    }
 		}
 		catch(SQLException e) {
 			try {
