@@ -51,7 +51,11 @@ public class Order {
 	}
 
 	public void addProduct(Product product) {
-		this.products.add(product);
+		products.add(product);
+	}
+	
+	public Integer getProductItem() {
+		return products.get(0).getProdCode();
 	}
 
 	public void removeProduct(Product product) {

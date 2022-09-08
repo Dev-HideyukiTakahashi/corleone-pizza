@@ -23,7 +23,6 @@
 
 			<div class="main-panel">
 				<div class="content-wrapper">
-
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
@@ -41,7 +40,7 @@
 										<thead>
 											<tr>
 												<th>Produto</th>
-												<th>Observações</th>
+												<th>Descrição</th>
 												<th>Valor</th>
 												<th>Excluir</th>
 											</tr>
@@ -50,9 +49,9 @@
 											<c:forEach items="${products}" var="p">
 												<tr>
 													<td><c:out value="${p.prodName}"></c:out></td>
-													<td><c:out value="${p.prodName}"></c:out></td>
+													<td><c:out value="${p.prodDescription}"></c:out></td>
 													<td><c:out value="${p.prodPrice}"></c:out></td>
-													<td class="text-center"><a
+													<td><a
 														href="<%=request.getContextPath()%>/order?action=checkout&delete=delete&delCode=${p.prodCode}"><img
 															src="<%=request.getContextPath()%>/assets/images/file-icons/delete.png"
 															alt='Deletar' /></a></td>
@@ -95,12 +94,15 @@
 										</tbody>
 									</table>
 								</div>
+								<label for="exampleTextarea1" style="margin-top: 15px">Observações</label>
+								<input class="form-control" name="comments" id="comments">
+								<form  action="<%=request.getContextPath()%>/order?action=final" id="form-final"></form>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-12 stretch-card">
-						<a class="nav-link btn btn-success create-new-button"
-							id="createbuttonDropdown" aria-expanded="false" href="#">
+						<a class="nav-link btn btn-success create-new-button" onclick="submitComments()" aria-expanded="false"
+							href="">
 							Finalizar Pedido</a>
 					</div>
 
@@ -110,5 +112,30 @@
 		</div>
 		<jsp:include page="../javascript.jsp" />
 	</div>
+	
+	<script type="text/javascript">
+	function submitComments() {
+		
+		let commentsView  = $('#comments').val();
+		let urlAction 	  = document.getElementById('form-final').action;
+		
+		$.ajax({
+			method : "GET",
+			url    : urlAction,
+			data   : 
+			{
+				comments 	  : commentsView,
+			},
+		    success : function() 
+		    {
+		    	alert("Pedido confirmado com sucesso!");
+		    	window.location.href = "<%=request.getContextPath()%>/pages/main.jsp";
+			},
+		}).fail(function(xhr, status, errorThrown) {
+			alert('Erro inesperado, tente novamente');
+		});
+		
+	}
+	</script>
 </body>
 </html>

@@ -1,8 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,8 +8,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.ClientDAO;
+import model.dao.OrderDAO;
 import model.dao.ProductDAO;
 import model.entities.Client;
+import model.entities.Order;
 import model.entities.Product;
 
 /**
@@ -23,8 +23,9 @@ public class OrderController extends HttpServlet {
 
 	private ProductDAO productDao = new ProductDAO();
 	private ClientDAO clientDao   = new ClientDAO();
+	private OrderDAO orderDAO	  = new OrderDAO();
 	
-	private static List<Product> products = new ArrayList<>();
+	private static Order order = new Order();
 	private static Client client;
 	
 
@@ -45,13 +46,13 @@ public class OrderController extends HttpServlet {
 
 				if(prodCode != null) {
 					Product product = productDao.productByCode(prodCode);
-					products.add(product);
+					order.addProduct(product);
 				}
 				
 				if(delete != null && !delete.isEmpty() && delete.equalsIgnoreCase("delete"))
 				{
 					Product product = productDao.productByCode(delCode);
-					products.remove(product);
+					order.removeProduct(product);
 				}
 				
 				if(clientId != null && !clientId.isEmpty()) {
@@ -59,11 +60,22 @@ public class OrderController extends HttpServlet {
 				}
 				
 				request.setAttribute("client", client);
-				request.setAttribute("products", products);
+				request.setAttribute("products", order.getProducts());
 
 				RequestDispatcher redirect = request.getRequestDispatcher("/pages/orders/checkout.jsp");
 				redirect.forward(request, response);
 			}
+			
+			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("final")) 
+			{
+				String comments = request.getParameter("comments");
+				
+				orderDAO.insert(comments, client, order);
+				
+				order.getProducts().clear();
+				client = new Client();
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
