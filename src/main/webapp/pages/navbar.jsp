@@ -27,10 +27,10 @@
 			<li class="nav-item dropdown d-none d-lg-block"><a
 				class="nav-link btn btn-success create-new-button"
 				id="createbuttonDropdown" aria-expanded="false"
-				href="<%=request.getContextPath()%>/pages/orders/checkout.jsp">+
+				href="<%=request.getContextPath()%>/order?action=checkout">+
 					Pedido</a>
 			<li class="nav-item nav-settings d-none d-lg-block"><a
-				class="nav-link" href="#"> <i class="mdi mdi-pizza"></i>
+				class="nav-link" href="<%=request.getContextPath()%>/PizzaController?prodType=pizza"> <i class="mdi mdi-pizza"></i>
 			</a></li>
 
 			<li class="nav-item dropdown border-left"><a

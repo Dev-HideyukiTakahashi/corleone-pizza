@@ -98,7 +98,6 @@ public class ServletLogin extends HttpServlet
 			{
 				List<Admin> users = new ArrayList<>();
 				users = adminDAO.userSearchAll();
-				
 				request.setAttribute("userData", users); 
 				request.setAttribute("userDataSize", users.size()); 
 				RequestDispatcher redireciona = request.getRequestDispatcher("pages/listuser.jsp");

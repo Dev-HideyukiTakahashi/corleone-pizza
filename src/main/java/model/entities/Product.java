@@ -72,8 +72,24 @@ public class Product implements Comparable<Product> {
 
 	@Override
 	public int compareTo(Product o) {
-
 		return this.getProdCode().compareTo(o.getProdCode());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(prodCode);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(prodCode, other.prodCode);
 	}
 
 }

@@ -1,15 +1,8 @@
 package servlets;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,12 +11,16 @@ import model.dao.ProductDAO;
 import model.entities.Admin;
 import model.entities.Product;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
- * Mapeado em sistema: /pizzas 
- * Servlet para manipular os dados das pizzas
+ *  /drink
  */
-public class PizzaController extends HttpServlet {
-	
+public class DrinkController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	// Classe utilitária para guardar o id de qual usuário está logado em sistema
@@ -32,7 +29,7 @@ public class PizzaController extends HttpServlet {
 	private ProductDAO productDAO = new ProductDAO();
 	private AdminDAO   adminDAO	  = new AdminDAO();
 	
-	public PizzaController() {
+	public DrinkController() {
 		super();
 	}
 
@@ -58,7 +55,7 @@ public class PizzaController extends HttpServlet {
 
 			// Enviando requisição com lista de todos os produtos de acordo com filtro
 			// Responsável por carregar dinamicamente a pagina 'sabores'
-			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("pizza")) 
+			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("drink")) 
 			{
 				List<Product> items = productDAO.productSearch(prodType);
 				
@@ -69,9 +66,9 @@ public class PizzaController extends HttpServlet {
 				// Checando se o usuário logado é userAdmin(ID: 1)
 				isAdmin = connectedId.getUserConnected(request) == 1L ? true : false;
 				
-				request.setAttribute("pizzaData", items);
+				request.setAttribute("drinkData", items);
 				request.setAttribute("isAdmin", isAdmin);
-				RequestDispatcher redireciona = request.getRequestDispatcher("pages/products/pizzas.jsp");
+				RequestDispatcher redireciona = request.getRequestDispatcher("pages/products/drinks.jsp");
 				redireciona.forward(request, response);		
 			}
 		}
@@ -125,7 +122,7 @@ public class PizzaController extends HttpServlet {
 			
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("insert")) {
 				Double price    = Double.parseDouble(newPrice.replace(",", ".").replace("-", "."));
-				Product product = new Product(newName, newDescription, price, "Pizza");
+				Product product = new Product(newName, newDescription, price, "Drink");
 				
 				productDAO.productInsert(product);
 			}
@@ -138,5 +135,5 @@ public class PizzaController extends HttpServlet {
 		}
 		
 	}
-	
+
 }

@@ -42,7 +42,7 @@ public class ServletSearch extends HttpServlet {
 			List<Client> client = new ArrayList<>();
 			
 			// Enviando requisição com lista de todos os clientes
-			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchList")) 
+			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchAll")) 
 			{
 				
 				client = clientDAO.clientSearchAll(connectedId.getUserConnected(request));

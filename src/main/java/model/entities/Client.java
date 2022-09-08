@@ -7,17 +7,35 @@ public class Client {
 	private String email;
 	private String adress;
 	private String reference;
+	private Order order;
+	private Long id;
 
 	public Client() {
 
 	}
 
 	public Client(String name, String phone, String email, String adress, String reference) {
-		this.name      = name;
-		this.phone     = phone;
-		this.email     = email;
-		this.adress    = adress;
+		this.name = name;
+		this.phone = phone;
+		this.email = email;
+		this.adress = adress;
 		this.reference = reference;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public String getName() {
@@ -59,5 +77,5 @@ public class Client {
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-	
+
 }

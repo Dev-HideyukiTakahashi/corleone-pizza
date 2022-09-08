@@ -96,6 +96,7 @@ public class ClientDAO {
 			while (rs.next()) 
 			{
 				clientFound.add(clientAssembler(rs));
+				
 			}
 		} 
 		catch (SQLException e) 
@@ -103,6 +104,22 @@ public class ClientDAO {
 			e.printStackTrace();
 		}
 		return clientFound;
+	}
+	
+	//Buscando cliente por telefone
+	public Client clientById(Long id) throws SQLException 
+	{
+		String sql 		     = "SELECT * FROM client WHERE id = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setLong(1, id);
+		ResultSet rs 	     = ps.executeQuery();
+		
+		Client client = new Client();
+		while(rs.next()) {
+			client = clientAssembler(rs);
+		}
+		
+		return client;
 	}
 	
 	// Buscando todos cliente para gerar a lista dinâmica na página find.jsp
@@ -194,6 +211,7 @@ public class ClientDAO {
 		assembler.setEmail(rs.getString("email"));
 		assembler.setAdress(rs.getString("adress"));
 		assembler.setReference(rs.getString("reference"));
+		assembler.setId(rs.getLong("id"));
 
 		return assembler;
 	}

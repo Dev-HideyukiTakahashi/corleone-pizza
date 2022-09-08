@@ -30,6 +30,9 @@ public class ProductDAO {
 		if(prodType.equals("pizza") || prodType == "pizza") {
 			sql = "SELECT * FROM products WHERE type_item = 'Pizza'";
 		}
+		if(prodType.equals("drink") || prodType == "drink") {
+			sql = "SELECT * FROM products WHERE type_item = 'Drink'";
+		}
 		
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ResultSet rs 	     = ps.executeQuery();
@@ -109,20 +112,19 @@ public class ProductDAO {
 	}
 	
 	
-	public void productInsert(Product pizza) 
+	public void productInsert(Product prod) 
 	{
 		
-
 		try 
 		{
 			String sql = "INSERT INTO products(item, description, price, type_item) VALUES (?, ?, ?, ?)";
 			
 			PreparedStatement ps;
 			ps = connection.prepareStatement(sql);
-			ps.setString(1, pizza.getProdName());
-			ps.setString(2, pizza.getProdDescription());
-			ps.setDouble(3, pizza.getProdPrice());
-			ps.setString(4, pizza.getProdType());
+			ps.setString(1, prod.getProdName());
+			ps.setString(2, prod.getProdDescription());
+			ps.setDouble(3, prod.getProdPrice());
+			ps.setString(4, prod.getProdType());
 			ps.execute();
 			
 			connection.commit();

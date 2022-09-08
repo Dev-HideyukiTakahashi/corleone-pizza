@@ -24,7 +24,8 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 
-					<form action="<%=request.getContextPath()%>/search" id="form-search"></form></form>
+					<form action="<%=request.getContextPath()%>/search" id="form-search"></form>
+					<form action="<%=request.getContextPath()%>/order?action=checkout&clientId=" id="form-order"></form>
 					
 					<form action="<%=request.getContextPath()%>/assets/images/favicon.png" id="form-img"></form>
 					<!-- Inicio do corpo com campos busca -->
@@ -185,11 +186,13 @@
 					
 					//Recuperando o contexto para imagem na tabela
 					let img = document.getElementById('form-img').action;
+					//Recuperando o contexto para inserir client na page 'order'
+					let clientData = document.getElementById('form-order').action;
 					// Populando os campos do resultado de busca
 					for(let p = 0; p < json.length; p ++)
 					{
 						$('#clientFound').append
-						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1'><a href='#'><img src='"+img+"' alt='Pedir' /></a></td></tr>");
+						("<tr><td>"+ json[p].name + "</td><td>" + json[p].phone +"</td><td>" + json[p].adress + "</td><td>"+ json[p].reference + "</td><td class='py-1'><a id='btn-data' href='"+ clientData + json[p].id +"' ><img src='"+img+"' alt='Pedir' /></a></td></tr>");
 					}	
 				}
 
@@ -198,6 +201,15 @@
 				});
 			}
 		}
+	</script>
+	
+	
+	<!-- Script para preencher os dados do client no pedido -->
+	<script type="text/javascript">
+		function clientData() {
+			$('btn-data').prop("href", "/order");
+		}
+	
 	</script>
 	
 	<!-- Script para fechar a janela modal -->

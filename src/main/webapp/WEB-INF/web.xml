@@ -108,4 +108,24 @@
     <servlet-name>LogController</servlet-name>
     <url-pattern>/log</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>OrderController</display-name>
+    <servlet-name>OrderController</servlet-name>
+    <servlet-class>servlets.OrderController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderController</servlet-name>
+    <url-pattern>/order</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DrinkController</display-name>
+    <servlet-name>DrinkController</servlet-name>
+    <servlet-class>servlets.DrinkController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DrinkController</servlet-name>
+    <url-pattern>/drink</url-pattern>
+  </servlet-mapping>
 </web-app>

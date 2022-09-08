@@ -51,13 +51,34 @@
 									<div class="row">
 										<div class="col-9">
 											<div class="d-flex align-items-center align-self-start">
-												<h3 class="mb-0">R$39,99</h3>
-												<p class="text-success ml-2 mb-0 font-weight-medium">cod:1</p>
+												<h3 class="mb-0">R$29,99</h3>
+												<p class="text-success ml-2 mb-0 font-weight-medium">cod:19</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="icon icon-box-success ">
-												<span class="mdi mdi-arrow-top-right icon-item"></span>
+												<a href="<%=request.getContextPath()%>/order?action=checkout&prodCode=19" class="text-success"><span class="mdi mdi-arrow-top-right icon-item"></span></a>
+											</div>
+										</div>
+									</div>
+									<h6 class="text-muted font-weight-normal">Mussarela</h6>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-9">
+											<div class="d-flex align-items-center align-self-start">
+												<h3 class="mb-0">R$39,99</h3>
+												<p class="text-success ml-2 mb-0 font-weight-medium">cod:9</p>
+											</div>
+										</div>
+										<div class="col-3">
+											<div class="icon icon-box-success ">
+												<a href="<%=request.getContextPath()%>/order?action=checkout&prodCode=9" class="text-success"><span class="mdi mdi-arrow-top-right icon-item"></span></a>
 											</div>
 										</div>
 									</div>
@@ -73,33 +94,12 @@
 										<div class="col-9">
 											<div class="d-flex align-items-center align-self-start">
 												<h3 class="mb-0">R$39,99</h3>
-												<p class="text-success ml-2 mb-0 font-weight-medium">cod:2</p>
+												<p class="text-success ml-2 mb-0 font-weight-medium">cod:14</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="icon icon-box-success ">
-												<span class="mdi mdi-arrow-top-right icon-item"></span>
-											</div>
-										</div>
-									</div>
-									<h6 class="text-muted font-weight-normal">Portuguesa</h6>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-9">
-											<div class="d-flex align-items-center align-self-start">
-												<h3 class="mb-0">R$46,99</h3>
-												<p class="text-success ml-2 mb-0 font-weight-medium">cod:3</p>
-											</div>
-										</div>
-										<div class="col-3">
-											<div class="icon icon-box-success ">
-												<span class="mdi mdi-arrow-top-right icon-item"></span>
+												<a href="<%=request.getContextPath()%>/order?action=checkout&prodCode=14" class="text-success"><span class="mdi mdi-arrow-top-right icon-item"></span></a>
 											</div>
 										</div>
 									</div>
@@ -115,17 +115,17 @@
 									<div class="row">
 										<div class="col-9">
 											<div class="d-flex align-items-center align-self-start">
-												<h3 class="mb-0">R$46,99</h3>
-												<p class="text-success ml-2 mb-0 font-weight-medium">cod:12</p>
+												<h3 class="mb-0">R$49,99</h3>
+												<p class="text-success ml-2 mb-0 font-weight-medium">cod:24</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="icon icon-box-success ">
-												<span class="mdi mdi-arrow-top-right icon-item"></span>
+												<a href="<%=request.getContextPath()%>/order?action=checkout&prodCode=24" class="text-success"><span class="mdi mdi-arrow-top-right icon-item"></span></a>
 											</div>
 										</div>
 									</div>
-									<h6 class="text-muted font-weight-normal">Mussarela</h6>
+									<h6 class="text-muted font-weight-normal">Portuguesa</h6>
 								</div>
 							</div>
 						</div>

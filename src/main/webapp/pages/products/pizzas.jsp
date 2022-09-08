@@ -58,7 +58,7 @@
 													<td class="text-secondary"><button class="mdi mdi-lead-pencil" onclick="modelView(${pd.prodCode}, 'name');" style="margin-right: 10px"></button><c:out value="${pd.prodName}"></c:out></td>
 													<td class="text-secondary"><c:if test="${isAdmin}"><button class="mdi mdi-lead-pencil" onclick="modelView(${pd.prodCode}, 'description');" style="margin-right: 10px"></button></c:if><c:out value="${pd.prodDescription}"></c:out></td>
 													<td class="text-success"><c:if test="${isAdmin}"><button class="mdi mdi-lead-pencil" onclick="modelView(${pd.prodCode}, 'price');" style="margin-right: 10px"></button></c:if><c:out value="${pd.prodPrice}"></c:out></td>
-													<td class='py-1'><a href='#'><img src='<%=request.getContextPath()%>/assets/images/favicon.png' alt='Pedir' /></a></td>
+													<td class='py-1'><a href='<%=request.getContextPath()%>/order?action=checkout&prodCode=${pd.prodCode}'><img src='<%=request.getContextPath()%>/assets/images/favicon.png' alt='Pedir' /></a></td>
 												</tr>
 											</c:forEach>
 										</tbody>
