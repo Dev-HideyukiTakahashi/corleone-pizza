@@ -113,7 +113,7 @@ public class OrderDAO {
 				lastIdx = list.size() - 1;
 				
 			}
-			else if(list.size() > 1 && list.get(lastIdx).getOrderCode() == orderCode) // se tiver elemento com mesmo código de pedido
+			else if(list.get(lastIdx).getOrderCode() == orderCode) // se tiver elemento com mesmo código de pedido
 			{
 				Product product = new Product();
 				product.setProdCode(rs.getInt("code"));
