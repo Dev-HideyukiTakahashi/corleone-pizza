@@ -128,4 +128,14 @@
     <servlet-name>DrinkController</servlet-name>
     <url-pattern>/drink</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MotoboyController</display-name>
+    <servlet-name>MotoboyController</servlet-name>
+    <servlet-class>servlets.MotoboyController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MotoboyController</servlet-name>
+    <url-pattern>/motoboy</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -108,7 +108,7 @@
 
 
 		<li class="nav-item menu-items"><a class="nav-link"
-			href="pages/charts/chartjs.html"> <span class="menu-icon">
+			href="<%=request.getContextPath()%>/motoboy?action=listAll"> <span class="menu-icon">
 					<i class="mdi mdi-motorbike"></i>
 			</span> <span class="menu-title">Entregadores</span>
 		</a></li>
