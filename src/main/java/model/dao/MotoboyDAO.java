@@ -42,4 +42,33 @@ public class MotoboyDAO {
 		return motoboy;
 	}
 
+	public void deleteByName(String motoboyName) throws SQLException {
+		
+		String sql           = "DELETE FROM motoboy WHERE motoboy_name = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1,motoboyName);
+		ps.executeUpdate();
+	}
+
+	public void motoboyUpdate(String type, String value, String name) throws SQLException {
+		
+		String sql;
+		PreparedStatement ps;
+		if(type.equals("adress")) {
+			sql = "UPDATE motoboy SET motoboy_adress=? WHERE motoboy_name =?";
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, value);
+			ps.setString(2, name);
+			ps.executeUpdate();
+			connection.commit();
+		}
+		else if(type.equals("phone")) {
+			sql = "UPDATE motoboy SET motoboy_phone=? WHERE motoboy_name =?";
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, value);
+			ps.setString(2, name);
+			ps.executeUpdate();
+			connection.commit();
+		}
+	}
 }

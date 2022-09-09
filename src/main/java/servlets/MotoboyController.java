@@ -24,17 +24,55 @@ public class MotoboyController extends HttpServlet {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String action = request.getParameter("action");
-		
-		if(action != null && !action.isEmpty() && action.equalsIgnoreCase("listAll"))
+		try
 		{
+			String action = request.getParameter("action");
 			
-			List<Motoboy> list = motoboyDAO.motoboySearchAll();
-			request.setAttribute("motoboyData", list);
-			RequestDispatcher redirect = request.getRequestDispatcher("/pages/motoboy/motoboy.jsp");
-			redirect.forward(request, response);
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("listAll"))
+			{
+				
+				List<Motoboy> list = motoboyDAO.motoboySearchAll();
+				
+				request.setAttribute("motoboyData", list);
+				RequestDispatcher redirect = request.getRequestDispatcher("/pages/motoboy/motoboy.jsp");
+				redirect.forward(request, response);
+			}
+			else if(action != null && !action.isEmpty() && action.equalsIgnoreCase("del"))
+			{
+				String motoboyName = request.getParameter("name");
+
+				motoboyDAO.deleteByName(motoboyName);
+				
+				List<Motoboy> list = motoboyDAO.motoboySearchAll();
+				request.setAttribute("motoboyData", list);
+				RequestDispatcher redirect = request.getRequestDispatcher("/pages/motoboy/motoboy.jsp");
+				redirect.forward(request, response);
+			}
+			else if(action != null && !action.isEmpty() && action.equalsIgnoreCase("update"))
+			{
+				String type  = request.getParameter("type");
+				String value = request.getParameter("value");
+				String name  = request.getParameter("name");
+				
+				motoboyDAO.motoboyUpdate(type, value, name);
+				
+				List<Motoboy> list = motoboyDAO.motoboySearchAll();
+				request.setAttribute("motoboyData", list);
+				RequestDispatcher redirect = request.getRequestDispatcher("/pages/motoboy/motoboy.jsp");
+				redirect.forward(request, response);
+				
+				
+			}
+			
+			
 		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
+			redirecionador.forward(request, response);
+		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
