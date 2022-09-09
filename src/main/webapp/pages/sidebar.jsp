@@ -101,7 +101,7 @@
 			</span> <span class="menu-title">Bebidas</span>
 		</a>
 		<li class="nav-item menu-items"><a class="nav-link"
-			href="<%=request.getContextPath()%>/pages/products/orders.jsp"> <span
+			href="<%=request.getContextPath()%>/order?action=listAll"> <span
 				class="menu-icon"> <i class="mdi mdi-book-open-page-variant"></i>
 			</span> <span class="menu-title">Pedidos</span>
 		</a></li>

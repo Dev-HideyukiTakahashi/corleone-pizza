@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import config.DatabaseConnection;
 import model.entities.Client;
@@ -22,16 +26,15 @@ public class OrderDAO {
 
 	
 	public void insert(String comments, Client client, Order order) throws SQLException {
-		
-		
 			
-			String sql = "INSERT INTO tb_order(comments, order_client, product_id) VALUES (?, ?, ?)";
+			String sql = "INSERT INTO tb_order(comments, order_client, product_id, order_data) VALUES (?, ?, ?, ?)";
 			
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			ps.setString(1, comments);
 			ps.setLong(2, client.getId());
 			ps.setLong(3, order.getProductItem());
+			ps.setString(4, order.getDate());
 			ps.executeUpdate();
 			connection.commit();
 			
@@ -46,7 +49,7 @@ public class OrderDAO {
 				for(int i = 1; i < order.getProducts().size(); i++) 
 				{
 					
-					sql = "INSERT INTO tb_order(order_code, comments, order_client, product_id) VALUES (?, ?, ?, ?)";
+					sql = "INSERT INTO tb_order(order_code, comments, order_client, product_id, order_data) VALUES (?, ?, ?, ?, ?)";
 					
 					ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					
@@ -54,11 +57,108 @@ public class OrderDAO {
 					ps.setString(2, comments);
 					ps.setLong(3, client.getId());
 					ps.setLong(4, order.getProducts().get(i).getProdCode());
+					ps.setString(5, order.getDate());
 					ps.executeUpdate();
 					
 					connection.commit();
 				}
 			}
+	}
+	
+	
+	public List<Order> findAll() throws SQLException
+	{
+		List<Order> list = new ArrayList<>();
+		
+		String sql = "SELECT * "
+					+ "FROM tb_order "
+					+ "INNER JOIN client "
+					+ "ON (tb_order.order_client = client.id) "
+					+ "INNER JOIN products "
+					+ "ON (tb_order.product_id = products.code)";
+		
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs		 = ps.executeQuery();
+		
+		while(rs.next())
+		{
+			Long orderCode = rs.getLong("order_code");			
+			int lastIdx = list.size() - 1;
+			
+			// Se não tiver elementos salva o primeiro
+			if(list.size() < 1) 
+			{
+				Order order = new Order();
+				
+				order.setComments(rs.getString("comments"));
+				order.setOrderCode(rs.getLong("order_code"));
+				order.setDateString((rs.getString("order_data")));
+				
+				Client client = new Client();
+				client.setId(rs.getLong("id"));
+				client.setName(rs.getString("name"));
+				client.setPhone(rs.getString("phone"));
+				client.setAdress(rs.getString("adress"));
+				client.setReference(rs.getString("reference"));
+				
+				order.setOrderClient(client);
+				
+				Product product = new Product();
+				product.setProdCode(rs.getInt("code"));
+				product.setProdName(rs.getString("item"));
+				product.setProdDescription(rs.getString("description"));
+				product.setProdPrice(rs.getDouble("price"));
+				
+				order.getProducts().add(product);
+				
+				list.add(order);
+				lastIdx = list.size() - 1;
+				
+			}
+			else if(list.size() > 1 && list.get(lastIdx).getOrderCode() == orderCode) // se tiver elemento com mesmo código de pedido
+			{
+				Product product = new Product();
+				product.setProdCode(rs.getInt("code"));
+				product.setProdName(rs.getString("item"));
+				product.setProdDescription(rs.getString("description"));
+				product.setProdPrice(rs.getDouble("price"));
+				
+				list.get(lastIdx).getProducts().add(product);
+			}
+			else 
+			{
+				Order order = new Order();
+				
+				order.setComments(rs.getString("comments"));
+				order.setOrderCode(rs.getLong("order_code"));
+				order.setDateString((rs.getString("order_data")));
+				
+				Client client = new Client();
+				client.setId(rs.getLong("id"));
+				client.setName(rs.getString("name"));
+				client.setPhone(rs.getString("phone"));
+				client.setAdress(rs.getString("adress"));
+				client.setReference(rs.getString("reference"));
+				
+				order.setOrderClient(client);
+				
+				Product product = new Product();
+				product.setProdCode(rs.getInt("code"));
+				product.setProdName(rs.getString("item"));
+				product.setProdDescription(rs.getString("description"));
+				product.setProdPrice(rs.getDouble("price"));
+				
+				order.getProducts().add(product);
+				
+				list.add(order);
+			}
+			
+		}
+		
+		return list;
 		
 	}
+	
+	
+	
 }

@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -26,7 +28,7 @@ public class OrderController extends HttpServlet {
 	private OrderDAO orderDAO	  = new OrderDAO();
 	
 	private static Order order = new Order();
-	private static Client client;
+	private static Client client = new Client();
 	
 
 	public OrderController() {
@@ -42,7 +44,8 @@ public class OrderController extends HttpServlet {
 			String clientId	    = request.getParameter("clientId");
 			String delete		= request.getParameter("delete");
 
-			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("checkout")) {
+			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("checkout")) 
+			{
 
 				if(prodCode != null) {
 					Product product = productDao.productByCode(prodCode);
@@ -70,10 +73,21 @@ public class OrderController extends HttpServlet {
 			{
 				String comments = request.getParameter("comments");
 				
+				order.setDate(LocalDateTime.now());
+				
 				orderDAO.insert(comments, client, order);
 				
 				order.getProducts().clear();
 				client = new Client();
+			}
+			
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("listAll"))
+			{
+				List<Order> listAll =  orderDAO.findAll();
+				
+				request.setAttribute("orderData", listAll);
+				RequestDispatcher redirect = request.getRequestDispatcher("/pages/orders/orders.jsp");
+				redirect.forward(request, response);
 			}
 			
 		} catch (Exception e) {

@@ -1,11 +1,15 @@
 package model.entities;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
 
 	private Long orderCode;
+	private LocalDateTime date;
+	private String dateString;
 	private String comments;
 	private Client orderClient;
 
@@ -20,6 +24,23 @@ public class Order {
 		this.orderCode = orderCode;
 		this.comments = comments;
 		this.orderClient = orderClient;
+	}
+
+	public String getDateString() {
+		return dateString;
+	}
+
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+
+	public String getDate() {
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		return dateFormat.format(date);
 	}
 
 	public String getComments() {
@@ -53,7 +74,7 @@ public class Order {
 	public void addProduct(Product product) {
 		products.add(product);
 	}
-	
+
 	public Integer getProductItem() {
 		return products.get(0).getProdCode();
 	}
@@ -62,11 +83,11 @@ public class Order {
 		products.remove(product);
 	}
 
-	public double getTotal() {
+	public String getTotal() {
 		Double total = 0.0;
 		for (Product p : products) {
 			total += p.getProdPrice();
 		}
-		return total;
+		return String.format("%.2f", total);
 	}
 }
