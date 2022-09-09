@@ -21,6 +21,10 @@ public class Client {
 		this.adress = adress;
 		this.reference = reference;
 	}
+	
+	public String getPhoneWhats() {
+		return phone.replace("-", "");
+	}
 
 	public Long getId() {
 		return id;

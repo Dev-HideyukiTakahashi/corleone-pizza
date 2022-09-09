@@ -31,6 +31,8 @@
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">Pedidos</h4>
+									<!-- Input para busca com highlights -->
+									<input id='query' class="form-control text-secondary" style="width: 50%; " autocomplete="off" placeholder='Buscar por...' type='text'>
 									<div class="table-responsive">
 										<table class="table">
 											<thead>
@@ -43,13 +45,14 @@
 													<th class="text-center">Detalhes</th>
 												</tr>
 											</thead>
-											<tbody>
+											<tbody id="client-view">
 												<c:forEach items="${orderData}" var="od">
 													<tr>
 														<td class="text-center"><c:out value="${od.orderCode }"></c:out></td>
 														<td class="text-center"><c:out value="${od.orderClient.name}"></c:out></td>
 														<td class="text-center"><c:out value="${od.getTotal()}"></c:out></td>
-														<td class="text-center"><c:out value="${od.orderClient.phone}"></c:out></td>
+														<td class="text-center"><c:out value="${od.orderClient.phone}"></c:out><a href="https://api.whatsapp.com/send?phone=${od.orderClient.getPhoneWhats()}" class="mdi mdi-whatsapp"
+														style="margin-left: 5px"></a></td>
 														<td class="text-center"><c:out value="${od.dateString}"></c:out></td>
 														
 
@@ -73,5 +76,27 @@
 		</div>
 		<jsp:include page="../javascript.jsp" />
 	</div>
+	
+			<!-- Script para busca com highlights -->
+		<script src="https://cdn.jsdelivr.net/mark.js/8.6.0/mark.min.js"></script>
+		<script type="text/javascript">
+		// cria uma instância definindo o elemento onde será "marcada" as palavras.
+		var instance = new Mark(document.getElementById('client-view'))
+	
+		function highlight(word){
+		  instance.unmark({
+		    done: function(){
+		      instance.mark(word)
+		    }
+		  })
+		}
+	
+		document
+		  .getElementById('query')
+		  .addEventListener('input', function(){
+		    highlight(this.value)
+		})
+	
+		</script>	
 </body>
 </html>

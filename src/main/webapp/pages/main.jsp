@@ -234,7 +234,7 @@
 						<div class="col-md-12 col-xl-8 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<h4 class="card-title">Anotações</h4>
+									<h4 class="card-title">Anotações do dia</h4>
 									<div class="add-items d-flex">
 										<input type="text" class="form-control todo-list-input"
 											placeholder="Digite o texto">
@@ -245,14 +245,14 @@
 											class="d-flex flex-column-reverse text-white todo-list todo-list-custom">
 											<li>
 												<div class="form-check form-check-primary">
-													<label class="form-check-label"> <input
+													<label class="form-check-label"/> <input
 														class="checkbox" type="checkbox"> Exemplo: Faltou
 														ingrediente palmito para pizza portuguesa - dia 23/05 
 												</div> <i class="remove mdi mdi-close-box"></i>
 											</li>
 											<li>
 												<div class="form-check form-check-primary">
-													<label class="form-check-label"> <input
+													<label class="form-check-label"/> <input
 														class="checkbox" type="checkbox"> Exemplo: O
 														entregador estava sem troco no pedido 221 
 												</div> <i class="remove mdi mdi-close-box"></i>

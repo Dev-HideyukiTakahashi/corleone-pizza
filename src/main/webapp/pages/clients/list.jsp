@@ -34,7 +34,7 @@
 									<h4 class="card-title">Todos Clientes Cadastrados</h4>
 									<span class="text-success h6" style="margin-left: 1%">${clientDataSize} registros de clientes</span>	
 									<!-- Input para busca com highlights -->
-									<input id='query' class="form-control text-secondary" style="width: 50%; " placeholder='Buscar por...' type='text'>
+									<input id='query' class="form-control text-secondary" autocomplete="off" style="width: 50%; " placeholder='Buscar por...' type='text'>
 									
 									<div class="table-responsive">
 										<table class="table table-striped">

@@ -34,7 +34,7 @@
 								<h4 class="card-title">Todos Sabores de Pizza</h4>
 								<div>
 									<!-- Input para busca com highlights -->
-									<input id='query' class="form-control text-secondary" style="width: 50%; " placeholder='Buscar por...' type='text'>
+									<input id='query' class="form-control text-secondary" autocomplete="off" style="width: 50%; " placeholder='Buscar por...' type='text'>
 								</div>
 							</div>
 							<!-- Checando se o usuário logado é userAdmin -->
