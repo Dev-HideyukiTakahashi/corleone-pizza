@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
@@ -84,6 +85,8 @@ public class OrderController extends HttpServlet {
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("listAll"))
 			{
 				List<Order> listAll =  orderDAO.findAll();
+				
+				Collections.sort(listAll);
 				
 				request.setAttribute("orderData", listAll);
 				RequestDispatcher redirect = request.getRequestDispatcher("/pages/orders/orders.jsp");

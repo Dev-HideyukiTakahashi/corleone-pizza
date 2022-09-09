@@ -26,7 +26,7 @@
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title">Confirmação de pedido</h4>
+								<h4 class="card-title">Confirmação de pedido*</h4>
 								<div class="col-lg-12 stretch-card mb-3">
 									<a class="nav-link btn btn-success create-new-button"
 										href="<%=request.getContextPath()%>/PizzaController?prodType=pizza">
@@ -48,7 +48,7 @@
 										<tbody class="text-secondary">
 											<c:forEach items="${products}" var="p">
 												<tr>
-													<td><c:out value="${p.prodName}"></c:out></td>
+													<td id="product-name"><c:out value="${p.prodName}"></c:out></td>
 													<td><c:out value="${p.prodDescription}"></c:out></td>
 													<td><c:out value="${p.prodPrice}"></c:out></td>
 													<td><a
@@ -67,7 +67,7 @@
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title">Confirmação de cliente</h4>
+								<h4 class="card-title">Confirmação de cliente*</h4>
 								<div class="col-lg-12 stretch-card mb-3">
 									<a class="nav-link btn btn-primary create-new-button"
 										style="margin-left: 10px;"
@@ -84,9 +84,9 @@
 												<th>Referência</th>
 											</tr>
 										</thead>
-										<tbody class="text-secondary">
+										<tbody class="text-secondary" id="client-data">
 											<tr>
-												<td>${client.name}</td>
+												<td id="client-name">${client.name}</td>
 												<td>${client.phone}</td>
 												<td>${client.adress}</td>
 												<td>${client.reference}</td>
@@ -96,13 +96,14 @@
 								</div>
 								<label for="exampleTextarea1" style="margin-top: 15px">Observações</label>
 								<input class="form-control" name="comments" id="comments">
-								<form  action="<%=request.getContextPath()%>/order?action=final" id="form-final"></form>
+								<form action="<%=request.getContextPath()%>/order?action=final"
+									id="form-final"></form>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-12 stretch-card">
-						<a class="nav-link btn btn-success create-new-button" onclick="submitComments()" aria-expanded="false"
-							href="">
+						<a class="nav-link btn btn-success create-new-button"
+							onclick="submitOrder()" aria-expanded="false">
 							Finalizar Pedido</a>
 					</div>
 
@@ -112,29 +113,71 @@
 		</div>
 		<jsp:include page="../javascript.jsp" />
 	</div>
-	
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="errorModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="errorModal">Confirmação de pedido</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onclick="closeModal();"></button>
+				</div>
+				<div class="modal-body">
+					<h4 id="modal-msg" class="text-success"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" onclick="closeModal();">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript">
-	function submitComments() {
+	function submitOrder() {
 		
-		let commentsView  = $('#comments').val();
-		let urlAction 	  = document.getElementById('form-final').action;
+		let commentsView    = $('#comments').val();
+		let urlAction 	    = document.getElementById('form-final').action;
+		let clientName      = $('#client-name').text();
+		let productName     = $('#product-name').text();
 		
-		$.ajax({
-			method : "GET",
-			url    : urlAction,
-			data   : 
-			{
-				comments 	  : commentsView,
-			},
-		    success : function() 
-		    {
-		    	alert("Pedido confirmado com sucesso!");
-		    	window.location.href = "<%=request.getContextPath()%>/pages/main.jsp";
-			},
-		}).fail(function(xhr, status, errorThrown) {
-			alert('Erro inesperado, tente novamente');
-		});
+		if(clientName === null || clientName === '' || productName === null || productName === '')
+		{
+			let msg = "Preencha todos campos obrigatórios* para realizar um pedido!";
+    		$('#errorModal').modal('show');
+    		$("#modal-msg").text(msg);
+    		document.getElementById('modal-msg').classList.add('text-danger');
+		}
+		else
+		{
+			$.ajax({
+				method : "GET",
+				url    : urlAction,
+				data   : 
+				{
+					comments 	  : commentsView,
+				},
+			    success : function() 
+			    {
+					alert("Pedido realizado com sucesso!")
+			    	window.location.href = "<%=request.getContextPath()%>/pages/main.jsp";
+				},
+				}).fail(function(xhr, status, errorThrown) {
+					alert('Erro inesperado, tente novamente');
+				});
+
+		}
 		
+		
+		}
+	</script>
+	
+	<!-- Script para fechar a janela modal -->
+	<script type="text/javascript">
+	function closeModal() {
+		$('#errorModal').modal('hide');
 	}
 	</script>
 </body>

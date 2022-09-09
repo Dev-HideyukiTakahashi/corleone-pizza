@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import config.DatabaseConnection;
@@ -75,7 +73,7 @@ public class OrderDAO {
 					+ "INNER JOIN client "
 					+ "ON (tb_order.order_client = client.id) "
 					+ "INNER JOIN products "
-					+ "ON (tb_order.product_id = products.code)";
+					+ "ON (tb_order.product_id = products.code) ORDER BY order_code";
 		
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ResultSet rs		 = ps.executeQuery();
@@ -125,7 +123,7 @@ public class OrderDAO {
 				
 				list.get(lastIdx).getProducts().add(product);
 			}
-			else 
+			else if(list.get(lastIdx).getOrderCode() != orderCode)
 			{
 				Order order = new Order();
 				

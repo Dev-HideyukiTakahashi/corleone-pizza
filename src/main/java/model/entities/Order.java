@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Order {
+public class Order implements Comparable<Order> {
 
 	private Long orderCode;
 	private LocalDateTime date;
@@ -89,5 +89,10 @@ public class Order {
 			total += p.getProdPrice();
 		}
 		return String.format("%.2f", total);
+	}
+
+	@Override
+	public int compareTo(Order o) {
+		return orderCode.compareTo(o.getOrderCode());
 	}
 }
