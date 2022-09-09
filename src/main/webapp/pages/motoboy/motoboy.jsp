@@ -33,7 +33,7 @@
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">Entregadores</h4>
-									<button class="btn-inverse-success"
+									<button class="btn-inverse-success" onclick="insertModal()"
 										style="width: 15%; margin-bottom: 15px" id="btn-insert">+
 										Entregador</button>
 									<div class="table-responsive">
@@ -83,6 +83,32 @@
 	</div>
 </body>
 
+
+<!-- Modal insert Modal -->
+	<div class="modal fade" id="insert-modal" tabindex="-1" aria-labelledby="insert-modal" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5  style="margin-left:3px" class="modal-title text-success">Adicionar novo sabor</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
+	      </div>
+	      <div class="modal-body">
+	      	<label class="text-secondary" style="margin-top: 15px">Nome</label> 
+	        <input class="form-control text-light" autocomplete="off" id="insertModal-name"></input>
+	      	<label class="text-secondary" style="margin-top: 15px">Endereço</label> 
+	        <input class="form-control text-light" autocomplete="off" id="insertModal-adress"></input>
+	      	<label class="text-secondary" style="margin-top: 15px">Telefone</label> 
+	        <input class="form-control text-light" autocomplete="off" type="text" id="insertModal-phone"></input>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Cancelar</button>
+	        <button type="button" class="btn btn-primary" onclick="insertData();" id="btn2-modal">Salvar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
 	<!-- Modal update Modal -->
 	<div class="modal fade" id="update-modal" tabindex="-1" aria-labelledby="update-modal" aria-hidden="true">
 	  <div class="modal-dialog">
@@ -116,9 +142,50 @@
 	}
 	
 	</script>
+	
+	<!-- Script para mostrar modal insert -->
+	<script type="text/javascript">
+		function insertModal() {
+			
+			$('#insert-modal').modal('show');
+			$('#updateModal-name').text('Novo entregador');
+			
+		}
+		
+		function insertData() {
+			
+			let nameInsert      = $('#insertModal-name').val();
+			let phoneInsert     = $('#insertModal-phone').val();
+			let adressInsert    = $('#insertModal-adress').val();
+			let urlAction 		= '<%=request.getContextPath()%>/motoboy';
+				
+			$.ajax
+			({
+				method : "POST",
+				url    : urlAction,
+				data   : 
+				{
+					name 	      : nameInsert,
+					phone		  : phoneInsert,
+					adress		  : adressInsert,
+				},
+			    success : function() 
+			    {
+		    		$('#insert-modal').modal('hide');
+		    		
+		    		// Recarrega a página
+		    		location.reload();
+		    		
+				},
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Erro desconhecido ao inserir dados")
+			});
+			
+		}
+	</script>
 
 
-	<!-- Script para mostrar modal -->
+	<!-- Script para mostrar modal update -->
 	<script>
 	function modelView(obj) {
 	
@@ -149,6 +216,7 @@
 	<script type="text/javascript">
 	function closeModal() {
 		$('#update-modal').modal('hide');
+		$('#insert-modal').modal('hide');
 	}
 	</script>
 

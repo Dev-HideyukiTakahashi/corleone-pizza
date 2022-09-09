@@ -76,6 +76,22 @@ public class MotoboyController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		try 
+		{
+			String name  = request.getParameter("name");
+			String phone  = request.getParameter("phone");
+			String adress = request.getParameter("adress");
+			
+			
+			motoboyDAO.motoboyInsert(name, phone, adress);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
+			redirecionador.forward(request, response);
+		}
+
 	}
 
 }

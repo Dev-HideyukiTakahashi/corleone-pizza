@@ -149,7 +149,6 @@
 		    		// Recarrega a página
 		    		location.reload();
 		    		
-		    		
 				},
 			}).fail(function(xhr, status, errorThrown) {
 				alert("Erro desconhecido ao alterar dados")

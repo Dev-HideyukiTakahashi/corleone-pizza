@@ -71,4 +71,18 @@ public class MotoboyDAO {
 			connection.commit();
 		}
 	}
+
+	public void motoboyInsert(String name, String phone, String adress) throws SQLException {
+		
+		String sql = "INSERT INTO motoboy(motoboy_name, motoboy_phone, motoboy_adress) VALUES (?, ?, ?)";
+		
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1, name);
+		ps.setString(2, phone);
+		ps.setString(3, adress);
+		ps.execute();
+		
+		connection.commit();
+		
+	}
 }
