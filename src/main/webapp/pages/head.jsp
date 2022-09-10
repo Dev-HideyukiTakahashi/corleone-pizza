@@ -37,5 +37,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 input[type=number] {
 	-moz-appearance: textfield; /* Firefox */
 }
+
+.modal-lg{ max-width:50%;}
+
 </style>
 </head>

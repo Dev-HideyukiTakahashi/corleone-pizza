@@ -77,8 +77,8 @@
 	
 	
 	<!-- Modal com detalhes do pedido -->
-	<div class="modal fade" id="order-view" tabindex="-1" aria-labelledby="order-view" aria-hidden="true">
-	  <div class="modal-dialog">
+	<div class="modal fade " id="order-view" tabindex="-1" aria-labelledby="order-view" aria-hidden="true" >
+	  <div class="modal-dialog modal-lg" >
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5  style="margin-left:3px" class="modal-title text-success">Detalhes do pedido</h5>
@@ -95,6 +95,7 @@
 	    </div>
 	  </div>
 	</div>
+  </div>
 	
 	
 	
@@ -135,8 +136,6 @@
 				("<tr><td><span>Observações: </span>"+ json.comments + "<td><span>Total: </span>"+ json.total+ "</td></tr>");	
 				
 				$('#order-view').modal('show');
-				
-				
 			}
 
 			}).fail(function(xhr, status, errorThrown) {

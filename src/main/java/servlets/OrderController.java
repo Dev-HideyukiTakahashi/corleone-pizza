@@ -106,8 +106,6 @@ public class OrderController extends HttpServlet {
 				String JSON = mapper.writeValueAsString(order);
 				// Enviando o JSON no response do AJAX
 				response.getWriter().write(JSON);
-
-				
 			}
 			
 		} catch (Exception e) {

@@ -113,11 +113,6 @@
 			</span> <span class="menu-title">Entregadores</span>
 		</a></li>
 		<li class="nav-item menu-items"><a class="nav-link"
-			href="pages/charts/chartjs.html"> <span class="menu-icon">
-					<i class="mdi mdi-calendar"></i>
-			</span> <span class="menu-title">Calendário</span>
-		</a></li>
-		<li class="nav-item menu-items"><a class="nav-link"
 			href="<%=request.getContextPath()%>/log"> <span class="menu-icon">
 					<i class="mdi mdi-lead-pencil"></i>
 			</span> <span class="menu-title">Log</span>

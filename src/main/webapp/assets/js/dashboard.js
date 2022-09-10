@@ -102,7 +102,7 @@
           ctx.textBaseline = "middle";
           ctx.fillStyle = "#ffffff";
       
-          var text = "$1200", 
+          var text = "R$148,99", 
               textX = Math.round((width - ctx.measureText(text).width) / 2),
               textY = height / 2.4;
       
@@ -133,7 +133,7 @@
     }
     if ($("#transaction-history-arabic").length) {
       var areaData = {
-        labels: ["Paypal", "Stripe","Cash"],
+        labels: ["Débito", "Crédito","Dinheiro"],
         datasets: [{
             data: [55, 25, 20],
             backgroundColor: [

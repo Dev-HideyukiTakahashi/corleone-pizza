@@ -131,74 +131,6 @@
 						</div>
 					</div>
 
-					<div class="row ">
-						<div class="col-12 grid-margin">
-							<div class="card">
-								<div class="card-body">
-									<h4 class="card-title">Status do pedido</h4>
-									<div class="table-responsive">
-										<table class="table">
-											<thead>
-												<tr>
-													<th class="text-center">Whatssap</th>
-													<th class="text-center">Nome Cliente</th>
-													<th class="text-center">Pedido</th>
-													<th class="text-center">Valor</th>
-													<th class="text-center">Telefone</th>
-													<th>Forma de pagamento</th>
-													<th class="text-center">Data</th>
-													<th class="text-center">Status</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td><a href="#" class="mdi mdi-whatsapp"
-														style="padding: 15px 30px"></a></td>
-													<td><span class="pl-2">Francisco Jeremias Silva</span></td>
-													<td class="text-center">231</td>
-													<td >R$ 50,00</td>
-													<td >11-952544854</td>
-													<td>Cartão de crédito</td>
-													<td>22/07/2022</td>
-													<td>
-														<div class="badge badge-outline-success">Finalizado</div>
-													</td>
-												</tr>
-												<tr>
-													<td><a href="#" class="mdi mdi-whatsapp"
-														style="padding: 15px 30px"></a></td>
-													<td><span class="pl-2">Butico Garcia</span></td>
-													<td class="text-center">232</td>
-													<td>R$ 89,99</td>
-													<td>11-40874855</td>
-													<td>Dinheiro</td>
-													<td>25/07/2022</td>
-													<td>
-														<div class="badge badge-outline-warning">A Caminho</div>
-													</td>
-												</tr>
-												<tr>
-													<td><a href="#" class="mdi mdi-whatsapp"
-														style="padding: 15px 30px"></a></td>
-													<td><span class="pl-2">Francisco Jeremias Silva</span></td>
-													<td class="text-center">233</td>
-													<td>R$ 39,99</td>
-													<td>11-915487574</td>
-													<td>Cartão de débito</td>
-													<td>26/07/2022</td>
-													<td>
-														<div class="badge badge-outline-danger">Em Preparo</div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-
 					<div class="row">
 						<div class="col-md-4 grid-margin stretch-card">
 							<div class="card">
@@ -209,28 +141,29 @@
 									<div
 										class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
 										<div class="text-md-center text-xl-left">
-											<h6 class="mb-1">Transfer to Paypal</h6>
-											<p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
+											<h6 class="mb-1">Dinheiro</h6>
+											<p class="text-muted mb-0">09 Set 2022, 21:12</p>
 										</div>
 										<div
 											class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-											<h6 class="font-weight-bold mb-0">$236</h6>
+											<h6 class="font-weight-bold mb-0">R$ 59,00</h6>
 										</div>
 									</div>
 									<div
 										class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
 										<div class="text-md-center text-xl-left">
-											<h6 class="mb-1">Tranfer to Stripe</h6>
-											<p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
+											<h6 class="mb-1">Cartão de crédito</h6>
+											<p class="text-muted mb-0">09 Set 2022, 21:33</p>
 										</div>
 										<div
 											class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-											<h6 class="font-weight-bold mb-0">$593</h6>
+											<h6 class="font-weight-bold mb-0">R$ 89,99</h6>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						
 						<div class="col-md-12 col-xl-8 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
