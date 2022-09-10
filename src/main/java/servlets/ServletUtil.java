@@ -1,7 +1,7 @@
 package servlets;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import model.dao.AdminDAO;
 
 public class ServletUtil {
