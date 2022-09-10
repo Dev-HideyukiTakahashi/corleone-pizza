@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -91,6 +93,21 @@ public class OrderController extends HttpServlet {
 				request.setAttribute("orderData", listAll);
 				RequestDispatcher redirect = request.getRequestDispatcher("/pages/orders/orders.jsp");
 				redirect.forward(request, response);
+			}
+			
+			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("finalView"))
+			{
+
+				String codeString = request.getParameter("code");
+				
+				Order order = orderDAO.findByCode(Long.parseLong(codeString));
+				
+				ObjectMapper mapper = new ObjectMapper();
+				String JSON = mapper.writeValueAsString(order);
+				// Enviando o JSON no response do AJAX
+				response.getWriter().write(JSON);
+
+				
 			}
 			
 		} catch (Exception e) {

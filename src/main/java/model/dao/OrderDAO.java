@@ -152,10 +152,56 @@ public class OrderDAO {
 			}
 			
 		}
-		
 		return list;
-		
 	}
+
+
+	
+	public Order findByCode(Long code) throws SQLException 
+	{
+		String sql = "SELECT * "
+				+ "FROM tb_order "
+				+ "INNER JOIN client "
+				+ "ON (tb_order.order_client = client.id) "
+				+ "INNER JOIN products "
+				+ "ON (tb_order.product_id = products.code) "
+				+ "WHERE tb_order.order_code = ?";
+		
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setLong(1, code);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		Order order = new Order();
+		while(rs.next()) {
+			
+			order.setComments(rs.getString("comments"));
+			order.setOrderCode(rs.getLong("order_code"));
+			order.setDateString((rs.getString("order_data")));
+			
+			Client client = new Client();
+			client.setId(rs.getLong("id"));
+			client.setName(rs.getString("name"));
+			client.setPhone(rs.getString("phone"));
+			client.setAdress(rs.getString("adress"));
+			client.setReference(rs.getString("reference"));
+			
+			order.setOrderClient(client);
+			
+			Product product = new Product();
+			product.setProdCode(rs.getInt("code"));
+			product.setProdName(rs.getString("item"));
+			product.setProdDescription(rs.getString("description"));
+			product.setProdPrice(rs.getDouble("price"));
+			
+			order.getProducts().add(product);
+		}
+			
+			
+		return order;
+	}
+	
+	
 	
 	
 	

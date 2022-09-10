@@ -39,8 +39,14 @@ public class Order implements Comparable<Order> {
 	}
 
 	public String getDate() {
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		return dateFormat.format(date);
+		if(date == null) {
+			return dateString;
+		}
+		else {
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			return dateFormat.format(date);
+		}
+
 	}
 
 	public String getComments() {

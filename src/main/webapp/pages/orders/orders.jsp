@@ -54,10 +54,8 @@
 														<td class="text-center"><c:out value="${od.orderClient.phone}"></c:out><a href="https://api.whatsapp.com/send?phone=${od.orderClient.getPhoneWhats()}" class="mdi mdi-whatsapp"
 														style="margin-left: 5px"></a></td>
 														<td class="text-center"><c:out value="${od.dateString}"></c:out></td>
-														
-
 														<td class="text-center">
-															<div class="badge badge-outline-success">Ver</div>
+															<div class="badge badge-outline-success"><a href="#" class="text-success" style="text-decoration: none" onclick="modalView(${od.orderCode})">Ver</a></div>
 														</td>
 													</tr>
 												</c:forEach>
@@ -77,9 +75,92 @@
 		<jsp:include page="../javascript.jsp" />
 	</div>
 	
-			<!-- Script para busca com highlights -->
-		<script src="https://cdn.jsdelivr.net/mark.js/8.6.0/mark.min.js"></script>
-		<script type="text/javascript">
+	
+	<!-- Modal com detalhes do pedido -->
+	<div class="modal fade" id="order-view" tabindex="-1" aria-labelledby="order-view" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5  style="margin-left:3px" class="modal-title text-success">Detalhes do pedido</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal();"></button>
+	      </div>
+	      <div class="modal-body">
+	      	<table class="table table-bordered text-secondary" >
+	      		<tbody id="table-order">
+	      		</tbody>
+			</table>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal();">Cancelar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
+	
+	<!-- Script para abrir modal com detalhes do pedido -->
+	<script type="text/javascript">
+	function modalView(orderCode) {
+		
+		let urlAction = "<%=request.getContextPath()%>/order";
+		
+		$.ajax({
+			method  : "GET",
+			url     : urlAction,
+			data    : 
+			{
+				code  : orderCode,
+				action: "finalView",
+			},
+			success : function(response) 
+			{
+				// Convertendo o envio do argumento de ServletSearch para JSON
+				let json = JSON.parse(response);
+				
+				
+				// Limpando possível cache nos resultados da busca
+				$('#table-order > tr').text('');
+				
+				$('#table-order').append
+				("<tr><td><span class='text-warning'>Dados do Cliente </span></td></tr>").append
+				("<tr><td><span>Nome: </span>" + json.orderClient.name + "</td><td><span>Pedido nº: </span>" + json.orderCode+ "</td></tr>").append
+				("<tr><td><span>Endereço: </span>"+ json.orderClient.adress + "</td><td><span>Data: </span>" + json.date + "</td></tr>").append
+				("<tr><td><span>Referência: </span>"+ json.orderClient.reference + "</td><td><span>Telefone: </span>"+ json.orderClient.phone + "</td></tr>").append
+				("<tr><td><span class='text-warning'>Dados do Pedido </span></td></tr>");
+				for(let i = 0; i < json.products.length; i ++){
+					$('#table-order').append
+					("<tr><td><span>Produto: </span>"+ json.products[i].prodName + "</td><td><span>Preço: </span>"+ json.products[i].prodPrice + "</td></tr>");
+				}
+				$('#table-order').append
+				("<tr><td><span>Observações: </span>"+ json.comments + "<td><span>Total: </span>"+ json.total+ "</td></tr>");	
+				
+				$('#order-view').modal('show');
+				
+				
+			}
+
+			}).fail(function(xhr, status, errorThrown) {
+				alert('Erro inesperado ao detalhar o pedido');
+			});
+		
+
+		
+
+	}
+	</script>
+	
+	
+	<!-- Script para fechar a janela modal -->
+	<script type="text/javascript">
+	function closeModal() {
+		$('#order-view').modal('hide');
+	}
+	</script>
+	
+	
+	<!-- Script para busca com highlights -->
+	<script src="https://cdn.jsdelivr.net/mark.js/8.6.0/mark.min.js"></script>
+	<script type="text/javascript">
 		// cria uma instância definindo o elemento onde será "marcada" as palavras.
 		var instance = new Mark(document.getElementById('client-view'))
 	
