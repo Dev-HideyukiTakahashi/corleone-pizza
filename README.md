@@ -19,25 +19,28 @@
 <div align="center">
   <details>
   <summary><strong>App</strong></summary>
-  <p>
+  <ul>
+    <li>Validação com banco de dados, login/senha.
+    </li>
+  </ul>
 
-- Validação com banco de dados, login/senha.
-- Validação para não acessar nenhuma página do sistema sem estar logado.
-- O usuário 'admin' tem acesso total ao sistema, somente admin pode registrar usuários novos, produtos novos e alterar o preço/descrição.
-- O usuário pode alterar o nome dos produtos apenas para estudo, na página log de sistema consta qual usuário fez a modificação.
-- CRUD completo do cadastro de clientes.
-- CRUD completo do cadastro de usuários
-- Parte de configurações de usuário com Upload de foto de perfil, salvando no banco de dados.
-- Exibir lista de forma dinâmica de clientes e produtos
-- Realizar pedido - checkout com produtos e dados do cliente.
-- Realizar pedido - relacionamentos pedido/cliente/produto no banco de dados ao finalizar o pedido.
-- Página de pedido - pedido finalizado fica no histórico de pedidos
-- Envio de Whatssap para clientes para notificar algo sobre seu pedido.
-- Página de entregadores com crud completo
+Validação para não acessar nenhuma página do sistema sem estar logado.
+O usuário 'admin' tem acesso total ao sistema, somente admin pode registrar usuários novos, produtos novos e alterar o preço/descrição.
+O usuário pode alterar o nome dos produtos apenas para estudo, na página log de sistema consta qual usuário fez a modificação.
+CRUD completo do cadastro de clientes.
+CRUD completo do cadastro de usuários
+Parte de configurações de usuário com Upload de foto de perfil, salvando no banco de dados.
+Exibir lista de forma dinâmica de clientes e produtos
+Realizar pedido - checkout com produtos e dados do cliente.
+Realizar pedido - relacionamentos pedido/cliente/produto no banco de dados ao finalizar o pedido.
+Página de pedido - pedido finalizado fica no histórico de pedidos
+Envio de Whatssap para clientes para notificar algo sobre seu pedido.
+Página de entregadores com crud completo
 
-- O sistema não foi pensado em regra de negócio, organização do código e nem em performance,
-  foi pensado mais em aprendizado de códigos, compreensão e consultas posteriores.</p>
-    </details>
+O sistema não foi pensado em regra de negócio, organização do código e nem em performance,
+foi pensado mais em aprendizado de códigos, compreensão e consultas posteriores.
+</details>
+
   </div>
   </br>
   <div align="center">
@@ -45,10 +48,15 @@
     <summary><strong>Imagens</strong></summary>
     </br>
     <img src="img/login.JPG" alt="login">
+    </br>
     <img src="img/main.JPG" alt="main">
+    </br>
     <img src="img/config.JPG" alt="config">
+    </br>
     <img src="img/pedidos.JPG" alt="pedidos">
+    </br>
     <img src="img/pizza.JPG" alt="pizza">
+    </br>
     <img src="img/email.JPG" alt="email">
     </details>
 
@@ -66,3 +74,4 @@
 <img src="img/logo.png" alt="logo">
 </details>
 </div>
+<hr>
