@@ -76,8 +76,6 @@ public class ClientDAO {
 						: "SELECT * FROM client WHERE phone LIKE (?)";
 			}
 			
-			// Se o usuário for admin, cai na condicional de extrair TODOS(*) dados do BD
-			// não precisa do argumento 'admin_id', que só é necessário para restringir a persistência de um usuário 'não admin'
 			ResultSet rs;
 			if(connectedId == 1) 
 			{
