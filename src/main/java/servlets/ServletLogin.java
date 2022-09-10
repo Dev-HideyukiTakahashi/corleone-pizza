@@ -217,7 +217,7 @@ public class ServletLogin extends HttpServlet
 						request.getSession().setAttribute("adminOffice", "Administrador");
 					}
 					else{
-						request.getSession().setAttribute("adminOffice", "Usuário");
+						request.getSession().setAttribute("adminOffice", "Usuario");
 					}
 
 					// Se o usuário não tentou acessar nenhuma page antes da tela de login redirecionar a main

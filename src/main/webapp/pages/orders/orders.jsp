@@ -51,7 +51,7 @@
 														<td class="text-center"><c:out value="${od.orderCode }"></c:out></td>
 														<td class="text-center"><c:out value="${od.orderClient.name}"></c:out></td>
 														<td class="text-center"><c:out value="${od.getTotal()}"></c:out></td>
-														<td class="text-center"><c:out value="${od.orderClient.phone}"></c:out><a href="https://api.whatsapp.com/send?phone=${od.orderClient.getPhoneWhats()}" class="mdi mdi-whatsapp"
+														<td class="text-center"><c:out value="${od.orderClient.phone}"></c:out><a href="https://api.whatsapp.com/send?phone=${od.orderClient.getPhoneWhats()}" target="_blank" class="mdi mdi-whatsapp"
 														style="margin-left: 5px"></a></td>
 														<td class="text-center"><c:out value="${od.dateString}"></c:out></td>
 														<td class="text-center">
