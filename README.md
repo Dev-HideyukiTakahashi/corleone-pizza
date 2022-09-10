@@ -74,16 +74,17 @@
     <details>
     <summary><strong>Imagens</strong></summary>
     </br>
+    <hr>
     <img src="img/login.JPG" alt="login">
-    </br>
+    <hr>
     <img src="img/main.JPG" alt="main">
-    </br>
+    <hr>
     <img src="img/config.JPG" alt="config">
-    </br>
+    <hr>
     <img src="img/pedidos.JPG" alt="pedidos">
-    </br>
+    <hr>
     <img src="img/pizza.JPG" alt="pizza">
-    </br>
+    <hr>
     <img src="img/email.JPG" alt="email">
     </details>
 

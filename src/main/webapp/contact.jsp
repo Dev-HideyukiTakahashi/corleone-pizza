@@ -24,7 +24,7 @@
 	<div class="container-scroller">
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
 			<div
-				class="content-wrapper d-flex align-items-center text-center error-page bg-info">
+				class="content-wrapper d-flex align-items-center text-center error-page bg-info auth login-bg">
 				<div class="row flex-grow">
 
 					<div class="col-lg-12 mx-auto text-white">
@@ -109,9 +109,9 @@
 							<!-- final card -->
 						</div>
 						<div class="row mt-5">
-							<div class="col-12 text-center mt-xl-2">
-								<a class="text-white font-weight-medium" href="index.jsp">Voltar
-									ao início</a>
+							<div class="col-12 text-center mt-xl-2")>
+								<button class="btn-dark"  style="border-radius: 0.1875rem; padding: 0.375rem 0.75rem"><a  href="index.jsp" style="text-decoration: none">Voltar
+									ao início</a></button>
 							</div>
 						</div>
 						<div class="row mt-5">
