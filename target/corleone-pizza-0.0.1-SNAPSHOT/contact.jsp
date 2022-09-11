@@ -24,7 +24,7 @@
 	<div class="container-scroller">
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
 			<div
-				class="content-wrapper d-flex align-items-center text-center error-page bg-info">
+				class="content-wrapper d-flex align-items-center text-center error-page bg-info auth login-bg">
 				<div class="row flex-grow">
 
 					<div class="col-lg-12 mx-auto text-white">
@@ -33,7 +33,8 @@
 								<div class="card-body">
 									<h4 class="card-title">Mensagem para suporte</h4>
 									<p class="card-description">Informe os dados para retorno da solicitação</p>
-									<form class="forms-sample needs-validation" >
+									<!-- formsubmit.co para enviar email -->
+									<form class="forms-sample needs-validation" action="https://formsubmit.co/dev.hideyukitakahashi@gmail.com" method="POST">
 										<div class="form-group">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -101,17 +102,15 @@
 					                    <button type="submit" class="btn btn-primary mr-2">Enviar</button>
 					                    <a href="index.jsp" class="btn btn-dark text-primary">Cancelar</a>
 
-
-
 									</form>
 								</div>
 							</div>
 							<!-- final card -->
 						</div>
 						<div class="row mt-5">
-							<div class="col-12 text-center mt-xl-2">
-								<a class="text-white font-weight-medium" href="index.jsp">Voltar
-									ao início</a>
+							<div class="col-12 text-center mt-xl-2")>
+								<button class="btn-dark"  style="border-radius: 0.1875rem; padding: 0.375rem 0.75rem"><a  href="index.jsp" style="text-decoration: none">Voltar
+									ao início</a></button>
 							</div>
 						</div>
 						<div class="row mt-5">

@@ -3,6 +3,7 @@ servlets\DrinkController.class
 config\exception\DataBaseSourceException.class
 model\entities\Product.class
 model\entities\Admin.class
+model\service\Mail.class
 model\dao\MotoboyDAO.class
 servlets\PizzaController.class
 model\dao\LogDAO.class
