@@ -33,7 +33,8 @@
 								<div class="card-body">
 									<h4 class="card-title">Mensagem para suporte</h4>
 									<p class="card-description">Informe os dados para retorno da solicitação</p>
-									<form class="forms-sample needs-validation" >
+									<!-- formsubmit.co para enviar email -->
+									<form class="forms-sample needs-validation" action="https://formsubmit.co/dev.hideyukitakahashi@gmail.com" method="POST">
 										<div class="form-group">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -100,8 +101,6 @@
 	                      				</div>
 					                    <button type="submit" class="btn btn-primary mr-2">Enviar</button>
 					                    <a href="index.jsp" class="btn btn-dark text-primary">Cancelar</a>
-
-
 
 									</form>
 								</div>
