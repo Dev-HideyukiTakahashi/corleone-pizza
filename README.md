@@ -59,6 +59,9 @@
     <li>
       Página de entregadores com crud completo
     </li>
+    <li>
+      Envio de emails na página inicial (cadastrar) funcionando corretamente
+    </li>
     </br>
     <li>
       O sistema não foi pensado em regra de negócio, organização do código e nem em performance,
