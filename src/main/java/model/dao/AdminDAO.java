@@ -33,17 +33,17 @@ public class AdminDAO
 			st.setString(2, password);
 			ResultSet rs = st.executeQuery();
 			
-			while(rs.next()) {return true;} // Encontrou um usuário com mesmo login e senha informado
+			while(rs.next()) {return true;} // Encontrou um usuario com mesmo login e senha informado
 		}
 		catch(SQLException e) 
 		{
 			System.out.println("Unexpected error in validate login: " + e.getMessage());
 		}
 		
-		return false; // Não encontrou usuário com os dados informados
+		return false; // Nao encontrou usuario com os dados informados
 	}
 	
-	// deletando usuário por id
+	// deletando usuario por id
 	public void deleteUserId(Long id) throws SQLException {
 		
 		String sql = "DELETE FROM tb_admin WHERE id = ?";
@@ -55,7 +55,7 @@ public class AdminDAO
 	}
 	
 	
-	// inserindo novo usuário no banco
+	// inserindo novo usuario no banco
 	public void insertUser(Admin user) {
 		try {
 			String sql = "INSERT INTO tb_admin(admin_name, phone, email, login, senha, partner)VALUES (?, ?, ?, ?, ?, ?)";
@@ -180,7 +180,7 @@ public class AdminDAO
 
 			connection.commit();
 			
-			// Atualizando a foto do usuário
+			// Atualizando a foto do usuario
 			if (newUser.getPhoto() != null && !newUser.getPhoto().isEmpty()) 
 			{
 				sql = "update tb_admin set photo =?, extension=? where id = ?";
@@ -221,6 +221,4 @@ public class AdminDAO
 		}
 		return false;
 	}
-	
-
 }

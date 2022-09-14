@@ -24,18 +24,17 @@ import model.entities.Admin;
 /**
  * 	Mapeado em sistema: /login
  *  Servlet para controlar a tela de login
- *  O Filter está responsavel pelo rollback
+ *  O Filter esta responsavel pelo rollback do BD
  */
 
-
-@MultipartConfig     //Anotação necessária para receber upload, no form html -> multipart/form-data
+@MultipartConfig     //Anotacao necessaria para receber upload, no form html -> multipart/form-data
 @WebServlet(urlPatterns = {"/pages/login", "/ServletLogin"})
 public class ServletLogin extends HttpServlet 
 {
 	
 	private static final long serialVersionUID = 1L;
 	
-	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	// Classe utilitaria para guardar o id de qual usuario esta logado em sistema
 	private ServletUtil connectedId = new ServletUtil();
 	
 	private AdminDAO adminDAO = new AdminDAO();
@@ -46,13 +45,13 @@ public class ServletLogin extends HttpServlet
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		// Configurando qual usuário está utilizando o sistema
+		// Configurando qual usuario esta utilizando o sistema
 		Boolean isAdmin = null;
 		try
 		{
 			isAdmin = connectedId.getUserConnected(request) == 1? true : false;
 			request.getSession().setAttribute("isAdmin", isAdmin);
-			String action    = request.getParameter("action"); // Argumento vindo da página JSP
+			String action    = request.getParameter("action"); // Argumento vindo da pagina JSP
 			String idRequest = request.getParameter("idRequest");
 			// Deletar usuario por id
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("delete"))
@@ -87,13 +86,13 @@ public class ServletLogin extends HttpServlet
 			// Logout
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("logout")) 
 			{
-				request.getSession().invalidate(); // Termina a sessão do usuário
+				request.getSession().invalidate(); // Termina a sessao do usuario
 				RequestDispatcher redirect = request.getRequestDispatcher("index.jsp");
 				redirect.forward(request, response);
 			}
 			
-			// Listar todos usuários na tela
-			// Enviando requisição com lista de todos os clientes
+			// Listar todos usuarios na tela
+			// Enviando requisicao com lista de todos os clientes
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchList")) 
 			{
 				List<Admin> users = new ArrayList<>();
@@ -123,7 +122,7 @@ public class ServletLogin extends HttpServlet
 	{
 		try
 		{
-			// Requisição da página newuser submitUser()
+			// Requisicao da pagina newuser submitUser()
 			String newName 	     = request.getParameter("newName");
 			String newPhone 	 = request.getParameter("newPhone");
 			String newEmail 	 = request.getParameter("newEmail"); // Recuperando dados do form em newuser.jsp
@@ -152,7 +151,7 @@ public class ServletLogin extends HttpServlet
 				Admin settingsUser   = adminDAO.findUserId(Long.parseLong(newId));
 				boolean passMeet 	 = adminDAO.validateLogin(settingsUser.getLogin(), oldPassword);
 		
-				// Método da conta do ADMIN para manipular as contas de usuários
+				// Metodo da conta do ADMIN para manipular as contas de usuarios
 				if(newPassword == null) {
 					Admin newUser = new Admin(newName, newPhone, newEmail, newLogin, oldPassword, newPartner, Long.parseLong(newId));
 				
@@ -160,7 +159,7 @@ public class ServletLogin extends HttpServlet
 					response.getWriter().write("atualizado");
 				}
 				
-				// Confirma se o antigo password está correto e se deseja um novo password
+				// Confirma se o antigo password esta correto e se deseja um novo password
 				if(passMeet && newPassword != null && !newPassword.isEmpty()) {
 
 					Admin newUser = new Admin(newName, newPhone, newEmail, settingsUser.getLogin(), newPassword, newPartner, Long.parseLong(newId));
@@ -169,19 +168,19 @@ public class ServletLogin extends HttpServlet
 					if(request.getPart("filePhoto") != null) 
 					{
 
-						Part part   = request.getPart("filePhoto"); // pega a foto no formulário html
+						Part part   = request.getPart("filePhoto"); // pega a foto no formulario html
 						if(part.getSize() > 0) { // Confirmando se passou alguma foto 
 							byte[] foto = IOUtils.toByteArray(part.getInputStream()); // converte a imagem para byte
 							String imagemBase64 = "data:" + part.getContentType() + ";base64,"+ new Base64().encodeBase64String(foto); // converte os bytes para base 64 string
 							
 							newUser.setPhoto(imagemBase64);
-							newUser.setExtension(part.getContentType().split("\\/")[1]); // pegando a extensão do arquivo, vem como image/png, precisamos apenas de png
+							newUser.setExtension(part.getContentType().split("\\/")[1]); // pegando a extensao do arquivo, vem como image/png, precisamos apenas de png
 						}
 					}
 					
 					adminDAO.updateUser(newUser);
 					
-					// Após atualizar a página redireciona para a página principal e atualiza todas as fotos do sistema
+					// Apos atualizar a pagina redireciona para a pagina principal e atualiza todas as fotos do sistema
 					RequestDispatcher redirect = request.getRequestDispatcher("pages/main.jsp");
 					request.getSession().setAttribute("adminPhoto", newUser.getPhoto());
 					redirect.forward(request, response);
@@ -192,7 +191,7 @@ public class ServletLogin extends HttpServlet
 				
 			}
 			
-			// Request de parâmetros da tela de login
+			// Request de parametros da tela de login
 			String login     = request.getParameter("login");
 			String password  = request.getParameter("password");		
 			String url       = request.getParameter("url");
@@ -203,13 +202,13 @@ public class ServletLogin extends HttpServlet
 				// Comparando os dados preenchidos com o banco de dados
 				if(adminDAO.validateLogin(login, password))
 				{
-					// Usuario e senha confirmados com BD, inicia a sessão com os dados do usuario logado
+					// Usuario e senha confirmados com BD, inicia a sessao com os dados do usuario logado
 					Admin adminLogin = adminDAO.adminData(login);
 					request.getSession().setAttribute("adminName", adminLogin.getAdminName());
 					request.getSession().setAttribute("adminLogin", adminLogin.getLogin());
 					request.getSession().setAttribute("adminPhoto", adminLogin.getPhoto());
 							
-					// Configurando qual usuário está utilizando o sistema
+					// Configurando qual usuario esta utilizando o sistema
 					Boolean isAdmin = adminLogin.getId() == 1? true : false;
 					request.getSession().setAttribute("isAdmin", isAdmin);
 					
@@ -220,24 +219,24 @@ public class ServletLogin extends HttpServlet
 						request.getSession().setAttribute("adminOffice", "Usuario");
 					}
 
-					// Se o usuário não tentou acessar nenhuma page antes da tela de login redirecionar a main
+					// Se o usuario nao tentou acessar nenhuma page antes da tela de login redirecionar a main
 					if(url == null || url.equals("null"))
 					{
 						url = "pages/main.jsp";
 					}
 
-					// Se o usuário tentou acessar alguma página sem logar, após o login com sucesso o mesmo acessa a página desejada
+					// Se o usuario tentou acessar alguma pagina sem logar, apos o login com sucesso o mesmo acessa a pagina desejada
 					RequestDispatcher redirect = request.getRequestDispatcher(url);
 					redirect.forward(request, response);
 				}
-				else  // Após busca em banco de dados, não encotra usuário ou senha / ou ambos
+				else  // Apos busca em banco de dados, nao encontra usuario ou senha / ou ambos
 				{
 					RequestDispatcher redirecionador = request.getRequestDispatcher("/index.jsp");
-					request.setAttribute("msg", "Usuario ou senha inválido");
+					request.setAttribute("msg", "Usuario ou senha invï¿½lido");
 					redirecionador.forward(request, response);
 				}
 			}
-			else if(action == null || action.isEmpty())    // Não preencheu nenhum campo e clicou em login
+			else if(action == null || action.isEmpty())    // Nao preencheu nenhum campo e clicou em login
 			{
 				RequestDispatcher redirect = request.getRequestDispatcher("/index.jsp");
 				redirect.forward(request, response);
@@ -250,5 +249,4 @@ public class ServletLogin extends HttpServlet
 			redirect.forward(request, response);
 		}
 	}
-
 }

@@ -17,7 +17,7 @@ import model.entities.Client;
 /**
  *  Mapeado em sistema: /search 
  *  Servlet para buscar dados no banco de dados
- *  O Filter está responsavel pelo rollback
+ *  O Filter esta responsavel pelo rollback
  */
 public class ServletSearch extends HttpServlet {
 	
@@ -25,7 +25,7 @@ public class ServletSearch extends HttpServlet {
 
 	private ClientDAO clientDAO = new ClientDAO();
 	
-	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	// Classe utilitaria para guardar o id de qual usuario esta logado em sistema
 	private ServletUtil connectedId = new ServletUtil();
 	
 	public ServletSearch() {
@@ -41,7 +41,7 @@ public class ServletSearch extends HttpServlet {
 			String select = request.getParameter("select");
 			List<Client> client = new ArrayList<>();
 			
-			// Enviando requisição com lista de todos os clientes
+			// Enviando requisicao com lista de todos os clientes
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchAll")) 
 			{
 				
@@ -54,7 +54,7 @@ public class ServletSearch extends HttpServlet {
 				redireciona.forward(request, response);				
 			}
 			
-			// Enviando requisição com lista de todos os clientes filtrados por telefone ou nome
+			// Enviando requisicao com lista de todos os clientes filtrados por telefone ou nome
 			if(action == null) {
 				if(select.equals("nameOption") && field != null && !field.isEmpty()) 
 				{
@@ -62,7 +62,8 @@ public class ServletSearch extends HttpServlet {
 					// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 					ObjectMapper mapper = new ObjectMapper();
 					String JSON = mapper.writeValueAsString(client);
-					
+					// Forcando a formatacao do JSON para UTF-8
+					response.setCharacterEncoding("UTF-8");
 					// Enviando o JSON no response do AJAX
 					response.getWriter().write(JSON);
 				}
@@ -73,6 +74,8 @@ public class ServletSearch extends HttpServlet {
 					// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 					ObjectMapper mapper = new ObjectMapper();
 					String JSON = mapper.writeValueAsString(client);
+					// Forcando a formatacao do JSON para UTF-8
+					response.setCharacterEncoding("UTF-8");
 					// Enviando o JSON no response do AJAX
 					response.getWriter().write(JSON);
 				}
@@ -88,11 +91,5 @@ public class ServletSearch extends HttpServlet {
 			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
 			redirecionador.forward(request, response);
 		}
-		
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-	}
-
 }

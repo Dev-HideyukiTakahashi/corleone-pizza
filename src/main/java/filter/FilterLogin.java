@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import config.DatabaseConnection;
 
 
-@WebFilter(urlPatterns = { "/pages/*" })
+@WebFilter(urlPatterns = { "/pages/*" }) // Filtra todas as paginas da pasta pages
 public class FilterLogin extends HttpFilter {
        
 	private static final long serialVersionUID = 1L;
@@ -40,22 +40,22 @@ public class FilterLogin extends HttpFilter {
 		try 
 		{
 			
-		// Validação de usuário logado, caso o mesmo tentar entrar em alguma página sem estar logado
+		   // Validacao de usuario logado, caso o mesmo tentar entrar em alguma pagina sem estar logado
 			HttpServletRequest loginRequest = (HttpServletRequest) request;
 			HttpSession session 			= loginRequest.getSession();
 			String user 					= (String) session.getAttribute("adminLogin");
 			
-		// URL que tentou acessar sem estar logado
+		    // URL que tentou acessar sem estar logado
 			String url 						= loginRequest.getServletPath();
 			
 			
-			// Validar se existe usuário e se está tentando acessar uma página diferente da tela de login
+			// Validar se existe usuario e se esta tentando acessar uma pagina diferente da tela de login
 			if(user == null && !url.equalsIgnoreCase("pages/login")) 
 			{
 				RequestDispatcher redirect = request.getRequestDispatcher("/index.jsp?url=" + url);
 				request.setAttribute("msg", "Por favor realize o login");
 				redirect.forward(request, response);
-				return; 	// Para a execução e redireciona para o login
+				return; 	// Para a execucao e redireciona para o login
 			}
 			else {
 				chain.doFilter(request, response);

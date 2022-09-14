@@ -121,7 +121,7 @@
 	</div>
 	
 	
-	<!-- Script para atualização do campo da pizza -->
+	<!-- Script para atualização do campo de bebidas-->
 	<script type="text/javascript">
 		function updateData() {
 

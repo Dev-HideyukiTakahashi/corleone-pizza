@@ -4,7 +4,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <!-- Cabeçalho da página -->
 <jsp:include page="../head.jsp"></jsp:include>
 

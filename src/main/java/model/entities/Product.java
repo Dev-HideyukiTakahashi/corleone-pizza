@@ -7,7 +7,7 @@ public class Product implements Comparable<Product> {
 	private String prodName;
 	private String prodDescription;
 	private Double prodPrice;
-	private String prodPriceFormatter; // Formatador de vírgula para exibir na tela
+	private String prodPriceFormatter; // Formatador de virgula para exibir na tela
 	private String prodType;
 	private Integer prodCode;
 

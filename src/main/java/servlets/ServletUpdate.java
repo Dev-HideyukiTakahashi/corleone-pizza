@@ -17,7 +17,7 @@ import model.entities.Client;
 /**
  * Mapeado em sistema: /update 
  * Servlet para atualizar um novo cliente
- * O Filter está responsavel pelo rollback
+ * O Filter esta responsavel pelo rollback
  */
 public class ServletUpdate extends HttpServlet {
 	
@@ -25,7 +25,7 @@ public class ServletUpdate extends HttpServlet {
 	
 	private ClientDAO clientDAO = new ClientDAO();
 	
-	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	// Classe utilitaria para guardar o id de qual usuario esta logado em sistema
 	private ServletUtil connectedId = new ServletUtil();
 	
 	public ServletUpdate() {
@@ -37,7 +37,7 @@ public class ServletUpdate extends HttpServlet {
 			throws ServletException, IOException {
 		try
 		{
-			/* Inicio Algoritmo da busca de cliente por telefone ------------------------------------->    */
+			// Algoritmo da busca de cliente por telefone
 			String field  = request.getParameter("field");
 			List<Client> client = new ArrayList<>();
 			
@@ -48,6 +48,8 @@ public class ServletUpdate extends HttpServlet {
 				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 				ObjectMapper mapper = new ObjectMapper();
 				String JSON = mapper.writeValueAsString(client);
+				// Forcando a formatacao do JSON para UTF-8
+				response.setCharacterEncoding("UTF-8");
 				// Enviando o JSON no response do AJAX
 				response.getWriter().write(JSON);
 			}
@@ -56,13 +58,13 @@ public class ServletUpdate extends HttpServlet {
 				RequestDispatcher redirecionador = request.getRequestDispatcher("pages/clients/delete.jsp");
 				redirecionador.forward(request, response);
 			}
-			/* Final Algoritmo da busca ------------------------------------->    */
-			/* Inicio Algoritmo Delete ------------------------------------->    */
+			
+			// Algoritmo Delete
 			String valueDelete = request.getParameter("phone");
 			if(valueDelete != null) {
 				clientDAO.clientDelete(valueDelete);
 			}
-			/* Final Algoritmo Delete ------------------------------------->    */
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -96,9 +98,5 @@ public class ServletUpdate extends HttpServlet {
 			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
 			redirecionador.forward(request, response);
 		}
-
-
-
 	}
-
 }

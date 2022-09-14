@@ -10,12 +10,10 @@ public class ServletUtil {
 	
 	public Long getUserConnected(HttpServletRequest request) 
 	{
-
 		HttpSession session = request.getSession();
 
 		String userConnected = (String) session.getAttribute("adminLogin");
 		
 		return adminDAO.adminData(userConnected).getId();
-
 	}
 }

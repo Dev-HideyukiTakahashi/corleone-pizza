@@ -7,7 +7,7 @@
 
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <!-- Cabeçalho da página -->
 <jsp:include page="../head.jsp"></jsp:include>

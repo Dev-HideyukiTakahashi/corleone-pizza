@@ -22,7 +22,7 @@ public class OrderDAO {
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 
-	
+	// Novo pedido
 	public void insert(String comments, Client client, Order order) throws SQLException {
 			
 			String sql = "INSERT INTO tb_order(comments, order_client, product_id, order_data) VALUES (?, ?, ?, ?)";
@@ -63,7 +63,7 @@ public class OrderDAO {
 			}
 	}
 	
-	
+	// Lista todos os pedidos
 	public List<Order> findAll() throws SQLException
 	{
 		List<Order> list = new ArrayList<>();
@@ -83,7 +83,7 @@ public class OrderDAO {
 			Long orderCode = rs.getLong("order_code");			
 			int lastIdx = list.size() - 1;
 			
-			// Se não tiver elementos salva o primeiro
+			// Se nao tiver elementos salva o primeiro na lista
 			if(list.size() < 1) 
 			{
 				Order order = new Order();
@@ -113,7 +113,7 @@ public class OrderDAO {
 				lastIdx = list.size() - 1;
 				
 			}
-			else if(list.get(lastIdx).getOrderCode() == orderCode) // se tiver elemento com mesmo código de pedido
+			else if(list.get(lastIdx).getOrderCode() == orderCode) // elemento com mesmo codigo de pedido, apenas adiciona o novo produto
 			{
 				Product product = new Product();
 				product.setProdCode(rs.getInt("code"));
@@ -197,12 +197,6 @@ public class OrderDAO {
 			order.getProducts().add(product);
 		}
 			
-			
 		return order;
 	}
-	
-	
-	
-	
-	
 }

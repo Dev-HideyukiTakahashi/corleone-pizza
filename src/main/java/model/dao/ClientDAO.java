@@ -20,7 +20,7 @@ public class ClientDAO {
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 
-	
+	// Novo usuario
 	public void insertClient(Client client, Long connectedId) {
 		try {
 			String sql = "INSERT INTO client(name, phone, email, adress, reference, admin_id) " + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -46,13 +46,7 @@ public class ClientDAO {
 		}
 	}
 
-	/**
-	 * Buscando usuário por telefone ou nome
-	 * @param option -> opção selecionada
-	 * @param field
-	 * @param connectedId
-	 * @return List<Client>
-	 */
+	// Buscando usuario por ID
 	public List<Client> clientSearch(String option, String field, Long connectedId) 
 	{
 		List<Client> clientFound = new ArrayList<>();
@@ -63,8 +57,8 @@ public class ClientDAO {
 			if(option.equals("nameOption") || option == "nameOption") 
 			{
 				field = field.toUpperCase();
-				// Checando se o usuário logado é um admin ou um usuario
-				// O admin busca todos os registros do BD, usuário apenas os seus registros
+				// Checando se o usuario logado e um admin
+				// O admin busca todos os registros do BD, usuario apenas os seus registros de clientes
 				sql =  (connectedId != 1) 
 						? "SELECT * FROM client WHERE upper(name) LIKE (?) AND admin_id = ?" 
 						: "SELECT * FROM client WHERE upper(name) LIKE (?)";
@@ -120,7 +114,7 @@ public class ClientDAO {
 		return client;
 	}
 	
-	// Buscando todos cliente para gerar a lista dinâmica na página find.jsp
+	// Buscando todos cliente para gerar a lista dinamica na pagina find.jsp
 	public List<Client> clientSearchAll(Long connectedId) 
 	{
 		List<Client> clientFound = new ArrayList<>();

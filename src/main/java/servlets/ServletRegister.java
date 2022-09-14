@@ -13,7 +13,7 @@ import model.entities.Client;
 /**
  * Mapeado em sistema: /register 
  * Servlet para cadastrar um novo cliente
- * O Filter está responsavel pelo rollback
+ * O Filter esta responsavel pelo rollback
  */
 public class ServletRegister extends HttpServlet {
 
@@ -21,16 +21,13 @@ public class ServletRegister extends HttpServlet {
 
 	private ClientDAO clientDAO = new ClientDAO();
 	
-	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	// Classe utilitaria para guardar o id de qual usuario esta logado em sistema
 	private ServletUtil connectedId = new ServletUtil();
 
 	public ServletRegister() {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -45,12 +42,12 @@ public class ServletRegister extends HttpServlet {
 
 			Client newClient = new Client(name, phone, email, adress, reference);
 
-			// Registrando um novo usuário
-			// Verificando se já existe um cliente com esse telefone
+			// Registrando um novo usuario
+			// Verificando se ja existe um cliente com esse telefone
 			if (clientDAO.clientExists(newClient)) {
 				request.setAttribute("clientData", newClient);
 			}
-			// Se não existe cliente com esse telefone, valida para novo cadastro
+			// Se nao existe cliente com esse telefone, valida para novo cadastro
 			else 
 			{
 				clientDAO.insertClient(newClient, connectedId.getUserConnected(request));

@@ -64,7 +64,6 @@ public class ProductDAO {
 	{
 		try 
 		{
-			Product item = new Product();
 			String sql   = null;
 			if(option.equals("updatePizza") || option == "updatePizza") {
 				sql = "UPDATE products SET description=? WHERE code=?";
@@ -84,13 +83,13 @@ public class ProductDAO {
 			
 			connection.commit();
 			
-			// Se algum usuário diferente do admin alterar dados, registro no log
+			// Se algum usuï¿½rio diferente do admin alterar dados, registro no log
 			if(user != null && user.getId() != 1) 
 			{
 				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 				
 				LocalDateTime date = LocalDateTime.now();
-				String log = "Usuário '"+user.getAdminName()+"', alterou dados do produto:\nCódigo: "
+				String log = "UsuÃ¡rio '"+user.getAdminName()+"', alterou dados do produto:\nCÃ³digo: "
 						+ code +"\nNome alterado: '" + value + "'";
 				
 				sql = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";

@@ -7,5 +7,4 @@ public class DataBaseSourceException extends RuntimeException {
 	public DataBaseSourceException(String msg) {
 		super(msg);
 	}
-
 }

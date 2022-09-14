@@ -23,7 +23,7 @@ import model.entities.Product;
 public class DrinkController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	// Classe utilitária para guardar o id de qual usuário está logado em sistema
+	// Classe utilitaria para guardar o id de qual usuario esta logado em sistema
 	private ServletUtil connectedId = new ServletUtil();
 
 	private ProductDAO productDAO = new ProductDAO();
@@ -42,28 +42,29 @@ public class DrinkController extends HttpServlet {
 			String type		   = request.getParameter("type");
 			String code        = request.getParameter("code");
 			
-			// Enviando requisição com todos os dados do produto pelo código
+			// Enviando requisicao com todos os dados do produto pelo codigo
 			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("search")) 
 			{
 				Product item = productDAO.productByCode(code);
 				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 				ObjectMapper mapper = new ObjectMapper();
 				String JSON = mapper.writeValueAsString(item);
+				// Forcando a formatacao do JSON para UTF-8
+				response.setCharacterEncoding("UTF-8");
 				// Enviando o JSON no response do AJAX
 				response.getWriter().write(JSON);
 			}			
 
-			// Enviando requisição com lista de todos os produtos de acordo com filtro
-			// Responsável por carregar dinamicamente a pagina 'sabores'
+
+			// Responsavel por carregar dinamicamente a pagina com todas bebidas
 			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("drink")) 
 			{
 				List<Product> items = productDAO.productSearch(prodType);
 				
-				
 				//Ordenando a lista por ordem de cod para aparecer na tela
 				Collections.sort(items);
 				
-				// Checando se o usuário logado é userAdmin(ID: 1)
+				// Checando se o usuario logado e userAdmin(ID: 1)
 				isAdmin = connectedId.getUserConnected(request) == 1L ? true : false;
 				
 				request.setAttribute("drinkData", items);
@@ -90,7 +91,7 @@ public class DrinkController extends HttpServlet {
 		
 		try 
 		{
-			// Requisição update
+			// Requisicao update
 			String code        = request.getParameter("code");
 			String value	   = request.getParameter("description");
 			String updateData  = request.getParameter("updateData");
@@ -105,7 +106,7 @@ public class DrinkController extends HttpServlet {
 				productDAO.productUpdate(code, value, "updatePrice", null);
 			}
 			
-			// Método que pode ser acessado por admin ou usuário
+			// Metodo para alterar o nome, com log do usuario que alterou
 			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
 			{
 				Admin user =  adminDAO.findUserId(connectedId.getUserConnected(request));
@@ -113,7 +114,7 @@ public class DrinkController extends HttpServlet {
 			}
 			
 			
-			// Requisição insert
+			// Requisicao insert
 			String action  			  = request.getParameter("action");
 			String newName    	      = request.getParameter("newName");
 			String newDescription     = request.getParameter("newDescription");

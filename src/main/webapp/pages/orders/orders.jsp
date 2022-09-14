@@ -118,7 +118,7 @@
 				// Convertendo o envio do argumento de ServletSearch para JSON
 				let json = JSON.parse(response);
 				
-				
+				console.log(json.orderClient.reference);
 				// Limpando possível cache nos resultados da busca
 				$('#table-order > tr').text('');
 				

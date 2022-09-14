@@ -17,7 +17,8 @@ public class LogDAO {
 	public LogDAO() {
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
-
+	
+	// Retorna todos registros de alterações nos nomes de produtos
 	public List<Log> load() throws SQLException 
 	{
 		List<Log> log  		 = new ArrayList<>();

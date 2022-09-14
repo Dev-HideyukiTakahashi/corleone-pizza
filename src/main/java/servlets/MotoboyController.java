@@ -60,11 +60,7 @@ public class MotoboyController extends HttpServlet {
 				request.setAttribute("motoboyData", list);
 				RequestDispatcher redirect = request.getRequestDispatcher("/pages/motoboy/motoboy.jsp");
 				redirect.forward(request, response);
-				
-				
 			}
-			
-			
 		}
 		catch(Exception e)
 		{
@@ -72,7 +68,6 @@ public class MotoboyController extends HttpServlet {
 			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
 			redirecionador.forward(request, response);
 		}
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -91,7 +86,5 @@ public class MotoboyController extends HttpServlet {
 			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
 			redirecionador.forward(request, response);
 		}
-
 	}
-
 }

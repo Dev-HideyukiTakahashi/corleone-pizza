@@ -104,6 +104,9 @@ public class OrderController extends HttpServlet {
 				
 				ObjectMapper mapper = new ObjectMapper();
 				String JSON = mapper.writeValueAsString(order);
+				
+				// Forcando a formatacao do JSON para UTF-8
+				response.setCharacterEncoding("UTF-8");
 				// Enviando o JSON no response do AJAX
 				response.getWriter().write(JSON);
 			}
@@ -113,11 +116,6 @@ public class OrderController extends HttpServlet {
 			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
 			redirecionador.forward(request, response);
 		}
-
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 	}
 
 }
