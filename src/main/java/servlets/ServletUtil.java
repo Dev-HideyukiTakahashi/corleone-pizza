@@ -16,4 +16,6 @@ public class ServletUtil {
 		
 		return adminDAO.adminData(userConnected).getId();
 	}
+	
+
 }

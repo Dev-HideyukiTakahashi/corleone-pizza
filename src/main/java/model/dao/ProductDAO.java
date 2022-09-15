@@ -83,7 +83,7 @@ public class ProductDAO {
 			
 			connection.commit();
 			
-			// Se algum usu�rio diferente do admin alterar dados, registro no log
+			// Se algum usuario diferente do admin alterar dados, registro no log
 			if(user != null && user.getId() != 1) 
 			{
 				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");

@@ -5,76 +5,114 @@
 <hr>
 </br>
 <div align="center">
-<a href="https://corleone-pizza.herokuapp.com/corleone-pizza/">https://corleone-pizza.herokuapp.com/corleone-pizza/</a>
+  <a href="https://corleone-pizza.herokuapp.com/corleone-pizza/">https://corleone-pizza.herokuapp.com/corleone-pizza/</a>
 </div>
 </br>
 <div align="center">
-<span>Login: admin / Senha: admin</span>
-</br>
-<span>Login: user / Senha: user</span>
-</br>
-<span>Login: teste / Senha: teste</span>
+  <span>Login: admin / Senha: admin</span>
+  </br>
+  <span>Login: user / Senha: user</span>
+  </br>
+  <span>Login: teste / Senha: teste</span>
 </div>
+
 </br>
+
 <div align="center">
   <details>
-  <summary><strong>App</strong></summary>
-  <div align="left">
-  </br>
-  <ul>
-    <li>Validação com banco de dados, login/senha.
-    </li>
-   <li>Validação para não acessar nenhuma página do sistema sem estar logado.
-    </li>
-    <li>
-      O usuário 'admin' tem acesso total ao sistema, somente admin pode registrar usuários novos, produtos novos e alterar o preço/descrição.
-    </li>
-    <li>
-      O usuário pode alterar o nome dos produtos apenas para estudo, na página log de sistema consta qual usuário fez a modificação.
-    </li>
-    <li>
-      CRUD completo do cadastro de clientes.
-    </li>
-    <li>
-      CRUD completo do cadastro de usuários  
-    </li>
-    <li>
-      Parte de configurações de usuário com Upload de foto de perfil, salvando no banco de dados.
-    </li>
-    <li>
-      Exibir lista de forma dinâmica de clientes e produtos.
-    </li>
-    <li>
-      Realizar pedido - checkout com produtos e dados do cliente.
-    </li>
-    <li>
-      Realizar pedido - relacionamentos pedido/cliente/produto no banco de dados ao finalizar o pedido.
-    </li>
-    <li>
-      Página de pedido - pedido finalizado fica no histórico de pedidos.
-    </li>
-    <li>
-      Envio de Whatssap para clientes para notificar algo sobre seu pedido.
-    </li>
-    <li>
-      Página de entregadores com crud completo
-    </li>
-    <li>
-      Envio de emails na página inicial (cadastrar) funcionando corretamente
-    </li>
-    </br>
-    <li>
-      O sistema não foi pensado em regra de negócio, organização do código e nem em performance,
-      foi pensado mais em aprendizado de códigos, compreensão e consultas posteriores.
-    </li>
-  </ul>
+    <summary><strong>App</strong></summary>
+    <div align="left">
+      </br>
+      <ul>
+        <li>Validação com banco de dados, login/senha.
+        </li>
+      <li>Validação para não acessar nenhuma página do sistema sem estar logado.
+        </li>
+        <li>
+          O usuário 'admin' tem acesso total ao sistema, somente admin pode registrar usuários novos, produtos novos e alterar o preço/descrição.
+        </li>
+        <li>
+          O usuário pode alterar o nome dos produtos apenas para estudo, na página log de sistema consta qual usuário fez a modificação.
+        </li>
+        <li>
+          CRUD completo do cadastro de clientes.
+        </li>
+        <li>
+          CRUD completo do cadastro de usuários  
+        </li>
+        <li>
+          Parte de configurações de usuário com Upload de foto de perfil, salvando no banco de dados.
+        </li>
+        <li>
+          Exibir lista de forma dinâmica de clientes e produtos.
+        </li>
+        <li>
+          Realizar pedido - checkout com produtos e dados do cliente.
+        </li>
+        <li>
+          Realizar pedido - relacionamentos pedido/cliente/produto no banco de dados ao finalizar o pedido.
+        </li>
+        <li>
+          Página de pedido - pedido finalizado fica no histórico de pedidos.
+        </li>
+        <li>
+          Envio de Whatssap para clientes para notificar algo sobre seu pedido.
+        </li>
+        <li>
+          Página de entregadores com crud completo
+        </li>
+        <li>
+          Envio de emails na página inicial (cadastrar) funcionando corretamente
+        </li>
+        <li>
+          Correção no problema de caracteres com json.parse no front-end.
+        </li>
+        <li>
+          Liberar cadastro para outros usuários.
+        </li>
+        </br>
+        <li>
+          O sistema não foi pensado em regra de negócio, organização do código e nem em performance,
+          foi pensado mais em aprendizado de códigos, compreensão e consultas posteriores.
+        </li>
+        </br>
+        </br>
+        <li>
+          Funcionalidades que serão abordadas na V 2.0 com framework Spring:
+        </li>
+        <li>
+          Correção no bug de pedidos, cache dos produtos.
+        </li>
+        <li>
+          Página de calendário de eventos.
+        </li>
+        <li>
+          Gráficos com pizzas mais pedidas.
+        </li>
+        <li>
+          Paginação de usuarios, pizza e log.
+        </li>
+      </ul>
+    </div>
+  </details>
 </div>
-</details>
 
-  </div>
-  </br>
-  <div align="center">
-    <details>
+</br>
+
+<div align="center">
+  <details>
+    <summary><strong>UML</strong></summary>
+    </br>
+    <hr>
+    <img src="img/model.JPG" alt="model">
+    <hr>
+    </details>
+</div>
+
+</br>
+
+<div align="center">
+  <details>
     <summary><strong>Imagens</strong></summary>
     </br>
     <hr>
@@ -90,19 +128,20 @@
     <hr>
     <img src="img/email.JPG" alt="email">
     </details>
-
 </div>
+
 </br>
 
 <hr>
 <div align="center">
-<h3>Tecnologias utilizadas</h3>
-<p>HTML, CSS, JS, Bootstrap, JQuery, Java Servlet, JSP, JDBC, PostgreSQL, Jackson, AJAX, Maven, Tomcat 9, Git e Github<p>
+  <h3>Tecnologias utilizadas</h3>
+  <p>HTML, CSS, JS, Bootstrap, JQuery, Java Servlet, JSP, JDBC, PostgreSQL, Jackson, AJAX, Maven, Tomcat 9, Git e Github<p>
 </div>
+
 </br>
+
 <hr>
 <div align="center">
-<img src="img/logo.png" alt="logo">
-</details>
+  <img src="img/logo.png" alt="logo">
 </div>
 <hr>

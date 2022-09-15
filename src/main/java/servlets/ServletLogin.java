@@ -60,7 +60,6 @@ public class ServletLogin extends HttpServlet
 				adminDAO.deleteUserId(id);
 			}
 			
-			
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("search")) // Buscar usuario por id
 			{
 				Long id	   = Long.parseLong(idRequest);
@@ -69,7 +68,6 @@ public class ServletLogin extends HttpServlet
 				ObjectMapper mapper = new ObjectMapper();
 				String JSON 		= mapper.writeValueAsString(user);
 				response.getWriter().write(JSON);
-				
 			}
 			
 			// Carregando dados nos settings
