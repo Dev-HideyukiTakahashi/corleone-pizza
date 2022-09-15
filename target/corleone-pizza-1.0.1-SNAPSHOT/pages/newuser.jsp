@@ -85,10 +85,10 @@
 									<button type="button" class="btn btn-dark"
 										onclick="cleanForm();">Limpar</button>
 								</form>
-								<!-- Final do corpo formulário para cadastrar novo usuário -->
 							</div>
 						</div>
 					</div>
+					<!-- Final do corpo formulário para cadastrar novo usuário -->
 					<jsp:include page="footer.jsp"></jsp:include>
 				</div>
 			</div>

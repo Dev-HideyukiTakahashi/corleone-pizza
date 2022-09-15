@@ -108,7 +108,7 @@
 						</div>
 						<div class="row mt-5">
 							<div class="col-12 text-center mt-xl-2")>
-								<button class="btn-dark"  style="border-radius: 0.1875rem; padding: 0.375rem 0.75rem"><a  href="index.jsp" style="text-decoration: none">Voltar
+								<button class="btn-primary"  style="border-radius: 0.1875rem; padding: 0.375rem 0.75rem"><a class="text-secondary" href="index.jsp" style="text-decoration: none">Voltar
 									ao início</a></button>
 							</div>
 						</div>
