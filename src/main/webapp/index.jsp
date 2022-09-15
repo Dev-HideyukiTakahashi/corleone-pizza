@@ -50,14 +50,14 @@
 								<div
 									class="form-group d-flex align-items-center justify-content-between">
 									<div class="form-check"></div>
-									<a href="<%=request.getContextPath()%>/contact.jsp" class="forgot-pass">Esqueci minha senha</a>
+									<a href="<%=request.getContextPath()%>/contact.jsp" class="text-primary">Contato com suporte</a>
 								</div>
 								<div class="text-center">
 									<button type="submit"
 										class="btn btn-primary btn-block enter-btn">Login</button>
 								</div>
 								<p class="sign-up">
-									Ainda não tem uma conta?<a href="<%=request.getContextPath()%>/contact.jsp"> Cadastrar</a>
+									Ainda não tem uma conta?<a href="<%=request.getContextPath()%>/registeruser.jsp"> Cadastrar</a>
 								</p>
 								<H4 class="erro-login">${msg}</H4>
 							</form>
