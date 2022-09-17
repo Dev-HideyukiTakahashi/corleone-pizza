@@ -70,27 +70,31 @@
         <li>
           Liberar cadastro para outros usuários.
         </li>
+        <li>
+          Correção no erro de produtos compartilhados entre usuários, encapsulado por sessões individuais.
+        </li>
+        </br>
+        </br>
+        <li>
+          //TODO Página de calendário de eventos.
+        </li>
+        <li>
+          //TODO Gráficos com pizzas mais pedidas.
+        </li>
+        <li>
+         //TODO Paginação de usuarios, pizza e log.
+        </li>
+        <li>
+         //TODO Migração total do sistema para tecnologia spring/angular V 2.0.
+        </li>
+        <li>
+         //TODO Documentação do projeto.
+        </li>
+        </br>
         </br>
         <li>
           O sistema não foi pensado em regra de negócio, organização do código e nem em performance,
           foi pensado mais em aprendizado de códigos, compreensão e consultas posteriores.
-        </li>
-        </br>
-        </br>
-        <li>
-          Funcionalidades que serão abordadas na V 2.0 com framework Spring:
-        </li>
-        <li>
-          Correção no bug de pedidos, cache dos produtos.
-        </li>
-        <li>
-          Página de calendário de eventos.
-        </li>
-        <li>
-          Gráficos com pizzas mais pedidas.
-        </li>
-        <li>
-          Paginação de usuarios, pizza e log.
         </li>
       </ul>
     </div>
