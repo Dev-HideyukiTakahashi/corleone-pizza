@@ -49,7 +49,7 @@
 											</thead>
 											<!-- Tag que está recebendo o HighLights -->
 											<tbody id="client-view">
-											<!-- Recebendo do /ServletSearch o método 'usuarioDao.consultaUsuarioList()', enviando a resposta pelo request.setAttribute  -->
+											<!-- Recebendo do /ServletSearch o método 'clientSearchAll()', enviando a resposta pelo request.setAttribute  -->
 												<c:forEach items="${clientData}" var="cd">
 													<tr>
 														<td class="text-secondary"><c:out value="${cd.name}"></c:out> </td>

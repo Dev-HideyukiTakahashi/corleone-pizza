@@ -2,16 +2,16 @@ package servlets;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,17 +33,11 @@ public class OrderController extends HttpServlet {
 	private ClientDAO clientDao   = new ClientDAO();
 	private OrderDAO orderDAO	  = new OrderDAO();
 	
-	private static Order order      = new Order();
-	private static Client client    = new Client();
-	private ServletUtil connectedId = new ServletUtil();
-	
-	private Map<Long, Order> map = new HashMap<>();
-	
-
 	public OrderController() {
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
@@ -53,42 +47,55 @@ public class OrderController extends HttpServlet {
 			String clientId	    = request.getParameter("clientId");
 			String delete		= request.getParameter("delete");
 
+			HttpSession session = request.getSession();
+
 			// Tela de '+pedido' checkout do pedido
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("checkout")) 
 			{
-
-				// Adiciona o produto pelo ID, a chamada e feita direto da tela do produto no icon da pizza
-				if(prodCode != null) {
-					Product product = productDao.productByCode(prodCode);
-					order.addProduct(product);
-					map.put(connectedId.getUserConnected(request), order);
+				// se nao tem produto ainda no checkout
+				if(session.getAttribute("products") == null) 
+				{
+					// a lista aponta para a sessao vazia e instancia uma arraylist
+					List<Product> products = (List<Product>) session.getAttribute("products");
+					products = new ArrayList<>();
+					
+					// Adiciona o produto pelo ID, a chamada e feita direto da tela do produto no icon da pizza
+					if(prodCode != null) 
+					{
+						products.add(productDao.productByCode(prodCode));
+						session.setAttribute("products", products);
+					}
 				}
+				else
+				{
+					List<Product> products = (List<Product>) session.getAttribute("products");
+					
+					if(prodCode != null) 
+					{
+						products.add(productDao.productByCode(prodCode));
+						session.setAttribute("products", products);
+					}
+				}
+
 				
 				// Removendo um produto no checkout
 				if(delete != null && !delete.isEmpty() && delete.equalsIgnoreCase("delete"))
 				{
 					Product product = productDao.productByCode(delCode);
-					order.removeProduct(product);
+					// recuperando a lista da sessao para atualizar com o delete
+					List<Product> products = (List<Product>) session.getAttribute("products");
+					products.remove(product);
+					session.setAttribute("products", products);
 				}
 				
 				// Se o campo de cliente for preenchido recuperar os dados
 				if(clientId != null && !clientId.isEmpty()) {
-					client = clientDao.clientById(Long.parseLong(clientId));
+					Client client = clientDao.clientById(Long.parseLong(clientId));
+					session.setAttribute("client", client);
 				}
-				
-				// HashMap nao contem o ID do user logado, significa que eh outro usuario em outra sessao
-				// portanto limpa toda a tela de checkout
-				if(!map.containsKey(connectedId.getUserConnected(request))) {
-					map.clear();
-					client = new Client();
-					order  = new Order();
-					request.setAttribute("products", null);
-				}
-				else {
 					
-					request.setAttribute("client", client);
-					request.setAttribute("products", map.get(connectedId.getUserConnected(request)).getProducts());
-				}
+				request.setAttribute("client", (Client)session.getAttribute("client"));
+				request.setAttribute("products", (List<Product>)session.getAttribute("products"));
 
 				RequestDispatcher redirect = request.getRequestDispatcher("/pages/orders/checkout.jsp");
 				redirect.forward(request, response);
@@ -99,13 +106,16 @@ public class OrderController extends HttpServlet {
 			{
 				String comments = request.getParameter("comments");
 				
+				Order order = new Order();
 				order.setDate(LocalDateTime.now());
+				order.getProducts().addAll((List<Product>)session.getAttribute("products"));
+				order.setOrderClient((Client) session.getAttribute("client"));
 				
-				orderDAO.insert(comments, client, order);
+				orderDAO.insert(comments, order.getOrderClient(), order);
 				
-				map.clear();
-				client = new Client();
-				order  = new Order();
+				session.setAttribute("products", null);
+				session.setAttribute("client", null);
+				
 			}
 			
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("listAll"))

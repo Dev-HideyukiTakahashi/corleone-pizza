@@ -4,12 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -17,7 +11,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import model.dao.AdminDAO;
 import model.entities.Admin;
 

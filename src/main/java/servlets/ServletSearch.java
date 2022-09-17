@@ -44,7 +44,7 @@ public class ServletSearch extends HttpServlet {
 			// Enviando requisicao com lista de todos os clientes
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchAll")) 
 			{
-				
+				//recupera apenas os clientes que o user logado cadastrou
 				client = clientDAO.clientSearchAll(connectedId.getUserConnected(request));
 				
 				request.setAttribute("clientData", client); 

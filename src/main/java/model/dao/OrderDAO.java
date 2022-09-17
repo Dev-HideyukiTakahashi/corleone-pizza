@@ -29,6 +29,7 @@ public class OrderDAO {
 			
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
+			// Inserindo o pedido com 1 item no banco de dados
 			ps.setString(1, comments);
 			ps.setLong(2, client.getId());
 			ps.setLong(3, order.getProductItem());
@@ -36,31 +37,32 @@ public class OrderDAO {
 			ps.executeUpdate();
 			connection.commit();
 			
+			// result set retorna o id do pedido realizado
 			ResultSet rs = ps.getGeneratedKeys();
 			Long lastCode = null;
-			
-			if(rs.next()) {
+			if(rs.next()) 
+			{
 				lastCode = rs.getLong("order_code");
 			}
 			
+			// checando se tem mais produtos no mesmo pedido, reaproveitando o id 
+			for(int i = 1; i < order.getProducts().size(); i++) 
 			{
-				for(int i = 1; i < order.getProducts().size(); i++) 
-				{
-					
-					sql = "INSERT INTO tb_order(order_code, comments, order_client, product_id, order_data) VALUES (?, ?, ?, ?, ?)";
-					
-					ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-					
-					ps.setLong(1, lastCode);
-					ps.setString(2, comments);
-					ps.setLong(3, client.getId());
-					ps.setLong(4, order.getProducts().get(i).getProdCode());
-					ps.setString(5, order.getDate());
-					ps.executeUpdate();
-					
-					connection.commit();
-				}
+				
+				sql = "INSERT INTO tb_order(order_code, comments, order_client, product_id, order_data) VALUES (?, ?, ?, ?, ?)";
+				
+				ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				
+				ps.setLong(1, lastCode);
+				ps.setString(2, comments);
+				ps.setLong(3, client.getId());
+				ps.setLong(4, order.getProducts().get(i).getProdCode());
+				ps.setString(5, order.getDate());
+				ps.executeUpdate();
+				
+				connection.commit();
 			}
+			
 	}
 	
 	// Lista todos os pedidos
