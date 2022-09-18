@@ -15,9 +15,9 @@ public class DatabaseConnection {
 		if (connection == null) {
 			try 
 			{
-				String user = "suwtkcuqdlvqmn";
-				String password = "7bc97f83ae12ba2d60aa9b9489fdec7218b85ce48c806adf7dfc74bcbcc13314";
-				String url = "jdbc:postgresql://ec2-44-209-158-64.compute-1.amazonaws.com:5432/dfeef4sj87rbd6";
+				String user = "postgres";
+				String password = "1234567";
+				String url = "jdbc:postgresql://localhost:5432/corleone-pizza";
 				Class.forName("org.postgresql.Driver");
 				connection = DriverManager.getConnection(url, user, password);
 				connection.setAutoCommit(false);

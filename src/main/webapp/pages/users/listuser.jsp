@@ -7,18 +7,18 @@
 <html lang="en">
 
 	<!-- Cabeçalho da página -->
-	<jsp:include page="head.jsp"></jsp:include>
+	<jsp:include page="../components/head.jsp"></jsp:include>
 	<body>
 	
 	<div class="container-scroller">
 	
 		<!-- Navegador lateral da página -->
-		<jsp:include page="sidebar.jsp"></jsp:include>
+		<jsp:include page="../components/sidebar.jsp"></jsp:include>
 	
 		<div class="container-fluid page-body-wrapper">
 	
 			<!-- Navbar do cabeçalho -->
-			<jsp:include page="navbar.jsp"></jsp:include>
+			<jsp:include page="../components/navbar.jsp"></jsp:include>
 	
 	
 			<div class="main-panel">
@@ -54,7 +54,7 @@
 											<!-- Recebendo do /ServletSearch o método 'usuarioDao.consultaUsuarioList()', enviando a resposta pelo request.setAttribute  -->
 												<c:forEach items="${userData}" var="ud">
 													<tr>
-														<td class="text-secondary"><c:out value="${ud.adminName}"></c:out> </td>
+														<td class="text-secondary"><c:out value="${ud.userName}"></c:out> </td>
 														<td class="text-secondary"><c:out value="${ud.phone}"></c:out> </td>
 														<td class="text-secondary"><c:out value="${ud.email}"></c:out> </td>
 														<td class="text-warning"><c:out   value="${ud.login}"></c:out> </td>
@@ -145,10 +145,10 @@
 						</div>
 					</div>
 					<!-- Final do corpo formulário para cadastrar novo usuário -->
-					<jsp:include page="footer.jsp"></jsp:include>
+					<jsp:include page="../components/footer.jsp"></jsp:include>
 				</div>
 			</div>
-			<jsp:include page="javascript.jsp" />
+			<jsp:include page="../components/javascript.jsp" />
 		</div>
 	</div>
 	
@@ -251,7 +251,7 @@
 					let json = JSON.parse(response);
 					
 					$('#id').val(json.id);
-					$('#name').val(json.adminName);
+					$('#name').val(json.userName);
 					$('#phone').val(json.phone);
 					$('#email').val(json.email);
 					$('#login').val(json.login);

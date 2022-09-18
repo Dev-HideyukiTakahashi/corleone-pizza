@@ -44,7 +44,7 @@
 										id="validationCustom01" required>
 								</div>
 								<div class="form-group">
-									<label>Senha *</label> <input type="text"
+									<label>Senha *</label> <input type="password"
 										class="form-control p_input" name="password">
 								</div>
 								<div

@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import model.dao.AdminDAO;
 import model.dao.ProductDAO;
-import model.entities.Admin;
+import model.dao.UserDAO;
 import model.entities.Product;
+import model.entities.User;
 
 /**
  *  /drink
@@ -27,7 +27,7 @@ public class DrinkController extends HttpServlet {
 	private ServletUtil connectedId = new ServletUtil();
 
 	private ProductDAO productDAO = new ProductDAO();
-	private AdminDAO   adminDAO	  = new AdminDAO();
+	private UserDAO   userDAO	  = new UserDAO();
 	
 	public DrinkController() {
 		super();
@@ -109,7 +109,7 @@ public class DrinkController extends HttpServlet {
 			// Metodo para alterar o nome, com log do usuario que alterou
 			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
 			{
-				Admin user =  adminDAO.findUserId(connectedId.getUserConnected(request));
+				User user =  userDAO.findUserById(connectedId.getUserConnected(request));
 				productDAO.productUpdate(code, value, "updateName", user);
 			}
 			

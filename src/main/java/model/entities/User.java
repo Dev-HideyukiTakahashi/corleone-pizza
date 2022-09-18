@@ -1,8 +1,8 @@
 package model.entities;
 
-public class Admin {
+public class User {
 
-	private String adminName;
+	private String userName;
 	private String phone;
 	private String email;
 	private String login;
@@ -12,12 +12,12 @@ public class Admin {
 	private String photo;
 	private String extension;
 
-	public Admin() {
+	public User() {
 
 	}
 
-	public Admin(String adminName, String phone, String email, String login, String password, String partner, Long id) {
-		this.adminName = adminName;
+	public User(String userName, String phone, String email, String login, String password, String partner, Long id) {
+		this.userName = userName;
 		this.phone = phone;
 		this.email = email;
 		this.login = login;
@@ -42,12 +42,12 @@ public class Admin {
 		this.extension = extension;
 	}
 
-	public String getAdminName() {
-		return adminName;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setAdminName(String adminName) {
-		this.adminName = adminName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPhone() {

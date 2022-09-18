@@ -21,11 +21,11 @@
 				<div class="profile-pic">
 					<div class="count-indicator">
 						<!-- Caso não ter foto, é uma padrão -->
-						<c:if test="${adminPhoto != null && adminPhoto != ''}">
+						<c:if test="${userPhoto != null && userPhoto != ''}">
 							<img class="img-xs rounded-circle"
-								src="<%=session.getAttribute("adminPhoto")%>" alt="img">
+								src="<%=session.getAttribute("userPhoto")%>" alt="img">
 						</c:if>
-						<c:if test="${adminPhoto == null || adminPhoto == ''}">
+						<c:if test="${userPhoto == null || userPhoto == ''}">
 							<img class="img-xs rounded-circle"
 								src="<%=request.getContextPath()%>/assets/images/faces/logo.png"
 								alt="img">
@@ -34,9 +34,9 @@
 						<span class="count bg-success"></span>
 					</div>
 					<div class="profile-name">
-						<h5 class="mb-0 font-weight-normal"><%=session.getAttribute("adminName")%></h5>
+						<h5 class="mb-0 font-weight-normal"><%=session.getAttribute("userName")%></h5>
 						<span><%=session.getAttribute("adminOffice")%></span> <span
-							hidden=""><%=session.getAttribute("adminLogin")%></span>
+							hidden=""><%=session.getAttribute("userLogin")%></span>
 					</div>
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 				<div class="collapse" id="ui-basic8">
 					<ul class="nav flex-column sub-menu">
 						<li class="nav-item"><a class="nav-link"
-							href="<%=request.getContextPath()%>/pages/newuser.jsp">Novo
+							href="<%=request.getContextPath()%>/pages/users/newuser.jsp">Novo
 								Usuário</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="<%=request.getContextPath()%>/login?action=searchList">Todos

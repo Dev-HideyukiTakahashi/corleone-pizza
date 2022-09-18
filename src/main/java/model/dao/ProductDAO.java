@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Locale;
 
 import config.DatabaseConnection;
-import model.entities.Admin;
 import model.entities.Product;
+import model.entities.User;
 
 public class ProductDAO {
 
@@ -60,7 +60,7 @@ public class ProductDAO {
 		return item;
 	}
 	
-	public void productUpdate(String code, String value, String option, Admin user) 
+	public void productUpdate(String code, String value, String option, User user) 
 	{
 		try 
 		{
@@ -89,7 +89,7 @@ public class ProductDAO {
 				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 				
 				LocalDateTime date = LocalDateTime.now();
-				String log = "Usuário '"+user.getAdminName()+"', alterou dados do produto:\nCódigo: "
+				String log = "Usuário '"+user.getUserName()+"', alterou dados do produto:\nCódigo: "
 						+ code +"\nNome alterado: '" + value + "'";
 				
 				sql = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";

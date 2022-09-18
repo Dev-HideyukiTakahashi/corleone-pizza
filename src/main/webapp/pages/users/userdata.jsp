@@ -7,7 +7,7 @@
 <html lang="en">
 
 <!-- Cabeçalho da página -->
-<jsp:include page="head.jsp"></jsp:include>
+<jsp:include page="../components/head.jsp"></jsp:include>
 
 
 <body>
@@ -16,12 +16,12 @@
 	<div class="container-scroller">
 
 		<!-- Navegador lateral da página -->
-		<jsp:include page="sidebar.jsp"></jsp:include>
+		<jsp:include page="../components/sidebar.jsp"></jsp:include>
 
 		<div class="container-fluid page-body-wrapper">
 
 			<!-- Navbar do cabeçalho -->
-			<jsp:include page="navbar.jsp"></jsp:include>
+			<jsp:include page="../components/navbar.jsp"></jsp:include>
 
 
 			<div class="main-panel">
@@ -30,7 +30,7 @@
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-							
+								<span class="text-danger">${msg}</span>
 								<h4 class="card-title" >Configurações da conta</h4>
 								<p class="card-description">Foto do perfil</p>
 
@@ -38,6 +38,7 @@
 									action="<%=request.getContextPath()%>/login" >
 									
 									<input id="id" type="hidden" value="${userSettings.id}" name="newId"/>
+									<input id="login" type="hidden" value="${userSettings.login}" name="newLogin"/>
 									<input type="hidden" name="action" value="update"/>
 									
 									<!-- UPLOAD DE FOTO -->
@@ -68,9 +69,9 @@
 									
 									<div class="form-group">
 										<label>Nome*</label> 
-										<input type="text" name="newName"
+										<input type="text" name="newName" required="required"
 											autocomplete="off" class="form-control text-light" 
-											placeholder="Nome Completo" id="name" value="${userSettings.adminName}">
+											placeholder="Nome Completo" id="name" value="${userSettings.userName}">
 									</div>
 									
 									<div class="form-group">
@@ -78,7 +79,7 @@
 										<input
 											type="text" class="form-control text-light" name="newPhone"
 											autocomplete="off" id="phone" value="${userSettings.phone}" 
-											placeholder="Telefone" >
+											placeholder="Telefone" required="required">
 									</div>
 									
 									<div class="form-group">
@@ -91,14 +92,14 @@
 									
 									<div class="form-group">
 										<label>Senha*</label> 
-										<input type="password" name="oldPassword"
+										<input type="password" name="oldPassword" required="required"
 											autocomplete="off" class="form-control text-light" 
 											placeholder="Digite a senha atual" id="password">
 									</div>
 									
 									<div class="form-group">
 										<label>Nova Senha*</label> 
-										<input type="password" name="newPassword"
+										<input type="password" name="newPassword" required="required"
 											autocomplete="off" class="form-control text-light" 
 											placeholder="Digite a nova senha ou confirme a sua atual" id="new-password">
 									</div>
@@ -118,13 +119,13 @@
 							</div>
 						</div>
 					</div>
-					<jsp:include page="footer.jsp"></jsp:include>
+					<jsp:include page="../components/footer.jsp"></jsp:include>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<jsp:include page="javascript.jsp" />
+	<jsp:include page="../components/javascript.jsp" />
 	
 	<!-- Script para acionar o click submit quando apertar ENTER -->
 	<script type="text/javascript">

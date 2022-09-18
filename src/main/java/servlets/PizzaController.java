@@ -1,22 +1,21 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.dao.AdminDAO;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import model.dao.ProductDAO;
-import model.entities.Admin;
+import model.dao.UserDAO;
 import model.entities.Product;
+import model.entities.User;
 
 /**
  * Mapeado em sistema: /pizzas 
@@ -30,7 +29,7 @@ public class PizzaController extends HttpServlet {
 	private ServletUtil connectedId = new ServletUtil();
 
 	private ProductDAO productDAO = new ProductDAO();
-	private AdminDAO   adminDAO	  = new AdminDAO();
+	private UserDAO   userDAO	  = new UserDAO();
 	
 	public PizzaController() {
 		super();
@@ -112,7 +111,7 @@ public class PizzaController extends HttpServlet {
 			// Metodo para alterar o nome, com log do usuario que alterou
 			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
 			{
-				Admin user =  adminDAO.findUserId(connectedId.getUserConnected(request));
+				User user =  userDAO.findUserById(connectedId.getUserConnected(request));
 				productDAO.productUpdate(code, value, "updateName", user);
 			}
 			

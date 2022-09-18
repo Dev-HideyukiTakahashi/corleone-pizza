@@ -7,18 +7,18 @@
 <html lang="en">
 
 	<!-- Cabeçalho da página -->
-	<jsp:include page="../head.jsp"></jsp:include>
+	<jsp:include page="../components/head.jsp"></jsp:include>
 	<body>
 	
 	<div class="container-scroller">
 	
 		<!-- Navegador lateral da página -->
-		<jsp:include page="../sidebar.jsp"></jsp:include>
+		<jsp:include page="../components/sidebar.jsp"></jsp:include>
 	
 		<div class="container-fluid page-body-wrapper">
 	
 			<!-- Navbar do cabeçalho -->
-			<jsp:include page="../navbar.jsp"></jsp:include>
+			<jsp:include page="../components/navbar.jsp"></jsp:include>
 	
 	
 			<div class="main-panel">
@@ -66,10 +66,10 @@
 							</div>
 						</div>
 					</div>
-					<jsp:include page="../footer.jsp"></jsp:include>
+					<jsp:include page="../components/footer.jsp"></jsp:include>
 				</div>
 			</div>
-			<jsp:include page="../javascript.jsp" />
+			<jsp:include page="../components/javascript.jsp" />
 		</div>
 	</div>
 		<!-- Script para busca com highlights -->
