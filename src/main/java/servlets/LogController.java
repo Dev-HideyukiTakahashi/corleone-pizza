@@ -11,35 +11,49 @@ import javax.servlet.http.HttpServletResponse;
 import model.dao.LogDAO;
 import model.entities.Log;
 
+
 /**
- * Mapped /log
+ * The Class LogController.
+ * 
+ * @author Hideyuki Takahashi
+ * @github https://github.com/Dev-HideyukiTakahashi
+ * @email  dev.hideyukitakahashi@gmail.com
  */
+
 public class LogController extends HttpServlet {
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The log DAO. */
 	private LogDAO logDAO = new LogDAO();
        
+    /**
+     * Instantiates a new log controller.
+     */
     public LogController() {
         super();
     }
 
+	/**
+	 * Busca todos registros de log no banco de dados e disponibiliza na view.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try 
 		{
 			List<Log> logs = logDAO.load();
 			
 			request.setAttribute("logs", logs);
-			
-			RequestDispatcher redirect = request.getRequestDispatcher("/pages/log.jsp");
-			redirect.forward(request, response);
+			request.getRequestDispatcher("/pages/log.jsp").forward(request, response);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
-			redirecionador.forward(request, response);
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
-
 	}
-
 }
