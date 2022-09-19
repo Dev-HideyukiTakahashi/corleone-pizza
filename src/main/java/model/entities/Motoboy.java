@@ -2,6 +2,7 @@ package model.entities;
 
 public class Motoboy {
 
+	private Long motoboyId;
 	private String motoboyName;
 	private String motoboyPhone;
 	private String motoboyAdress;
@@ -14,6 +15,14 @@ public class Motoboy {
 		this.motoboyName = motoboyName;
 		this.motoboyPhone = motoboyPhone;
 		this.motoboyAdress = motoboyAdress;
+	}
+
+	public Long getMotoboyId() {
+		return motoboyId;
+	}
+
+	public void setMotoboyId(Long motoboyId) {
+		this.motoboyId = motoboyId;
 	}
 
 	public String getMotoboyName() {

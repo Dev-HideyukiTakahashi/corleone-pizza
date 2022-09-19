@@ -49,13 +49,15 @@
 											<tbody>
 												<c:forEach items="${motoboyData}" var="md">
 													<tr>
+														<td hidden=""><input id="id" type="hidden" value="${md.motoboyId}"/></td>
+														
 														<td id="name-motoboy" class="text-center text-secondary">
 															<c:out value="${md.motoboyName}"></c:out>
 														</td>
 
 														<td class="text-center text-warning">
 															<button class="mdi mdi-lead-pencil"
-																onclick="modelView('${md.motoboyName},phone');"
+																onclick="modalView('${md.motoboyId},phone');"
 																style="margin-right: 10px"></button> <c:out
 																value="${md.motoboyPhone}">
 															</c:out>
@@ -63,7 +65,7 @@
 
 														<td class="text-secondary"><button
 																class="mdi mdi-lead-pencil"
-																onclick="modelView('${md.motoboyName},adress');"
+																onclick="modalView('${md.motoboyId},adress');"
 																style="margin-right: 10px"></button>
 															<c:out value="${md.motoboyAdress}"></c:out></td>
 														<td class='py-1 text-center'><a
@@ -109,7 +111,7 @@
 					class="form-control text-light" autocomplete="off"
 					id="insertModal-adress"></input> <label class="text-secondary"
 					style="margin-top: 15px">Telefone</label> <input
-					class="form-control text-light" autocomplete="off" type="text"
+					class="form-control text-light" autocomplete="off" type="number"
 					id="insertModal-phone"></input>
 			</div>
 			<div class="modal-footer">
@@ -137,7 +139,7 @@
 			<div class="modal-body">
 				<input id="updateModal-input" class="form-control text-light"
 					value="" autocomplete="off"></input> <input id="type" type="hidden" />
-				<input id="name" type="hidden" />
+				<input id="id-update" type="hidden" />
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary"
@@ -149,15 +151,32 @@
 	</div>
 </div>
 
-
+<!-- Script para atualizar dados do motoboy -->
 <script type="text/javascript">
 	function updateData() {
 		
 		let value = $('#updateModal-input').val();
 		let type  = $('#type').val();
-		let name  = $('#name').val();
+		let id  = $('#id-update').val();
 
-		window.location.href = "<%=request.getContextPath()%>/motoboy?action=update&value=" +value+"&type="+type+"&name="+name ;
+		$.ajax
+		({
+			method : "GET",
+			url    : <%=request.getContextPath()%>/ + "motoboy?action=update",
+			data   : 
+			{
+				type 	      : type,
+				value		  : value,
+				id			  : id,
+			},
+		    success : function() 
+		    {
+	    		$('#update-modal').modal('hide');
+	    		window.location.href = "<%=request.getContextPath()%>/motoboy?action=listAll"
+			},
+		}).fail(function(xhr, status, errorThrown) {
+			alert("Erro desconhecido ao atualizar dados")
+		});
 	}
 	
 	</script>
@@ -165,10 +184,8 @@
 <!-- Script para mostrar modal insert -->
 <script type="text/javascript">
 		function insertModal() {
-			
 			$('#insert-modal').modal('show');
 			$('#updateModal-name').text('Novo entregador');
-			
 		}
 		
 		function insertData() {
@@ -194,7 +211,6 @@
 		    		
 		    		// Recarrega a página
 		    		location.reload();
-		    		
 				},
 			}).fail(function(xhr, status, errorThrown) {
 				alert("Erro desconhecido ao inserir dados")
@@ -206,10 +222,10 @@
 
 <!-- Script para mostrar modal update -->
 <script>
-	function modelView(obj) {
+	function modalView(obj) {
 	
 		let array = obj.split(',');
-		let name  = array[0];
+		let id    = array[0];
 		let value = array[1];
 		
 		if(value === "adress"){
@@ -217,17 +233,15 @@
 			$('#update-modal').modal('show');
 			$('#updateModal-name').text('Atualizar Endereço');
 			$('#type').val('adress');
-			$('#name').val(name);
+			$('#id-update').val(id);
 		}
 		else if(value === "phone"){
 			
 			$('#update-modal').modal('show');
 			$('#updateModal-name').text('Atualizar Telefone');
 			$('#type').val('phone');
-			$('#name').val(name);
+			$('#id-update').val(id);
 		}
-		
-		
 	}
 	</script>
 
@@ -240,18 +254,14 @@
 	</script>
 
 
-
-
 <!-- Deletar motoboy -->
 <script type="text/javascript">
-function deleteMotoboy(name) {
+function deleteMotoboy(id) {
 	
 	let response = confirm("Deseja excluir?")
 	
 	if(response){
-		window.location.href = "<%=request.getContextPath()%>
-	/motoboy?action=del&name="
-					+ name;
+		window.location.href = <%=request.getContextPath()%>/+ "motoboy?action=del&name=" + id;
 		}
 
 	}
