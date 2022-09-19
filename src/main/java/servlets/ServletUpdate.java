@@ -15,29 +15,44 @@ import model.dao.ClientDAO;
 import model.entities.Client;
 
 /**
- * Mapeado em sistema: /update 
- * Servlet para atualizar um novo cliente
- * O Filter esta responsavel pelo rollback
+ * The Class ServletUpdate. mapped /update
+ *
+ * @author Hideyuki Takahashi
+ * @github https://github.com/Dev-HideyukiTakahashi
+ * @email  dev.hideyukitakahashi@gmail.com
  */
 public class ServletUpdate extends HttpServlet {
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The client DAO. */
 	private ClientDAO clientDAO = new ClientDAO();
-	
-	// Classe utilitaria para guardar o id de qual usuario esta logado em sistema
+
+	/** Classe utilitaria para recuperar o id do usuario da sessao. */
 	private ServletUtil connectedId = new ServletUtil();
 	
+	/**
+	 * Instantiates a new servlet update.
+	 */
 	public ServletUpdate() {
 
 		super();
 	}
 
+	/**
+	 * Recupera uma lista com todos clientes cadastrados pelo usuario da sessao.
+	 * A busca eh feita pelo telefone.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try
 		{
-			// Algoritmo da busca de cliente por telefone
 			String field  = request.getParameter("field");
 			List<Client> client = new ArrayList<>();
 			
@@ -45,58 +60,58 @@ public class ServletUpdate extends HttpServlet {
 			{
 				client = clientDAO.clientSearch("empty", field, connectedId.getUserConnected(request));
 				
-				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
 				ObjectMapper mapper = new ObjectMapper();
 				String JSON = mapper.writeValueAsString(client);
-				// Forcando a formatacao do JSON para UTF-8
 				response.setCharacterEncoding("UTF-8");
-				// Enviando o JSON no response do AJAX
 				response.getWriter().write(JSON);
 			}
-			else 
-			{
-				RequestDispatcher redirecionador = request.getRequestDispatcher("pages/clients/delete.jsp");
-				redirecionador.forward(request, response);
+			else{
+				request.getRequestDispatcher("pages/clients/delete.jsp").forward(request, response);
 			}
-			
-			// Algoritmo Delete
-			String valueDelete = request.getParameter("phone");
-			if(valueDelete != null) {
-				clientDAO.clientDelete(valueDelete);
-			}
-			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
-			redirecionador.forward(request, response);
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
-		
 	}
 
+	/**
+	 * Atualiza os dados do cliente.
+	 * O telefone nao eh valido se ja for cadastrado em sistema.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException 
 	{
 		try
 		{
-			Client client = new Client();
+			String id 		     = request.getParameter("id");
+			String name 		 = request.getParameter("name");
+			String newPhone 	 = request.getParameter("newPhone");
+			String phone 		 = request.getParameter("phone");
+			String email 		 = request.getParameter("email"); 
+			String adress		 = request.getParameter("adress");
+			String reference	 = request.getParameter("reference");
+			Client newClient 	 = new Client(name, newPhone, email, adress, reference);
 			
-			String name 	 = request.getParameter("name");
-			String phone 	 = request.getParameter("phone");
-			String email 	 = request.getParameter("email"); // Recuperando dados do form em register.jsp
-			String adress	 = request.getParameter("adress");
-			String reference = request.getParameter("reference");
-
-			Client newClient = new Client(name, phone, email, adress, reference);
+			newClient.setId(Long.parseLong(id));
 			
-			clientDAO.clientUpdate(newClient);
-			
-			response.getWriter().write("atualizado");
+			if(newPhone.equals(phone)) {
+				clientDAO.clientUpdate(newClient);
+				response.getWriter().write("success");
+			}
+			else if (!newPhone.equals(phone) && !clientDAO.clientExists(newClient)){
+				clientDAO.clientUpdate(newClient);
+				response.getWriter().write("success");
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
-			redirecionador.forward(request, response);
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
 }

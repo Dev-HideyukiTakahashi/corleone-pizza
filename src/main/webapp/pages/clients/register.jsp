@@ -7,9 +7,7 @@
 <!-- Cabeçalho da página -->
 <jsp:include page="../components/head.jsp"></jsp:include>
 
-
 <body>
-
 
 	<div class="container-scroller">
 
@@ -39,23 +37,22 @@
 										<label for="exampleInputName">Nome*</label> 
 										<input type="text"
 											autocomplete="off" class="form-control text-light" 
-											placeholder="Nome Completo" name="name" id="name"
-											value="${clientData.name}">
+											placeholder="Nome Completo" name="name" id="name">
 									</div>
 									
 									<div class="form-group">
 										<label for="exampleInputPhone">Telefone*</label> 
 										<input
-											type="text" class="form-control text-light"
-											autocomplete="off" id="phone" value="${clientData.phone}"
-											placeholder="Telefone" name="phone" >
+											type="number" class="form-control text-light"
+											autocomplete="off" id="phone" 
+											placeholder="Telefone - Apenas números" name="phone" >
 									</div>
 									
 									<div class="form-group">
 										<label for="exampleInputEmail">Email</label> 
 										<input
 											type="email" class="form-control text-light"
-											autocomplete="off" id="email" value="${clientData.email}"
+											autocomplete="off" id="email" 
 											placeholder="Email" name="email">
 									</div>
 									
@@ -63,7 +60,7 @@
 										<label for="exampleInputAdress">Endereço*</label> 
 										<input
 											type="text" class="form-control text-light" 
-											value="${clientData.adress}" autocomplete="off"
+											autocomplete="off"
 											placeholder="Endereço" name="adress" id="adress">
 									</div>
 									
@@ -130,7 +127,7 @@
 			let urlAction 	  = document.getElementById('form-register').action;
 			if(nameUser.trim() === '' || phoneUser.trim() === '' || adressUser.trim() === '')
 			{
-	    		let msg = "Preencha todos campos obrigatórios ***";
+	    		let msg = "Preencha todos campos obrigatórios*, telefone apenas números";
 	    		$('#registerModal').modal('show');
 	    		$("#modal-msg").text(msg);
 	    		document.getElementById('modal-msg').classList.add('text-danger');
@@ -150,7 +147,7 @@
 					},
 				    success : function(response) 
 				    {
-				    	if(response === "registrado")
+				    	if(response === "success")
 				    	{
 				    		let msg = "Cliente registrado com sucesso!";
 				    		$('#registerModal').modal('show');

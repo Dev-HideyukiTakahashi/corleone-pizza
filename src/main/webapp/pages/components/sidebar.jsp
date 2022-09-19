@@ -83,8 +83,6 @@
 					<li class="nav-item"><a class="nav-link"
 						href="<%=request.getContextPath()%>/pages/clients/find.jsp">Buscar</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/pages/clients/delete.jsp">Deletar</a></li>
-					<li class="nav-item"><a class="nav-link"
 						href="<%=request.getContextPath()%>/search?action=searchAll">Listar</a></li>
 				</ul>
 			</div></li>

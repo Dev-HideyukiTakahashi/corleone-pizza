@@ -203,7 +203,6 @@
 		}
 	</script>
 	
-	
 	<!-- Script para preencher os dados do client no pedido -->
 	<script type="text/javascript">
 		function clientData() {

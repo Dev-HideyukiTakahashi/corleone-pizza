@@ -11,53 +11,58 @@ import model.dao.ClientDAO;
 import model.entities.Client;
 
 /**
- * Mapeado em sistema: /register 
- * Servlet para cadastrar um novo cliente
- * O Filter esta responsavel pelo rollback
+ * The Class ServletRegister. mapped /register
+ *
+ * @author Hideyuki Takahashi
+ * @github https://github.com/Dev-HideyukiTakahashi
+ * @email  dev.hideyukitakahashi@gmail.com
  */
 public class ServletRegister extends HttpServlet {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The client DAO. */
 	private ClientDAO clientDAO = new ClientDAO();
 	
-	// Classe utilitaria para guardar o id de qual usuario esta logado em sistema
+	/** Classe utilitaria para recuperar o id do usuario da sessao. */
 	private ServletUtil connectedId = new ServletUtil();
 
+	/**
+	 * Instantiates a new servlet register.
+	 */
 	public ServletRegister() {
 		super();
 	}
 
-
+	/**
+	 * Cadastra um novo cliente no banco de dados.
+	 * A condicao eh nao ter um cliente no banco de dados com o telefone desejado.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try 
 		{
-
 			String name 	 = request.getParameter("name");
 			String phone 	 = request.getParameter("phone");
-			String email 	 = request.getParameter("email"); // Recuperando dados do form em register.jsp
+			String email 	 = request.getParameter("email"); 
 			String adress	 = request.getParameter("adress");
 			String reference = request.getParameter("reference");
 
 			Client newClient = new Client(name, phone, email, adress, reference);
 
-			// Registrando um novo usuario
-			// Verificando se ja existe um cliente com esse telefone
-			if (clientDAO.clientExists(newClient)) {
-				request.setAttribute("clientData", newClient);
-			}
-			// Se nao existe cliente com esse telefone, valida para novo cadastro
-			else 
-			{
+			if (!clientDAO.clientExists(newClient)) {
 				clientDAO.insertClient(newClient, connectedId.getUserConnected(request));
-				response.getWriter().write("registrado");
+				response.getWriter().write("success");
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
-			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
-			redirecionador.forward(request, response);
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
 }

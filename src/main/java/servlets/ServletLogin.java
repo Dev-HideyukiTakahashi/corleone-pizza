@@ -23,7 +23,7 @@ import model.dao.UserDAO;
 import model.entities.User;
 
 /**
- * The Class ServletLogin.
+ * The Class ServletLogin. mapped /login
  *
  * @author Hideyuki Takahashi
  * @github https://github.com/Dev-HideyukiTakahashi
@@ -39,7 +39,7 @@ public class ServletLogin extends HttpServlet
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The connected id. */
+	/** Classe utilitaria para recuperar o id do usuario da sessao. */
 	private ServletUtil connectedId = new ServletUtil();
 	
 	/** The user DAO. */
@@ -86,11 +86,9 @@ public class ServletLogin extends HttpServlet
 				searchListAction(request, response);
 			}
 		}
-		catch(Exception e) 
-		{
+		catch(Exception e){
 			e.printStackTrace();
-			RequestDispatcher redirect = request.getRequestDispatcher("/error.jsp");
-			redirect.forward(request, response);
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
 

@@ -24,8 +24,7 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 	
-					<form action="<%=request.getContextPath()%>/search" id="form-search"></form>
-						<!-- Inicio da tabela de busca -->
+					<!-- Inicio da tabela de busca -->
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">

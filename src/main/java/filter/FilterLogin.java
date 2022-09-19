@@ -18,16 +18,32 @@ import javax.servlet.http.HttpSession;
 import config.DatabaseConnection;
 
 
+/**
+ * The Class FilterLogin.
+ * 
+ * @author Hideyuki Takahashi
+ * @github https://github.com/Dev-HideyukiTakahashi
+ * @email  dev.hideyukitakahashi@gmail.com
+ */
 @WebFilter(urlPatterns = { "/pages/*" }) 
 public class FilterLogin extends HttpFilter {
        
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The connection. */
 	private Connection connection;
 	
+	/**
+	 * Instantiates a new filter login.
+	 */
 	public FilterLogin() {
         super();
     }
 
+	/**
+	 * Fecha conexao com banco de dados.
+	 */
 	public void destroy() {
 		try {
 			connection.close();
@@ -36,15 +52,22 @@ public class FilterLogin extends HttpFilter {
 		}
 	}
 
+	/**
+	 * O filter nao permite acessar nenhuma pagina da da pasta webapp/pages sem estar logado
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param chain the chain
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ServletException the servlet exception
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		try 
 		{
-			
 			HttpServletRequest loginRequest = (HttpServletRequest) request;
 			HttpSession session 			= loginRequest.getSession();
 			String user 					= (String) session.getAttribute("userLogin");
 			String url 						= loginRequest.getServletPath();
-			
 			
 			if(user == null && !url.equalsIgnoreCase("pages/login")) 
 			{
@@ -56,7 +79,6 @@ public class FilterLogin extends HttpFilter {
 			else {
 				chain.doFilter(request, response);
 			}
-			
 			connection.commit();
 		}
 
@@ -74,8 +96,14 @@ public class FilterLogin extends HttpFilter {
 		}
 		
 	}
+	
+	/**
+	 * Abre a conexao com banco de dados.
+	 *
+	 * @param fConfig the f config
+	 * @throws ServletException the servlet exception
+	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
-
 }

@@ -9,96 +9,105 @@ import java.util.List;
 
 import config.DatabaseConnection;
 import model.entities.Client;
-import servlets.ServletLogin;
 
+/**
+ * The Class ClientDAO.
+ *
+ * @author Hideyuki Takahashi
+ * @github https://github.com/Dev-HideyukiTakahashi
+ * @email  dev.hideyukitakahashi@gmail.com
+ */
 public class ClientDAO {
 
+	/** Conexao com banco de dados para essa classe. */
 	private Connection connection;
-	
 
+	/**
+	 * Instancia nova conexao com banco de dados.
+	 */
 	public ClientDAO() {
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 
-	// Novo usuario
-	public void insertClient(Client client, Long connectedId) {
-		try {
-			String sql = "INSERT INTO client(name, phone, email, adress, reference, admin_id) " + "VALUES (?, ?, ?, ?, ?, ?)";
+	/**
+	 * Cadastra novo cliente no banco de dados.
+	 * O cliente eh visivel apenas para o usuario da sessao.
+	 *
+	 * @param client objeto cliente
+	 * @param connectedId id do usuario de sessao
+	 * @throws SQLException 
+	 */
+	public void insertClient(Client client, Long connectedId) throws SQLException 
+	{
+		String sql = "INSERT INTO client(name, phone, email, adress, reference, admin_id) " + "VALUES (?, ?, ?, ?, ?, ?)";
 
-			PreparedStatement ps = connection.prepareStatement(sql);
+		PreparedStatement ps = connection.prepareStatement(sql);
 
-			ps.setString(1, client.getName());
-			ps.setString(2, client.getPhone());
-			ps.setString(3, client.getEmail());
-			ps.setString(4, client.getAdress());
-			ps.setString(5, client.getReference());
-			ps.setLong(6, connectedId);
-			ps.execute();
+		ps.setString(1, client.getName());
+		ps.setString(2, client.getPhone());
+		ps.setString(3, client.getEmail());
+		ps.setString(4, client.getAdress());
+		ps.setString(5, client.getReference());
+		ps.setLong(6, connectedId);
+		ps.execute();
 
-			connection.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
+		connection.commit();
 	}
 
-	// Buscando usuario por ID
-	public List<Client> clientSearch(String option, String field, Long connectedId) 
+	/**
+	 * Busca um cliente no banco de dados por nome ou telefone
+	 *
+	 * @param option nome ou telefone
+	 * @param field valor da busca
+	 * @param connectedId id do usuario da sessao
+	 * @return lista de clientes
+	 * @throws SQLException 
+	 */
+	public List<Client> clientSearch(String option, String field, Long connectedId) throws SQLException 
 	{
 		List<Client> clientFound = new ArrayList<>();
-		try 
+		String sql = null;
+		
+		if(option.equals("nameOption") || option == "nameOption") 
 		{
-			String sql = null;
-			
-			if(option.equals("nameOption") || option == "nameOption") 
-			{
-				field = field.toUpperCase();
-				// Checando se o usuario logado e um admin
-				// O admin busca todos os registros do BD, usuario apenas os seus registros de clientes
-				sql =  (connectedId != 1) 
-						? "SELECT * FROM client WHERE upper(name) LIKE (?) AND admin_id = ?" 
-						: "SELECT * FROM client WHERE upper(name) LIKE (?)";
-			}
-			else
-			{
-				sql =  (connectedId != 1) 
-						? "SELECT * FROM client WHERE phone LIKE (?) AND admin_id = ?" 
-						: "SELECT * FROM client WHERE phone LIKE (?)";
-			}
-			
-			ResultSet rs;
-			if(connectedId == 1) 
-			{
-				PreparedStatement ps = connection.prepareStatement(sql);
-				ps.setString(1, "%"+ field + "%");
-				rs = ps.executeQuery();
-			}
-			else 
-			{				
-				PreparedStatement ps = connection.prepareStatement(sql);
-				ps.setString(1, "%"+ field + "%");
-				ps.setLong(2, connectedId);
-				rs = ps.executeQuery();
-			}
-
-			while (rs.next()) 
-			{
-				clientFound.add(clientAssembler(rs));
-				
-			}
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
+			field = field.toUpperCase();
+			sql =  (connectedId != 1) 
+					? "SELECT * FROM client WHERE upper(name) LIKE (?) AND admin_id = ?" 
+					: "SELECT * FROM client WHERE upper(name) LIKE (?)";
 		}
+		else
+		{
+			sql =  (connectedId != 1) 
+					? "SELECT * FROM client WHERE phone LIKE (?) AND admin_id = ?" 
+					: "SELECT * FROM client WHERE phone LIKE (?)";
+		}
+		
+		ResultSet rs;
+		if(connectedId == 1) 
+		{
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, "%"+ field + "%");
+			rs = ps.executeQuery();
+		}
+		else 
+		{				
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, "%"+ field + "%");
+			ps.setLong(2, connectedId);
+			rs = ps.executeQuery();
+		}
+
+		while (rs.next()) {clientFound.add(clientAssembler(rs));}
 		return clientFound;
 	}
 	
-	//Buscando cliente por telefone
+	/**
+	 * Busca cliente por ID
+	 *
+	 * @param id id do cliente
+	 * @return dados do cliente
+	 * @throws SQLException the SQL exception
+	 */
 	public Client clientById(Long id) throws SQLException 
 	{
 		String sql 		     = "SELECT * FROM client WHERE id = ?";
@@ -107,65 +116,52 @@ public class ClientDAO {
 		ResultSet rs 	     = ps.executeQuery();
 		
 		Client client = new Client();
-		while(rs.next()) {
-			client = clientAssembler(rs);
-		}
-		
+		while(rs.next()) {client = clientAssembler(rs);}
 		return client;
 	}
 	
-	// Buscando todos cliente para gerar a lista dinamica na pagina find.jsp
-	public List<Client> clientSearchAll(Long connectedId) 
+	/**
+	 * Busca a lista de todos cliente cadastrados pelo usuario da sessao
+	 *
+	 * @param connectedId id do usuario da sessao
+	 * @return the list
+	 * @throws SQLException 
+	 */
+	public List<Client> clientSearchAll(Long connectedId) throws SQLException 
 	{
-		List<Client> clientFound = new ArrayList<>();
-		try 
-		{
-			String sql;
-			
-			sql =  (connectedId != 1) 
-					? "SELECT * FROM client WHERE admin_id = ?" 
-					: "SELECT * FROM client";
-			
-			ResultSet rs; 	
-			if(connectedId == 1) 
-			{
-				PreparedStatement ps = connection.prepareStatement(sql);
-				rs = ps.executeQuery();
-			}
-			else 
-			{				
-				PreparedStatement ps = connection.prepareStatement(sql);
-				ps.setLong(1, connectedId);
-				rs = ps.executeQuery();
-			}
-
-			while (rs.next()) {
-				clientFound.add(clientAssembler(rs));
-			}
-
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		return clientFound;
-	}
-	
-	
-	public void clientDelete(String valueDelete) throws SQLException 
-	{
-		String sql = "DELETE FROM client WHERE phone LIKE (?)";
-		PreparedStatement ps = connection.prepareStatement(sql);
-
-		ps.setString(1, "%"+ valueDelete.substring(3) + "%");
-		ps.executeUpdate();
+		List<Client> clientList = new ArrayList<>();
+		String sql;
 		
-		connection.commit();
+		sql =  (connectedId != 1) 
+				? "SELECT * FROM client WHERE admin_id = ?" 
+				: "SELECT * FROM client";
+		
+		ResultSet rs; 	
+		if(connectedId == 1)
+		{
+			PreparedStatement ps = connection.prepareStatement(sql);
+			rs = ps.executeQuery();
+		}
+		else
+		{				
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setLong(1, connectedId);
+			rs = ps.executeQuery();
+		}
+
+		while (rs.next()) {clientList.add(clientAssembler(rs));}
+		return clientList;
 	}
 	
+	/**
+	 * Atualiza os dados do cliente
+	 *
+	 * @param client objeto client
+	 * @throws SQLException the SQL exception
+	 */
 	public void clientUpdate(Client client) throws SQLException 
 	{
-		String sql = "UPDATE client SET name= ?, phone= ?, email=?, adress=?, reference=? WHERE phone= ?";
+		String sql = "UPDATE client SET name= ?, phone= ?, email=?, adress=?, reference=? WHERE id= ?";
 		
 		PreparedStatement ps = connection.prepareStatement(sql);
 		
@@ -174,27 +170,38 @@ public class ClientDAO {
 		ps.setString(3, client.getEmail());
 		ps.setString(4, client.getAdress());
 		ps.setString(5, client.getReference());
-		ps.setString(6, client.getPhone());
+		ps.setLong(6, client.getId());
 		ps.executeUpdate();
 		
 		connection.commit();
 	}
 
+	/**
+	 * Verifica se o cliente existe no banco de dados
+	 *
+	 * @param client objeto client
+	 * @return true, if successful
+	 * @throws SQLException the SQL exception
+	 */
 	public boolean clientExists(Client client) throws SQLException 
 	{
-
 		String sql 	         = "SELECT * FROM client";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ResultSet rs	     = ps.executeQuery();
 
 		while (rs.next()) {
-			if (client.getPhone().equals(rs.getString("phone").trim())) {
-				return true;
-			}
+			if (client.getPhone().equals(rs.getString("phone"))) {return true;}
 		}
 		return false;
 	}
 
+	/**
+	 * Montador de client
+	 *
+	 * @param rs ResultSet com dados do banco de dados
+	 * @return objeto client montado
+	 * @throws SQLException the SQL exception
+	 */
 	private Client clientAssembler(ResultSet rs) throws SQLException 
 	{
 		Client assembler = new Client();
@@ -207,5 +214,4 @@ public class ClientDAO {
 
 		return assembler;
 	}
-
 }
