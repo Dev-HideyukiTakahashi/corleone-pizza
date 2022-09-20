@@ -18,23 +18,42 @@ import model.entities.Product;
 import model.entities.User;
 
 /**
- * Mapeado em sistema: /pizzas 
- * Servlet para manipular os dados das pizzas
+ * The Class PizzaController. mapped /pizzas 
+ *
+ * @author Hideyuki Takahashi
+ * @github https://github.com/Dev-HideyukiTakahashi
+ * @email  dev.hideyukitakahashi@gmail.com
  */
 public class PizzaController extends HttpServlet {
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	// Classe utilitaria para guardar o id de qual usuario esta logado em sistema
+	/** Classe utilitaria para recuperar o id do usuario da sessao. */
 	private ServletUtil connectedId = new ServletUtil();
 
+	/** The product DAO. */
 	private ProductDAO productDAO = new ProductDAO();
+	
+	/** The user DAO. */
 	private UserDAO   userDAO	  = new UserDAO();
 	
+	/**
+	 * Instantiates a new pizza controller.
+	 */
 	public PizzaController() {
 		super();
 	}
 
+	/**
+	 * "Search" busca os dados para preencher o modal da view de editar.
+	 * Lista de forma dinamica todos os produtos da categoria na view, ao abrir o menu do "sidebar".
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Boolean isAdmin = null;
@@ -44,29 +63,21 @@ public class PizzaController extends HttpServlet {
 			String type		   = request.getParameter("type");
 			String code        = request.getParameter("code");
 			
-			// Enviando requisicao com todos os dados do produto pelo codigo
 			if (type != null && !type.isEmpty() && type.equalsIgnoreCase("search")) 
 			{
-				Product item = productDAO.productByCode(code);
-				// Biblioteca Jackson Databind adicionada no POM, trabalhando com JSON
+				Product      item   = productDAO.productByCode(code);
 				ObjectMapper mapper = new ObjectMapper();
-				String JSON = mapper.writeValueAsString(item);
-				// Forcando a formatacao do JSON para UTF-8
+				String 		 JSON   = mapper.writeValueAsString(item);
+				
 				response.setCharacterEncoding("UTF-8");
-				// Enviando o JSON no response do AJAX
 				response.getWriter().write(JSON);
-			}			
-
-			// Responsavel por carregar dinamicamente a pagina com todos produtos
+			}		
+			
 			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("pizza")) 
 			{
 				List<Product> items = productDAO.productSearch(prodType);
-				
-				
-				//Ordenando a lista por ordem de cod para aparecer na tela
 				Collections.sort(items);
 				
-				// Checando se o usuario logado e userAdmin(ID: 1)
 				isAdmin = connectedId.getUserConnected(request) == 1L ? true : false;
 				
 				request.setAttribute("pizzaData", items);
@@ -77,50 +88,48 @@ public class PizzaController extends HttpServlet {
 		}
 		catch(Exception e) {
 			if(isAdmin == null) {
-				RequestDispatcher redirecionador = request.getRequestDispatcher("/endsession.jsp");
-				redirecionador.forward(request, response);
+				request.getRequestDispatcher("/endsession.jsp").forward(request, response);
 			}
 			else {
 				e.printStackTrace();
-				RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
-				redirecionador.forward(request, response);
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
 			}
 		}
 	}
 
+	/**
+	 * Atualiza os dados do campo selecionado.
+	 * Apenas Admin altera preco e descricao.
+	 * Apenas Admin pode registrar um novo produto. 
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 		try 
 		{
-			// Requisicao update
 			String code        = request.getParameter("code");
 			String value	   = request.getParameter("description");
 			String updateData  = request.getParameter("updateData");
 			
-			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePizza")) 
-			{
-				productDAO.productUpdate(code, value, "updatePizza", null);
+			if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateDescription")){
+				productDAO.productUpdate(code, value, "updateDescription", null);
 			}
-			
-			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePrice")) 
-			{
+			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updatePrice")){
 				productDAO.productUpdate(code, value, "updatePrice", null);
 			}
-			
-			// Metodo para alterar o nome, com log do usuario que alterou
-			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")) 
-			{
+			else if(updateData != null && !updateData.isEmpty() && updateData.equalsIgnoreCase("updateName")){
 				User user =  userDAO.findUserById(connectedId.getUserConnected(request));
 				productDAO.productUpdate(code, value, "updateName", user);
 			}
 			
-			// Requisicao insert
 			String action  			  = request.getParameter("action");
 			String newName    	      = request.getParameter("newName");
 			String newDescription     = request.getParameter("newDescription");
 			String newPrice           = request.getParameter("newPrice");
-
 			
 			if(action != null && !action.isEmpty() && action.equalsIgnoreCase("insert")) {
 				Double price    = Double.parseDouble(newPrice.replace(",", ".").replace("-", "."));
@@ -129,11 +138,9 @@ public class PizzaController extends HttpServlet {
 				productDAO.productInsert(product);
 			}
 		}
-		catch(Exception e) 
-		{
+		catch(Exception e){
 			e.printStackTrace();
-			RequestDispatcher redirecionador = request.getRequestDispatcher("/error.jsp");
-			redirecionador.forward(request, response);
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
 }

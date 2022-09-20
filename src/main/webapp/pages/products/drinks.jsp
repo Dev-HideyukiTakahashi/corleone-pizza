@@ -228,7 +228,7 @@
 						$('#updateModal-input').val(json.prodDescription);
 						$('#updateModal-name').text(json.prodName);
 						$('#updateModal-code').text(json.prodCode);
-						$('#request-field').val('updatePizza');
+						$('#request-field').val('updateDescription');
 					}
 					else if(value === 'price')
 					{

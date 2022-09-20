@@ -15,14 +15,32 @@ import config.DatabaseConnection;
 import model.entities.Product;
 import model.entities.User;
 
+/**
+ * The Class ProductDAO.
+ *
+ * @author Hideyuki Takahashi
+ * @github https://github.com/Dev-HideyukiTakahashi
+ * @email  dev.hideyukitakahashi@gmail.com
+ */
 public class ProductDAO {
 
+	/** The connection. */
 	private Connection connection;
 
+	/**
+	 * Instantiates a new product DAO.
+	 */
 	public ProductDAO() {
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 	
+	/**
+	 * Busca uma lista de produtos de acordo com o tipo (Pizza ou Drink).
+	 *
+	 * @param prodType tipo de produto
+	 * @return lista do produto
+	 * @throws SQLException the SQL exception
+	 */
 	public List<Product> productSearch(String prodType) throws SQLException 
 	{
 		List<Product> itemFound = new ArrayList<>();
@@ -40,10 +58,16 @@ public class ProductDAO {
 		while (rs.next()) {
 			itemFound.add(productAssembler(rs));
 		}
-
 		return itemFound;
 	}
 	
+	/**
+	 * Busca um produto por codigo.
+	 *
+	 * @param prodCode codigo do produto
+	 * @return the dados do produto
+	 * @throws SQLException the SQL exception
+	 */
 	public Product productByCode(String prodCode) throws SQLException 
 	{
 		Product item = new Product();
@@ -56,86 +80,89 @@ public class ProductDAO {
 		while (rs.next()) {
 			item = (productAssembler(rs));
 		}
-
 		return item;
 	}
 	
-	public void productUpdate(String code, String value, String option, User user) 
+	/**
+	 * Atualiza um produto por codigo.
+	 * Apenas Admin pode atualizar preco e descricao.
+	 * Se algum usuario atualizar o nome, fica registrado no log.
+	 *
+	 * @param code codigo do produto
+	 * @param value valor a ser alterado
+	 * @param option campo a ser alterado
+	 * @param user usuario da sessao
+	 * @throws SQLException the SQL exception
+	 */
+	public void productUpdate(String code, String value, String option, User user) throws SQLException 
 	{
-		try 
-		{
-			String sql   = null;
-			if(option.equals("updatePizza") || option == "updatePizza") {
-				sql = "UPDATE products SET description=? WHERE code=?";
-			}
-			else if(option.equals("updatePrice") || option == "updatePrice") {
-				sql = "UPDATE products SET price=? WHERE code=?";
-				value = value.replace(",", ".").replace("-", ".");
-			}
-			else if(option.equals("updateName") || option == "updateName") {
-				sql = "UPDATE products SET item=? WHERE code=?";
-			}
-			
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, value);
-			ps.setLong(2, Long.parseLong(code));
-			ps.executeUpdate();
-			
-			connection.commit();
-			
-			// Se algum usuario diferente do admin alterar dados, registro no log
-			if(user != null && user.getId() != 1) 
-			{
-				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-				
-				LocalDateTime date = LocalDateTime.now();
-				String log = "Usuário '"+user.getUserName()+"', alterou dados do produto:\nCódigo: "
-						+ code +"\nNome alterado: '" + value + "'";
-				
-				sql = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
-				ps = connection.prepareStatement(sql);
-				ps.setString(1, dateFormat.format(date));
-				ps.setString(2, log);
-				ps.execute();
-				connection.commit();
-		    }
+		String sql   = null;
+		if(option.equals("updateDescription") || option == "updateDescription") {
+			sql = "UPDATE products SET description=? WHERE code=?";
 		}
-		catch(SQLException e) {
-			try {
-				connection.rollback();
-				e.printStackTrace();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+		else if(option.equals("updatePrice") || option == "updatePrice") {
+			sql = "UPDATE products SET price=? WHERE code=?";
+			value = value.replace(",", ".").replace("-", ".");
 		}
-	}
-	
-	
-	public void productInsert(Product prod) 
-	{
+		else if(option.equals("updateName") || option == "updateName") {
+			sql = "UPDATE products SET item=? WHERE code=?";
+		}
 		
-		try 
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1, value);
+		ps.setLong(2, Long.parseLong(code));
+		ps.executeUpdate();
+		
+		connection.commit();
+		
+		if(user != null && user.getId() != 1) 
 		{
-			String sql = "INSERT INTO products(item, description, price, type_item) VALUES (?, ?, ?, ?)";
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 			
-			PreparedStatement ps;
+			LocalDateTime date = LocalDateTime.now();
+			String log = "Usuário '"+user.getUserName()+"', alterou dados do produto:\nCódigo: "
+						+ code +"\nNome alterado: '" + value + "'";
+			
+			sql = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
 			ps = connection.prepareStatement(sql);
-			ps.setString(1, prod.getProdName());
-			ps.setString(2, prod.getProdDescription());
-			ps.setDouble(3, prod.getProdPrice());
-			ps.setString(4, prod.getProdType());
+			ps.setString(1, dateFormat.format(date));
+			ps.setString(2, log);
 			ps.execute();
-			
 			connection.commit();
-			
-		} catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-
+	    }
 	}
 	
 	
+	/**
+	 * Registra um novo produto no banco de dados.
+	 * Apenas Admin pode registrar um novo produto. 
+	 *
+	 * @param prod the prod
+	 * @throws SQLException the SQL exception
+	 */
+	public void productInsert(Product prod) throws SQLException 
+	{
+		String sql = "INSERT INTO products(item, description, price, type_item) VALUES (?, ?, ?, ?)";
+		
+		PreparedStatement ps;
+		ps = connection.prepareStatement(sql);
+		ps.setString(1, prod.getProdName());
+		ps.setString(2, prod.getProdDescription());
+		ps.setDouble(3, prod.getProdPrice());
+		ps.setString(4, prod.getProdType());
+		ps.execute();
+		
+		connection.commit();
+	}
+	
+	
+	/**
+	 * Montador de produto.
+	 *
+	 * @param rs the rs
+	 * @return dados do produto
+	 * @throws SQLException the SQL exception
+	 */
 	private Product productAssembler(ResultSet rs) throws SQLException 
 	{
 		NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));

@@ -197,7 +197,6 @@
 			let urlAction = document.getElementById('form-pizza').action;
 			$.ajax
 			({
-
 				method  : "get",
 				url     : urlAction,
 				data    : 
@@ -210,7 +209,6 @@
 					// Convertendo o envio do argumento de ServletSearch para JSON
 					let json = JSON.parse(response);
 					
-					
 					// Mostrando o modal com os dados da requisição
 					if(value === 'name')
 					{
@@ -219,7 +217,6 @@
 						$('#updateModal-name').text(json.prodName);
 						$('#updateModal-code').text(json.prodCode);
 						$('#request-field').val('updateName');
-
 					}
 					else if(value === 'description')
 					{
@@ -227,7 +224,7 @@
 						$('#updateModal-input').val(json.prodDescription);
 						$('#updateModal-name').text(json.prodName);
 						$('#updateModal-code').text(json.prodCode);
-						$('#request-field').val('updatePizza');
+						$('#request-field').val('updateDescription');
 					}
 					else if(value === 'price')
 					{
