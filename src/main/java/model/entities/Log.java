@@ -1,11 +1,14 @@
 package model.entities;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 public class Log {
 
-	private String date;
+	private Timestamp date;
 	private String field;
 
-	public Log(String date, String field) {
+	public Log(Timestamp date, String field) {
 		this.date = date;
 		this.field = field;
 	}
@@ -15,10 +18,14 @@ public class Log {
 	}
 
 	public String getDate() {
-		return date;
+		if (date != null) {
+			return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date.getTime());
+		}
+		
+		return null;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 

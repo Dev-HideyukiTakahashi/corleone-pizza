@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -108,6 +109,8 @@ public class ProductDAO {
 			sql = "UPDATE products SET item=? WHERE code=?";
 		}
 		
+		Product oldName = productByCode(code);
+		
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, value);
 		ps.setLong(2, Long.parseLong(code));
@@ -117,21 +120,18 @@ public class ProductDAO {
 		
 		if(user != null && user.getId() != 1) 
 		{
-			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-			
 			LocalDateTime date = LocalDateTime.now();
-			String log = "Usuário '"+user.getUserName()+"', alterou dados do produto:\nCódigo: "
-						+ code +"\nNome alterado: '" + value + "'";
+			String log = "Usuário '"+user.getUserName()+"', alterou dados do produto.\nCódigo: "
+						+ code +"\nNome: " + oldName.getProdName() + "\nNome alterado: '" + value + "'";
 			
 			sql = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
 			ps = connection.prepareStatement(sql);
-			ps.setString(1, dateFormat.format(date));
+			ps.setTimestamp(1, Timestamp.valueOf(date));
 			ps.setString(2, log);
 			ps.execute();
 			connection.commit();
 	    }
 	}
-	
 	
 	/**
 	 * Registra um novo produto no banco de dados.

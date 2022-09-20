@@ -18,10 +18,12 @@ import model.dao.ClientDAO;
 import model.dao.MotoboyDAO;
 import model.dao.OrderDAO;
 import model.dao.ProductDAO;
+import model.dao.UserDAO;
 import model.entities.Client;
 import model.entities.Motoboy;
 import model.entities.Order;
 import model.entities.Product;
+import model.entities.User;
 
 /**
  * The Class OrderController. mapped /order
@@ -46,6 +48,12 @@ public class OrderController extends HttpServlet {
 	
 	/** The motoboy DAO. */
 	private MotoboyDAO motoboyDAO = new MotoboyDAO();
+	
+	/** The user DAO. */
+	private UserDAO userDAO 	  = new UserDAO();
+	
+	/** Classe utilitaria para recuperar o id do usuario da sessao. */
+	private ServletUtil connectedId = new ServletUtil();
 	
 	/**
 	 * Instantiates a new order controller.
@@ -179,7 +187,9 @@ public class OrderController extends HttpServlet {
 		
 		Motoboy motoboy = motoboyDAO.findByName(motoboyName);
 		
-		orderDAO.insert(comments, order.getOrderClient(), order, motoboy.getMotoboyId());
+		User user = userDAO.findUserById(connectedId.getUserConnected(request));
+		
+		orderDAO.insert(comments, order.getOrderClient(), order, motoboy.getMotoboyId(), user);
 		
 		session.setAttribute("products", null);
 		session.setAttribute("client", null);

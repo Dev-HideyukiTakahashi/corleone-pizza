@@ -19,6 +19,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import model.dao.LogDAO;
 import model.dao.UserDAO;
 import model.entities.User;
 
@@ -44,6 +45,9 @@ public class ServletLogin extends HttpServlet
 	
 	/** The user DAO. */
 	private UserDAO userDAO 		= new UserDAO();
+	
+	/** The user DAO. */
+	private LogDAO logDAO 		    = new LogDAO();
 	
     /**
      * Instantiates a new servlet login.
@@ -94,7 +98,6 @@ public class ServletLogin extends HttpServlet
 				e.printStackTrace();
 				request.getRequestDispatcher("/error.jsp").forward(request, response);
 			}
-
 		}
 	}
 
@@ -152,9 +155,11 @@ public class ServletLogin extends HttpServlet
 	 * @param response the response
 	 * @throws ServletException the servlet exception
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws SQLException 
 	 */
-	private void logoutAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	private void logoutAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException 
 	{
+		logDAO.userLogout(userDAO.findUserById(connectedId.getUserConnected(request)));
 		request.getSession().invalidate(); 
 		RequestDispatcher redirect = request.getRequestDispatcher("index.jsp");
 		redirect.forward(request, response);
@@ -202,7 +207,14 @@ public class ServletLogin extends HttpServlet
 			if(login != null && !login.isEmpty() && password != null && !password.isEmpty())
 			{
 				if(userDAO.validateLogin(login, password)){
+					
 					userViewConfig(request, response, login, url);
+					
+					if(request.getSession().getAttribute("sessionLogin") == null) {
+						
+						logDAO.userLogin(userDAO.findUserById(connectedId.getUserConnected(request)));
+						request.getSession().setAttribute("sessionLogin", true);
+					}
 				}
 				else{
 					request.setAttribute("msg", "Usuario ou senha inválido");

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import model.entities.Client;
 import model.entities.Motoboy;
 import model.entities.Order;
 import model.entities.Product;
+import model.entities.User;
 
 /**
  * The Class OrderDAO.
@@ -43,7 +46,7 @@ public class OrderDAO {
 	 * @param motoboyId id do motoboy que entrega
 	 * @throws SQLException the SQL exception
 	 */
-	public void insert(String comments, Client client, Order order, Long motoboyId) throws SQLException 
+	public void insert(String comments, Client client, Order order, Long motoboyId, User user) throws SQLException 
 	{
 		String sql = "INSERT INTO tb_order(comments, order_client, product_id, order_motoboy) VALUES (?, ?, ?, ?)";
 		
@@ -73,6 +76,20 @@ public class OrderDAO {
 			ps.setLong(5, motoboyId);
 			ps.executeUpdate();
 			
+			connection.commit();
+		}
+		
+		if(ps.getGeneratedKeys() != null){
+			
+			LocalDateTime date = LocalDateTime.now();
+			String log = "Usuário '"+user.getUserName()+"' finalizou um pedido.\nCódigo: "
+						+ lastCode +"\nCliente: " + client.getName() + "\nValor: " + order.getTotal();
+			
+			sql = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
+			ps = connection.prepareStatement(sql);
+			ps.setTimestamp(1, Timestamp.valueOf(date));
+			ps.setString(2, log);
+			ps.execute();
 			connection.commit();
 		}
 	}
