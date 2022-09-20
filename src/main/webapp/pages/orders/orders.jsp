@@ -53,7 +53,7 @@
 														<td class="text-center"><c:out value="${od.getTotal()}"></c:out></td>
 														<td class="text-center"><c:out value="${od.orderClient.phone}"></c:out><a href="https://api.whatsapp.com/send?phone=${od.orderClient.getPhoneWhats()}" target="_blank" class="mdi mdi-whatsapp"
 														style="margin-left: 5px"></a></td>
-														<td class="text-center"><c:out value="${od.dateString}"></c:out></td>
+														<td class="text-center"><c:out value="${od.getDate()}"></c:out></td>
 														<td class="text-center">
 															<div class="badge badge-outline-success"><a href="#" class="text-success" style="text-decoration: none" onclick="modalView(${od.orderCode})">Ver</a></div>
 														</td>
@@ -67,14 +67,12 @@
 							</div>
 						</div>
 					</div>
-
 					<jsp:include page="../components/footer.jsp"></jsp:include>
 				</div>
 			</div>
 		</div>
 		<jsp:include page="../components/javascript.jsp" />
 	</div>
-	
 	
 	<!-- Modal com detalhes do pedido -->
 	<div class="modal fade " id="order-view" tabindex="-1" aria-labelledby="order-view" aria-hidden="true" >
@@ -97,8 +95,6 @@
 	</div>
   </div>
 	
-	
-	
 	<!-- Script para abrir modal com detalhes do pedido -->
 	<script type="text/javascript">
 	function modalView(orderCode) {
@@ -118,7 +114,6 @@
 				// Convertendo o envio do argumento de ServletSearch para JSON
 				let json = JSON.parse(response);
 				
-				console.log(json.orderClient.reference);
 				// Limpando possível cache nos resultados da busca
 				$('#table-order > tr').text('');
 				
@@ -142,13 +137,8 @@
 			}).fail(function(xhr, status, errorThrown) {
 				alert('Erro inesperado ao detalhar o pedido');
 			});
-		
-
-		
-
 	}
 	</script>
-	
 	
 	<!-- Script para fechar a janela modal -->
 	<script type="text/javascript">
@@ -156,7 +146,6 @@
 		$('#order-view').modal('hide');
 	}
 	</script>
-	
 	
 	<!-- Script para busca com highlights -->
 	<script src="https://cdn.jsdelivr.net/mark.js/8.6.0/mark.min.js"></script>
@@ -178,6 +167,6 @@
 		    highlight(this.value)
 		})
 	
-		</script>	
+	</script>	
 </body>
 </html>

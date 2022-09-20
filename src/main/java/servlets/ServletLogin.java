@@ -62,9 +62,10 @@ public class ServletLogin extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		Boolean isAdmin = null;
 		try
 		{
-			Boolean isAdmin = connectedId.getUserConnected(request) == 1? true : false;
+			isAdmin = connectedId.getUserConnected(request) == 1? true : false;
 			request.getSession().setAttribute("isAdmin", isAdmin);
 			
 			String action    = request.getParameter("action"); 
@@ -87,8 +88,13 @@ public class ServletLogin extends HttpServlet
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			if(isAdmin == null) {
+				request.getRequestDispatcher("/endsession.jsp").forward(request, response);
+			}else {
+				e.printStackTrace();
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
+			}
+
 		}
 	}
 

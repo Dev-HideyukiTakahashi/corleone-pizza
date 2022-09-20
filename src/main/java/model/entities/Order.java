@@ -1,15 +1,14 @@
 package model.entities;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order implements Comparable<Order> {
 
 	private Long orderCode;
-	private LocalDateTime date;
-	private String dateString;
+	private Timestamp date;
 	private String comments;
 	private Client orderClient;
 	private Motoboy orderMotoboy;
@@ -35,26 +34,15 @@ public class Order implements Comparable<Order> {
 		this.orderMotoboy = orderMotoboy;
 	}
 
-	public String getDateString() {
-		return dateString;
-	}
-
-	public void setDateString(String dateString) {
-		this.dateString = dateString;
-	}
-
-	public void setDate(LocalDateTime date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 
 	public String getDate() {
-		if (date == null) {
-			return dateString;
-		} else {
-			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-			return dateFormat.format(date);
+		if (date != null) {
+			return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date.getTime());
 		}
-
+		return null;
 	}
 
 	public String getComments() {
