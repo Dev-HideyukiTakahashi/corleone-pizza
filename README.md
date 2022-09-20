@@ -20,7 +20,7 @@
 
 <div align="center">
   <details>
-    <summary><strong>App</strong></summary>
+    <summary><strong>App Roadmap</strong></summary>
     <div align="left">
       </br>
       <ul>
@@ -73,6 +73,12 @@
         <li>
           Correção no erro de produtos compartilhados entre usuários, encapsulado por sessões individuais.
         </li>
+        <li>
+          Refatoração do código.
+        </li>
+        <li>
+          Documentação.
+        </li>
         </br>
         </br>
         <li>
@@ -87,15 +93,7 @@
         <li>
          //TODO Migração total do sistema para tecnologia spring/angular V 2.0.
         </li>
-        <li>
-         //TODO Documentação do projeto.
-        </li>
         </br>
-        </br>
-        <li>
-          O sistema não foi pensado em regra de negócio, organização do código e nem em performance,
-          foi pensado mais em aprendizado de códigos, compreensão e consultas posteriores.
-        </li>
       </ul>
     </div>
   </details>
