@@ -16,9 +16,11 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.dao.ClientDAO;
+import model.dao.MotoboyDAO;
 import model.dao.OrderDAO;
 import model.dao.ProductDAO;
 import model.entities.Client;
+import model.entities.Motoboy;
 import model.entities.Order;
 import model.entities.Product;
 
@@ -32,6 +34,7 @@ public class OrderController extends HttpServlet {
 	private ProductDAO productDao = new ProductDAO();
 	private ClientDAO clientDao   = new ClientDAO();
 	private OrderDAO orderDAO	  = new OrderDAO();
+	private MotoboyDAO motoboyDAO = new MotoboyDAO();
 	
 	public OrderController() {
 		super();
@@ -52,6 +55,9 @@ public class OrderController extends HttpServlet {
 			// Tela de '+pedido' checkout do pedido
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("checkout")) 
 			{
+				List<Motoboy> list = motoboyDAO.motoboySearchAll();
+				request.setAttribute("motoboyData", list);
+				
 				// se nao tem produto ainda no checkout
 				if(session.getAttribute("products") == null) 
 				{
@@ -104,14 +110,17 @@ public class OrderController extends HttpServlet {
 			// Clicando em finalizar pedido
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("final")) 
 			{
-				String comments = request.getParameter("comments");
+				String comments  = request.getParameter("comments");
+				String motoboyName = request.getParameter("motoboyName");
 				
 				Order order = new Order();
 				order.setDate(LocalDateTime.now());
 				order.getProducts().addAll((List<Product>)session.getAttribute("products"));
 				order.setOrderClient((Client) session.getAttribute("client"));
 				
-				orderDAO.insert(comments, order.getOrderClient(), order);
+				Motoboy motoboy = motoboyDAO.findByName(motoboyName);
+				
+				orderDAO.insert(comments, order.getOrderClient(), order, motoboy.getMotoboyId());
 				
 				session.setAttribute("products", null);
 				session.setAttribute("client", null);

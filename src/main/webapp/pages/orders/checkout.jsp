@@ -68,6 +68,7 @@
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
+							
 								<h4 class="card-title">Confirmação de cliente*</h4>
 								<div class="col-lg-12 stretch-card mb-3">
 									<a class="nav-link btn btn-primary create-new-button"
@@ -75,6 +76,7 @@
 										href="<%=request.getContextPath()%>/pages/clients/find.jsp">
 										+ Buscar Cliente</a>
 								</div>
+								
 								<div class="table-responsive">
 									<table class="table table-dark">
 										<thead>
@@ -95,13 +97,25 @@
 										</tbody>
 									</table>
 								</div>
-								<label for="exampleTextarea1" style="margin-top: 15px">Observações</label>
+								<label style="margin-top: 15px">Observações</label>
 								<input class="form-control" name="comments" id="comments">
-								<form action="<%=request.getContextPath()%>/order?action=final"
-									id="form-final"></form>
+								<label style="margin-top: 15px">Entregador*</label>
+									
+			                   <div class="form-group">
+			                     <select class="js-example-basic-single" id="motoboy-list" 
+			                     style="width:30%; border-radius: 0.1875rem; padding: 0.3rem 0.3rem;
+			                     font-family: 'Rubik', sans-serif">
+			                           <option>Selecione</option>
+			                           <c:forEach items="${motoboyData}" var="m">
+			                           	<option><c:out  value="${m.motoboyName}"></c:out></option>
+			                           </c:forEach>
+			                     </select>
+			                   </div>
+			                   
 							</div>
 						</div>
 					</div>
+					
 					<div class="col-lg-12 stretch-card">
 						<a class="nav-link btn btn-success create-new-button"
 							onclick="submitOrder()" aria-expanded="false">
@@ -136,15 +150,19 @@
 		</div>
 	</div>
 
+	<!-- Script para coletar dados e finalizar o pedido -->
 	<script type="text/javascript">
+	let motoboyName;
+	$('#motoboy-list').change(function() {
+		motoboyName = $('#motoboy-list').find(":selected").text();
+	});
+
 	function submitOrder() {
-		
 		let commentsView    = $('#comments').val();
-		let urlAction 	    = document.getElementById('form-final').action;
 		let clientName      = $('#client-name').text();
 		let productName     = $('#product-name').text();
-		
-		if(clientName === null || clientName === '' || productName === null || productName === '')
+
+		if(clientName === null || clientName === '' || productName === null || productName === '' || motoboyName === 'Selecione' || motoboyName === undefined)
 		{
 			let msg = "Preencha todos campos obrigatórios* para realizar um pedido!";
     		$('#errorModal').modal('show');
@@ -155,10 +173,11 @@
 		{
 			$.ajax({
 				method : "GET",
-				url    : urlAction,
+				url    : <%=request.getContextPath()%>/ + "order?action=final",
 				data   : 
 				{
 					comments 	  : commentsView,
+					motoboyName   : motoboyName,
 				},
 			    success : function() 
 			    {
@@ -168,13 +187,10 @@
 				}).fail(function(xhr, status, errorThrown) {
 					alert('Erro inesperado, tente novamente');
 				});
-
 		}
-		
-		
-		}
+	}
 	</script>
-	
+
 	<!-- Script para fechar a janela modal -->
 	<script type="text/javascript">
 	function closeModal() {

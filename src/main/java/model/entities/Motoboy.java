@@ -2,7 +2,7 @@ package model.entities;
 
 public class Motoboy {
 
-	private Long motoboyId;
+	private Long   motoboyId;
 	private String motoboyName;
 	private String motoboyPhone;
 	private String motoboyAdress;
@@ -12,8 +12,8 @@ public class Motoboy {
 	}
 
 	public Motoboy(String motoboyName, String motoboyPhone, String motoboyAdress) {
-		this.motoboyName = motoboyName;
-		this.motoboyPhone = motoboyPhone;
+		this.motoboyName   = motoboyName;
+		this.motoboyPhone  = motoboyPhone;
 		this.motoboyAdress = motoboyAdress;
 	}
 

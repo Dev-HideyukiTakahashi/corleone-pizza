@@ -133,7 +133,8 @@
 					("<tr><td><span>Produto: </span>"+ json.products[i].prodName + "</td><td><span>Preço: </span>"+ json.products[i].prodPrice + "</td></tr>");
 				}
 				$('#table-order').append
-				("<tr><td><span>Observações: </span>"+ json.comments + "<td><span>Total: </span>"+ json.total+ "</td></tr>");	
+				("<tr><td><span>Observações: </span>"+ json.comments + "<td><span>Total: </span>"+ json.total+ "</td></tr>").append	
+				("<tr><td><span>Entrega: </span>"+ json.orderMotoboy.motoboyName + "<td></tr>");	
 				
 				$('#order-view').modal('show');
 			}

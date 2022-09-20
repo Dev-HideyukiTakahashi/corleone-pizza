@@ -76,6 +76,31 @@ public class MotoboyDAO {
 		
 		connection.commit();
 	}
+	
+	/**
+	 * Busca um motoboy por nome.
+	 * Metodo usado para finalizar pedido.
+	 *
+	 * @param motoboyName nome do motoboy
+	 * @throws SQLException the SQL exception
+	 */
+	public Motoboy findByName(String motoboyName) throws SQLException 
+	{
+		String sql           = "SELECT * FROM motoboy WHERE motoboy_name = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1,motoboyName);
+		ResultSet rs = ps.executeQuery();
+		
+		Motoboy mb = new Motoboy();
+		
+		while (rs.next()) {
+			mb.setMotoboyId(rs.getLong("motoboy_id"));
+			mb.setMotoboyName(rs.getString("motoboy_name"));
+			mb.setMotoboyPhone(rs.getString("motoboy_phone"));
+			mb.setMotoboyAdress(rs.getString("motoboy_adress"));
+		}
+		return mb;
+	}
 
 	/**
 	 * Atualiza os dados do motoboy

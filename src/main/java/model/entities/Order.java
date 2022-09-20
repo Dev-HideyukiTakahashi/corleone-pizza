@@ -12,6 +12,7 @@ public class Order implements Comparable<Order> {
 	private String dateString;
 	private String comments;
 	private Client orderClient;
+	private Motoboy orderMotoboy;
 
 	private List<Product> products = new ArrayList<>();
 
@@ -24,6 +25,14 @@ public class Order implements Comparable<Order> {
 		this.orderCode = orderCode;
 		this.comments = comments;
 		this.orderClient = orderClient;
+	}
+
+	public Motoboy getOrderMotoboy() {
+		return orderMotoboy;
+	}
+
+	public void setOrderMotoboy(Motoboy orderMotoboy) {
+		this.orderMotoboy = orderMotoboy;
 	}
 
 	public String getDateString() {
@@ -39,10 +48,9 @@ public class Order implements Comparable<Order> {
 	}
 
 	public String getDate() {
-		if(date == null) {
+		if (date == null) {
 			return dateString;
-		}
-		else {
+		} else {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 			return dateFormat.format(date);
 		}

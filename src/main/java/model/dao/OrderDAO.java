@@ -10,6 +10,7 @@ import java.util.List;
 
 import config.DatabaseConnection;
 import model.entities.Client;
+import model.entities.Motoboy;
 import model.entities.Order;
 import model.entities.Product;
 
@@ -22,34 +23,27 @@ public class OrderDAO {
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 
-	// Novo pedido
-	public void insert(String comments, Client client, Order order) throws SQLException {
+	public void insert(String comments, Client client, Order order, Long motoboyId) throws SQLException {
 			
-			String sql = "INSERT INTO tb_order(comments, order_client, product_id, order_data) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO tb_order(comments, order_client, product_id, order_data, order_motoboy) VALUES (?, ?, ?, ?, ?)";
 			
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			// Inserindo o pedido com 1 item no banco de dados
 			ps.setString(1, comments);
 			ps.setLong(2, client.getId());
 			ps.setLong(3, order.getProductItem());
 			ps.setString(4, order.getDate());
+			ps.setLong(5, motoboyId);
 			ps.executeUpdate();
 			connection.commit();
 			
-			// result set retorna o id do pedido realizado
 			ResultSet rs = ps.getGeneratedKeys();
 			Long lastCode = null;
-			if(rs.next()) 
-			{
-				lastCode = rs.getLong("order_code");
-			}
+			if(rs.next()){lastCode = rs.getLong("order_code");}
 			
-			// checando se tem mais produtos no mesmo pedido, reaproveitando o id 
 			for(int i = 1; i < order.getProducts().size(); i++) 
 			{
-				
-				sql = "INSERT INTO tb_order(order_code, comments, order_client, product_id, order_data) VALUES (?, ?, ?, ?, ?)";
+				sql = "INSERT INTO tb_order(order_code, comments, order_client, product_id, order_data, order_motoboy) VALUES (?, ?, ?, ?, ?, ?)";
 				
 				ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				
@@ -58,6 +52,7 @@ public class OrderDAO {
 				ps.setLong(3, client.getId());
 				ps.setLong(4, order.getProducts().get(i).getProdCode());
 				ps.setString(5, order.getDate());
+				ps.setLong(6, motoboyId);
 				ps.executeUpdate();
 				
 				connection.commit();
@@ -65,7 +60,6 @@ public class OrderDAO {
 			
 	}
 	
-	// Lista todos os pedidos
 	public List<Order> findAll() throws SQLException
 	{
 		List<Order> list = new ArrayList<>();
@@ -74,8 +68,11 @@ public class OrderDAO {
 					+ "FROM tb_order "
 					+ "INNER JOIN client "
 					+ "ON (tb_order.order_client = client.id) "
+					+ "INNER JOIN motoboy "
+					+ "ON (tb_order.order_motoboy = motoboy.motoboy_id) "
 					+ "INNER JOIN products "
 					+ "ON (tb_order.product_id = products.code) ORDER BY order_code";
+
 		
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ResultSet rs		 = ps.executeQuery();
@@ -85,7 +82,6 @@ public class OrderDAO {
 			Long orderCode = rs.getLong("order_code");			
 			int lastIdx = list.size() - 1;
 			
-			// Se nao tiver elementos salva o primeiro na lista
 			if(list.size() < 1) 
 			{
 				Order order = new Order();
@@ -108,6 +104,9 @@ public class OrderDAO {
 				product.setProdName(rs.getString("item"));
 				product.setProdDescription(rs.getString("description"));
 				product.setProdPrice(rs.getDouble("price"));
+				
+				order.setOrderMotoboy(new Motoboy());
+				order.getOrderMotoboy().setMotoboyName(rs.getString("motoboy_name"));
 				
 				order.getProducts().add(product);
 				
@@ -148,6 +147,9 @@ public class OrderDAO {
 				product.setProdDescription(rs.getString("description"));
 				product.setProdPrice(rs.getDouble("price"));
 				
+				order.setOrderMotoboy(new Motoboy());
+				order.getOrderMotoboy().setMotoboyName(rs.getString("motoboy_name"));
+				
 				order.getProducts().add(product);
 				
 				list.add(order);
@@ -165,6 +167,8 @@ public class OrderDAO {
 				+ "FROM tb_order "
 				+ "INNER JOIN client "
 				+ "ON (tb_order.order_client = client.id) "
+				+ "INNER JOIN motoboy "
+				+ "ON (tb_order.order_motoboy = motoboy.motoboy_id) "
 				+ "INNER JOIN products "
 				+ "ON (tb_order.product_id = products.code) "
 				+ "WHERE tb_order.order_code = ?";
@@ -195,6 +199,9 @@ public class OrderDAO {
 			product.setProdName(rs.getString("item"));
 			product.setProdDescription(rs.getString("description"));
 			product.setProdPrice(rs.getDouble("price"));
+			
+			order.setOrderMotoboy(new Motoboy());
+			order.getOrderMotoboy().setMotoboyName(rs.getString("motoboy_name"));
 			
 			order.getProducts().add(product);
 		}
