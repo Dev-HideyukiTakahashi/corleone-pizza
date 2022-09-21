@@ -79,16 +79,16 @@
         <li>
           Documentação.
         </li>
+        <li>
+        Paginação de usuarios, pizza e log.
+        </li>
         </br>
         </br>
         <li>
-          //TODO Página de calendário de eventos.
+          //TODO Calendário para: relatório de pedidos, filtro de log / pedidos.
         </li>
         <li>
           //TODO Gráficos com pizzas mais pedidas.
-        </li>
-        <li>
-         //TODO Paginação de usuarios, pizza e log.
         </li>
         <li>
          //TODO Migração total do sistema para tecnologia spring/angular V 2.0.
