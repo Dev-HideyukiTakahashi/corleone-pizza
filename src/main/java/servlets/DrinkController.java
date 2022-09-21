@@ -77,12 +77,14 @@ public class DrinkController extends HttpServlet {
 
 			if (prodType != null && !prodType.isEmpty() && prodType.equalsIgnoreCase("drink")) 
 			{
-				List<Product> items = productDAO.productSearch(prodType);
-				
-				Collections.sort(items);
 				isAdmin = connectedId.getUserConnected(request) == 1L ? true : false;
+				String 	       page = request.getParameter("page");
+				page 		        = page == null ? "0" : page;
+				List<Product> items = productDAO.productSearchPage(prodType, Integer.parseInt(page));
 				
+				request.setAttribute("numberPage", Integer.parseInt(page));
 				request.setAttribute("drinkData", items);
+				request.setAttribute("totalPages", productDAO.totalPages(prodType));
 				request.setAttribute("isAdmin", isAdmin);
 				request.getRequestDispatcher("pages/products/drinks.jsp").forward(request, response);
 			}

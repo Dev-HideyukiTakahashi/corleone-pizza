@@ -1,6 +1,5 @@
 package model.dao;
 
-import java.net.http.HttpRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,8 +8,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import config.DatabaseConnection;
 import model.entities.Log;
@@ -35,35 +32,18 @@ public class LogDAO {
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 	
-	/**
-	 * Busca uma lista com todos logs de produtos alterados e qual usuario alterou.
-	 *
-	 * @return lista de todos logs
-	 * @throws SQLException the SQL exception
-	 */
-	public List<Log> load() throws SQLException 
-	{
-		List<Log> log  		 = new ArrayList<>();
-		String    sql 		 = "SELECT * FROM tb_log";
-		PreparedStatement ps = connection.prepareStatement(sql);
-		ResultSet	      rs = ps.executeQuery();
-		
-		while(rs.next()) {log.add(new Log(rs.getTimestamp("date"), rs.getString("field")));}
-		
-		return log;
-	}
-	
 	
 	/**
 	 * Busca uma lista com todos logs de produtos alterados e qual usuario alterou.
 	 *
-	 * @return lista de todos logs
+	 * @param offset numero da pagina a ser exibida
+	 * @return lista com dez elementos de acordo com a pagina
 	 * @throws SQLException the SQL exception
 	 */
 	public List<Log> loadPage(Integer offset) throws SQLException 
 	{
 		List<Log> log  		 = new ArrayList<>();
-		String    sql 		 = "SELECT * FROM tb_log order by date limit 10 offset " + offset;
+		String    sql 		 = "SELECT * FROM tb_log ORDER BY date LIMIT 10 OFFSET " + offset;
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ResultSet	      rs = ps.executeQuery();
 		
@@ -72,9 +52,15 @@ public class LogDAO {
 		return log;
 	}
 	
+	/**
+	 * Calcula quantas paginas vao ser exibidas de acordo com o numero de registros.
+	 * A view de "Log", mostra 10 registros por pagina.
+	 *
+	 * @return numero de paginas na view
+	 * @throws SQLException the SQL exception
+	 */
 	public Integer totalPages() throws SQLException 
 	{
-		Connection connection = DatabaseConnection.getPostgresSQLConnection();
 		String 			  sql  = "SELECT COUNT(1) as total FROM tb_log";
 		PreparedStatement ps   = connection.prepareStatement(sql);
 		ResultSet		  rs   = ps.executeQuery();
@@ -96,7 +82,7 @@ public class LogDAO {
 	public void userLogin(User user) throws SQLException 
 	{
 		String 			  sql  = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
-		String 			  log  = user.getUserName()+" iniciou a sessão.";
+		String 			  log  = "Usuario: " + user.getUserName()+"\nIniciou a sessão.";
 		LocalDateTime     date = LocalDateTime.now();
 		PreparedStatement ps   = connection.prepareStatement(sql);
 		
@@ -116,7 +102,7 @@ public class LogDAO {
 	public void userLogout(User user) throws SQLException 
 	{
 		String 			  sql  = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
-		String 			  log  = user.getUserName()+" encerrou a sessão.";
+		String 			  log  = "Usuario: " + user.getUserName()+"\nFinalizou a sessão.";
 		LocalDateTime     date = LocalDateTime.now();
 		PreparedStatement ps   = connection.prepareStatement(sql);
 		

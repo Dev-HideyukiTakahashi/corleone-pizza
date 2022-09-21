@@ -197,6 +197,8 @@ public class OrderController extends HttpServlet {
 	
 	/**
 	 * Na view "Pedidos", lista todos os pedidos realizados.
+	 * A paginacao foi feita direta no back-end.
+	 * O argumento page vem do "for" dentro da view com seguinte valor: (i*10)
 	 *
 	 * @param request the request
 	 * @param response the response
@@ -206,11 +208,22 @@ public class OrderController extends HttpServlet {
 	 */
 	private void listAllAction(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException 
 	{
-		List<Order> listAll =  orderDAO.findAll();
+		String 	  	   page  = request.getParameter("page");
+		page 		         = page == null ? "0" : page;
+		List<Order> listAll  =  orderDAO.findAll();
+		List<Order> listView = new ArrayList<>();
 		
-		Collections.sort(listAll);
-		
-		request.setAttribute("orderData", listAll);
+		if(Integer.parseInt(page) == 0){
+			for(int i = Integer.parseInt(page); i < 10; i++) 
+			listView.add(listAll.get(i));
+		}else{
+			for(int i = Integer.parseInt(page); i < listAll.size(); i++) 
+				listView.add(listAll.get(i));
+		}
+			
+		request.setAttribute("numberPage", Integer.parseInt(page));
+		request.setAttribute("orderData", listView);
+		request.setAttribute("totalPages", orderDAO.totalPages());
 		request.getRequestDispatcher("/pages/orders/orders.jsp").forward(request, response);
 	}
 	

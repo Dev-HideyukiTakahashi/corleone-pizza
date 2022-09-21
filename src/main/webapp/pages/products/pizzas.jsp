@@ -29,17 +29,16 @@
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-															
-							<div class="form-group">
-								<h4 class="card-title">Todos Sabores de Pizza</h4>
-								<div>
-									<!-- Input para busca com highlights -->
-									<input id='query' class="form-control text-secondary" autocomplete="off" style="width: 50%; " placeholder='Buscar por...' type='text'>
+								<div class="form-group">
+									<h4 class="card-title">Todos Sabores de Pizza</h4>
+									<div>
+										<!-- Input para busca com highlights -->
+										<input id='query' class="form-control text-secondary" autocomplete="off" style="width: 50%; " placeholder='Buscar por...' type='text'>
+									</div>
 								</div>
-							</div>
-							<!-- Checando se o usuário logado é userAdmin -->
-							<c:if test="${isAdmin}"><button class="btn-inverse-success" style="width: 25%" id="btn-insert">Adicionar Pizza</button></c:if>
-							
+								<!-- Checando se o usuário logado é userAdmin -->
+								<c:if test="${isAdmin}"><button class="btn-inverse-success" style="width: 25%" id="btn-insert">Adicionar Pizza</button></c:if>
+								
 								<div class="table-responsive">
 									<table id="pizza-table" class="table table-striped" style="margin-top: 15px ">
 										<thead>
@@ -65,6 +64,46 @@
 									</table>
 								</div>
 							</div>
+							<!-- Inicio paginação -->
+							<nav aria-label="Page navigation example">
+							  <ul class="pagination justify-content-center">
+							    <li>
+							      <a class="" style="padding: 0.2rem 0.5rem;line-height: 1.25;color: #007bff;
+							      background-color: #000000;border-radius: ;border: 1px solid #dee2e6;display: block;
+							      text-decoration: none; border-top-left-radius: 0.25rem;
+   								  border-bottom-left-radius: 0.25rem;">
+							        <span aria-hidden="true">&laquo;</span>
+							        <span class="sr-only">Previous</span>
+							      </a>
+							    </li>
+							  <%
+							  	int totalPages = (int) request.getAttribute("totalPages");
+							  	int numberPage = (int) request.getAttribute("numberPage");
+							 	for(int i = 0; i < totalPages; i++)
+							 	{
+							 		String url = request.getContextPath() + "/PizzaController?prodType=pizza&page=" + (i * 10);
+							 		
+							 		if(numberPage == (i*10)){
+							 			out.print("<li class=\"page-item\"><a class=\"page-link\" style=\"padding: 0.2rem 0.5rem; background-color: #dee2e6 \">"+(i + 1)+"</a></li>");
+							 		}
+							 		else{
+							 			out.print("<li class=\"page-item\"><a class=\"page-link\" style=\"padding: 0.2rem 0.5rem\" href=\""+url+"\">"+(i + 1)+"</a></li>");
+							 		}
+							 		
+							 	}
+							 	if(totalPages != 0)
+							  %>
+							    <li>
+							      <a class="" style="padding: 0.2rem 0.5rem;line-height: 1.25;color: #007bff;
+							      background-color: #000000;border-radius: ;border: 1px solid #dee2e6;display: block;
+							      text-decoration: none; border-top-right-radius: 0.25rem;
+   								  border-bottom-right-radius: 0.25rem;">
+							        <span>&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+							</nav>
+							<!-- Final paginação -->
 						</div>
 					</div>
 					<jsp:include page="../components/footer.jsp"></jsp:include>

@@ -66,7 +66,7 @@
 							    </li>
 							  <%
 							  	int totalPages = (int) request.getAttribute("totalPages");
-							  	int numberPage = (int) request.getAttribute("pageSelect");
+							  	int numberPage = (int) request.getAttribute("numberPage");
 							 	for(int i = 0; i < totalPages; i++)
 							 	{
 							 		String url = request.getContextPath() + "/log?page=" + (i * 10);

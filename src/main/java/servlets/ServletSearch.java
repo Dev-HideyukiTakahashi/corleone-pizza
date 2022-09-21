@@ -62,8 +62,13 @@ public class ServletSearch extends HttpServlet {
 			
 			if (action != null && !action.isEmpty() && action.equalsIgnoreCase("searchAll")) 
 			{
-				client = clientDAO.clientSearchAll(connectedId.getUserConnected(request));
+				String page = request.getParameter("page");
+				page 		= page == null ? "0" : page;
 				
+				client = clientDAO.clientSearchAll(connectedId.getUserConnected(request), Integer.parseInt(page));
+				
+				request.setAttribute("numberPage", Integer.parseInt(page));
+				request.setAttribute("totalPages", clientDAO.totalPages(connectedId.getUserConnected(request)));
 				request.setAttribute("clientData", client); 
 				request.setAttribute("clientDataSize", client.size()); 
 				request.getRequestDispatcher("pages/clients/list.jsp").forward(request, response);

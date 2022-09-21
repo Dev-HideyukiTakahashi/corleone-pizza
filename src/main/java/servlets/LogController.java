@@ -50,7 +50,7 @@ public class LogController extends HttpServlet {
 			page 		   = page == null ? "0" : page;
 			List<Log> logs = logDAO.loadPage(Integer.parseInt(page));
 			
-			request.setAttribute("pageSelect", Integer.parseInt(page));
+			request.setAttribute("numberPage", Integer.parseInt(page));
 			request.setAttribute("logs", logs);
 			request.setAttribute("totalPages", logDAO.totalPages());
 			request.getRequestDispatcher("/pages/log.jsp").forward(request, response);

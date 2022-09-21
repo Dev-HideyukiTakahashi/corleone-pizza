@@ -144,6 +144,79 @@ public class OrderDAO {
 		}
 		return list;
 	}
+	
+	/**
+	 * Lista todos os pedidos registrados no banco de dados, ordenados por codigo.
+	 *
+	 * @return lista de pedidos
+	 * @throws SQLException the SQL exception
+	 */
+	public List<Order> findAllPage() throws SQLException
+	{
+		List<Order> list = new ArrayList<>();
+		
+		String sql = "SELECT * "
+					+ "FROM tb_order "
+					+ "INNER JOIN client "
+					+ "ON (tb_order.order_client = client.id) "
+					+ "INNER JOIN motoboy "
+					+ "ON (tb_order.order_motoboy = motoboy.motoboy_id) "
+					+ "INNER JOIN products "
+					+ "ON (tb_order.product_id = products.code) ORDER BY order_code";
+		
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet rs		 = ps.executeQuery();
+		
+		while(rs.next())
+		{
+			Long orderCode = rs.getLong("order_code");			
+			int lastIdx = list.size() - 1;
+			
+			if(list.size() < 1)	{
+				Order order = orderAssembler(rs);
+				
+				list.add(order);
+				lastIdx = list.size() - 1;
+			}
+			else if(list.get(lastIdx).getOrderCode() == orderCode) 
+			{
+				Product product = new Product();
+				product.setProdCode(rs.getInt("code"));
+				product.setProdName(rs.getString("item"));
+				product.setProdDescription(rs.getString("description"));
+				product.setProdPrice(rs.getDouble("price"));
+				
+				list.get(lastIdx).getProducts().add(product);
+			}
+			else if(list.get(lastIdx).getOrderCode() != orderCode){
+				Order order = orderAssembler(rs);
+				list.add(order);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * Calcula quantas paginas vao ser exibidas de acordo com o numero de registros.
+	 * A view de "Pedidos", mostra 10 registros por pagina.
+	 *
+	 * @return numero de paginas na view
+	 * @throws SQLException the SQL exception
+	 */
+	public Integer totalPages() throws SQLException 
+	{
+		String 			  sql  = "SELECT COUNT(DISTINCT order_code) as total FROM tb_order LIMIT 10 OFFSET 0";
+		PreparedStatement ps   = connection.prepareStatement(sql);
+		ResultSet		  rs   = ps.executeQuery();
+		
+		Double result = 0.0;
+		while(rs.next()) {result = rs.getDouble("total");}
+
+		Double offset = result / 10;
+		offset 		  = offset % 2 > 0 ? offset + 1 : offset;
+		
+		return offset.intValue();
+	}
 
 	
 	/**
@@ -164,7 +237,7 @@ public class OrderDAO {
 				+ "ON (tb_order.order_motoboy = motoboy.motoboy_id) "
 				+ "INNER JOIN products "
 				+ "ON (tb_order.product_id = products.code) "
-				+ "WHERE tb_order.order_code = ?";
+				+ "WHERE tb_order.order_code = ? ORDER BY order_code";
 		
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setLong(1, code);

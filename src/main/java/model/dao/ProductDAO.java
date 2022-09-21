@@ -39,18 +39,19 @@ public class ProductDAO {
 	 * Busca uma lista de produtos de acordo com o tipo (Pizza ou Drink).
 	 *
 	 * @param prodType tipo de produto
-	 * @return lista do produto
+	 * @param offset numero da pagina a ser exibida
+	 * @return lista com dez elementos de acordo com a pagina
 	 * @throws SQLException the SQL exception
 	 */
-	public List<Product> productSearch(String prodType) throws SQLException 
+	public List<Product> productSearchPage(String prodType, Integer offset) throws SQLException 
 	{
 		List<Product> itemFound = new ArrayList<>();
 		String sql = null;
 		if(prodType.equals("pizza") || prodType == "pizza") {
-			sql = "SELECT * FROM products WHERE type_item = 'Pizza'";
+			sql = "SELECT * FROM products WHERE type_item = 'Pizza' ORDER BY code LIMIT 10 OFFSET "  + offset;
 		}
 		if(prodType.equals("drink") || prodType == "drink") {
-			sql = "SELECT * FROM products WHERE type_item = 'Drink'";
+			sql = "SELECT * FROM products WHERE type_item = 'Drink' ORDER BY code LIMIT 10 OFFSET "  + offset;
 		}
 		
 		PreparedStatement ps = connection.prepareStatement(sql);
@@ -60,6 +61,34 @@ public class ProductDAO {
 			itemFound.add(productAssembler(rs));
 		}
 		return itemFound;
+	}
+	
+	/**
+	 * Calcula quantas paginas vao ser exibidas de acordo com o numero de registros.
+	 * A view de "Pizza" e "Bebidas", mostram 10 registros por pagina.
+	 *
+	 * @return numero de paginas na view
+	 * @throws SQLException the SQL exception
+	 */
+	public Integer totalPages(String prodType) throws SQLException 
+	{
+		String sql = null;
+		if(prodType.equals("pizza") || prodType == "pizza") {
+			sql = "SELECT COUNT(1) as total FROM products WHERE type_item = 'Pizza'";
+		}
+		if(prodType.equals("drink") || prodType == "drink") {
+			sql = "SELECT COUNT(1) as total FROM products WHERE type_item = 'Drink'";
+		}
+		PreparedStatement ps   = connection.prepareStatement(sql);
+		ResultSet		  rs   = ps.executeQuery();
+		
+		Double result = 0.0;
+		while(rs.next()) {result = rs.getDouble("total");}
+
+		Double offset = result / 10;
+		offset 		  = offset % 2 > 0 ? offset + 1 : offset;
+		
+		return offset.intValue();
 	}
 	
 	/**
