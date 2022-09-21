@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.net.http.HttpRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import config.DatabaseConnection;
 import model.entities.Log;
@@ -49,9 +52,44 @@ public class LogDAO {
 		
 		return log;
 	}
+	
+	
+	/**
+	 * Busca uma lista com todos logs de produtos alterados e qual usuario alterou.
+	 *
+	 * @return lista de todos logs
+	 * @throws SQLException the SQL exception
+	 */
+	public List<Log> loadPage(Integer offset) throws SQLException 
+	{
+		List<Log> log  		 = new ArrayList<>();
+		String    sql 		 = "SELECT * FROM tb_log order by date limit 10 offset " + offset;
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet	      rs = ps.executeQuery();
+		
+		while(rs.next()) {log.add(new Log(rs.getTimestamp("date"), rs.getString("field")));}
+		
+		return log;
+	}
+	
+	public Integer totalPages() throws SQLException 
+	{
+		Connection connection = DatabaseConnection.getPostgresSQLConnection();
+		String 			  sql  = "SELECT COUNT(1) as total FROM tb_log";
+		PreparedStatement ps   = connection.prepareStatement(sql);
+		ResultSet		  rs   = ps.executeQuery();
+		
+		Double result = 0.0;
+		while(rs.next()) {result = rs.getDouble("total");}
+
+		Double offset = result / 10;
+		offset 		  = offset % 2 > 0 ? offset + 1 : offset;
+		
+		return offset.intValue();
+	}
 
 	/**
-	 * Registra no log horário que o usuário logou no sistema.
+	 * Registra no log horario que o usuario logou no sistema.
 	 *
 	 * @throws SQLException the SQL exception
 	 */
@@ -70,6 +108,11 @@ public class LogDAO {
 		connection.commit();
 	}
 	
+	/**
+	 * Registra no log horario que o usuario saiu do sistema.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	public void userLogout(User user) throws SQLException 
 	{
 		String 			  sql  = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";

@@ -13,7 +13,7 @@ import model.entities.Log;
 
 
 /**
- * The Class LogController.
+ * The Class LogController. mapped /log
  * 
  * @author Hideyuki Takahashi
  * @github https://github.com/Dev-HideyukiTakahashi
@@ -46,9 +46,13 @@ public class LogController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try 
 		{
-			List<Log> logs = logDAO.load();
+			String 	  page = request.getParameter("page");
+			page 		   = page == null ? "0" : page;
+			List<Log> logs = logDAO.loadPage(Integer.parseInt(page));
 			
+			request.setAttribute("pageSelect", Integer.parseInt(page));
 			request.setAttribute("logs", logs);
+			request.setAttribute("totalPages", logDAO.totalPages());
 			request.getRequestDispatcher("/pages/log.jsp").forward(request, response);
 		}
 		catch(Exception e) {
