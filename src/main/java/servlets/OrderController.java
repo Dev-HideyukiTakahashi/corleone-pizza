@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 
 import model.dao.ClientDAO;
 import model.dao.MotoboyDAO;
@@ -30,6 +27,7 @@ import model.entities.Motoboy;
 import model.entities.Order;
 import model.entities.Product;
 import model.entities.User;
+import model.services.ReportPDF;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -281,46 +279,14 @@ public class OrderController extends HttpServlet {
 		
 		List<Order> listDate  =  orderDAO.findAllByDate(dateBegin, dateFinal);
 		
-		Document document = new Document(PageSize.A4);
-		
 		response.setContentType("application/pdf");
 		response.addHeader("Content-Disposition", "inline; filename=" + "relatorio.pdf");
 		
-		PdfWriter.getInstance(document, response.getOutputStream());
-		// Relatorio
-		document.open();
+		Document document = new Document(PageSize.A4);
+		OutputStream file = response.getOutputStream();
 		
-		
-		// Header
-		document.add(new Paragraph("Relatório de Pedidos"));
-		document.add(new Paragraph(" "));
-		
-		// Body
-		PdfPTable table = new PdfPTable(5);
-		PdfPCell col1 = new PdfPCell(new Paragraph("Código"));
-		PdfPCell col2 = new PdfPCell(new Paragraph("Nome Client"));
-		PdfPCell col3 = new PdfPCell(new Paragraph("Valor"));
-		PdfPCell col4 = new PdfPCell(new Paragraph("Telefone"));
-		PdfPCell col5 = new PdfPCell(new Paragraph("Data"));
-		
-		table.addCell(col1);
-		table.addCell(col2);
-		table.addCell(col3);
-		table.addCell(col4);
-		table.addCell(col5);
-		
-		for(int i = 0; i < listDate.size(); i ++) {
-			table.addCell(String.valueOf(listDate.get(i).getOrderCode()));
-			table.addCell(listDate.get(i).getOrderClient().getName());
-			table.addCell(listDate.get(i).getTotal());
-			table.addCell(listDate.get(i).getOrderClient().getPhone());
-			table.addCell(listDate.get(i).getDate());
-		}
-		
-		
-		document.add(table);
-		
-		document.close();
-		
+		ReportPDF report = new ReportPDF(document, file);
+		report.generate(listDate);
+
 	}
 }
