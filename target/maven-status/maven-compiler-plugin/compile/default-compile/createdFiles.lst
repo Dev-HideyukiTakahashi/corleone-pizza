@@ -1,14 +1,16 @@
 servlets\MotoboyController.class
 servlets\DrinkController.class
 config\exception\DataBaseSourceException.class
+model\entities\User.class
 model\entities\Product.class
-model\entities\Admin.class
+config\Main.class
 model\dao\MotoboyDAO.class
 servlets\PizzaController.class
 model\dao\LogDAO.class
 servlets\OrderController.class
 model\dao\ClientDAO.class
 model\dao\ProductDAO.class
+model\services\ReportPDF.class
 model\entities\Order.class
 config\DatabaseConnection.class
 servlets\ServletUtil.class
@@ -16,7 +18,7 @@ model\entities\Motoboy.class
 servlets\ServletRegister.class
 servlets\ServletUpdate.class
 servlets\ServletLogin.class
-model\dao\AdminDAO.class
+model\dao\UserDAO.class
 model\entities\Log.class
 servlets\LogController.class
 servlets\ServletSearch.class

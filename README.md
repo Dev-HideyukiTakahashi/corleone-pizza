@@ -82,14 +82,11 @@
         <li>
         Paginação de usuarios, pizza e log.
         </li>
+        <li>
+          Calendário para: relatório de pedidos, filtro de log.
+        </li>
         </br>
         </br>
-        <li>
-          //TODO Calendário para: relatório de pedidos, filtro de log / pedidos.
-        </li>
-        <li>
-          //TODO Gráficos com pizzas mais pedidas.
-        </li>
         <li>
          //TODO Migração total do sistema para tecnologia spring/angular V 2.0.
         </li>
