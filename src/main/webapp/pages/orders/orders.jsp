@@ -33,6 +33,15 @@
 									<h4 class="card-title">Pedidos</h4>
 									<!-- Input para busca com highlights -->
 									<input id='query' class="form-control text-secondary" style="width: 50%; " autocomplete="off" placeholder='Buscar por...' type='text'>
+									<br/>
+									<form method="GET" >
+										<div style="display: flex; gap: 5px;">
+											<input name="dateBegin" id="dateBegin" type="date" class="form-control" style="width: 15%; background-color: #6c7293;">
+											<input name="dateFinal" id="dateFinal" type="date" class="form-control" style="width: 15%; background-color: #6c7293;">
+											<button type="button" class="btn btn-primary" onclick="report()" style="margin-left: 10px">Relatório</button>
+										</div>
+									</form>
+									<br/>
 									<div class="table-responsive">
 										<table class="table">
 											<thead>
@@ -133,6 +142,22 @@
 	  </div>
 	</div>
   </div>
+	
+	<!-- Script para gerar relátorio -->>
+	<script type="text/javascript">
+		function report(){
+			let dateBegin = $('#dateBegin').val();
+			let dateFinal = $('#dateFinal').val();
+
+			if(dateBegin === '' || dateFinal === ''){
+				alert("Informe data início e final do filtro!")
+			}
+			else{
+				let url   = <%=request.getContextPath()%>/ + 'order?action=report&dateBegin='+dateBegin+'&dateFinal='+dateFinal;
+				window.open(url ,'_blank');
+			}
+		}
+	</script>
 	
 	<!-- Script para abrir modal com detalhes do pedido -->
 	<script type="text/javascript">

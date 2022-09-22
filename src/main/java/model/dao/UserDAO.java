@@ -27,8 +27,7 @@ public class UserDAO
 	/**
 	 * Instancia nova conexao com banco de dados.
 	 */
-	public UserDAO() 
-	{
+	public UserDAO(){
 		connection = DatabaseConnection.getPostgresSQLConnection();
 	}
 	

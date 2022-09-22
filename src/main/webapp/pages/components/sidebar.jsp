@@ -111,7 +111,7 @@
 			</span> <span class="menu-title">Entregadores</span>
 		</a></li>
 		<li class="nav-item menu-items"><a class="nav-link"
-			href="<%=request.getContextPath()%>/log"> <span class="menu-icon">
+			href="<%=request.getContextPath()%>/log?action=listAll"> <span class="menu-icon">
 					<i class="mdi mdi-lead-pencil"></i>
 			</span> <span class="menu-title">Log</span>
 		</a></li>

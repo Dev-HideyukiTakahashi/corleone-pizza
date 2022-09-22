@@ -42,10 +42,40 @@ public class LogDAO {
 	 */
 	public List<Log> loadPage(Integer offset) throws SQLException 
 	{
-		List<Log> log  		 = new ArrayList<>();
-		String    sql 		 = "SELECT * FROM tb_log ORDER BY date LIMIT 10 OFFSET " + offset;
+		List<Log> log  = new ArrayList<>();
+		String    sql  = "SELECT * FROM tb_log ORDER BY date LIMIT 10 OFFSET " + offset;
+		
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ResultSet	      rs = ps.executeQuery();
+		
+		while(rs.next()) {log.add(new Log(rs.getTimestamp("date"), rs.getString("field")));}
+		
+		return log;
+	}
+	
+	/**
+	 * Busca uma lista com todos logs de produtos alterados e qual usuario alterou.
+	 * Filtra as datas de inicio e fim. 
+	 * Inclui as datas extremas pela concatenacao do horario no servlet.
+	 * 
+	 * @param offset numero da pagina a ser exibida
+	 * @param dateBegin data inicio
+	 * @param dateFinal data final
+	 * @return lista com dez elementos de acordo com a pagina
+	 * @throws SQLException the SQL exception
+	 */
+	public List<Log> loadPageDate(String dateBegin, String dateFinal) throws SQLException 
+	{
+		List<Log> log = new ArrayList<>();
+		String    sql = "SELECT * FROM tb_log "
+					   +"WHERE date BETWEEN ? AND ?";
+
+		
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setTimestamp(1, Timestamp.valueOf(dateBegin));
+		ps.setTimestamp(2, Timestamp.valueOf(dateFinal));
+		
+		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {log.add(new Log(rs.getTimestamp("date"), rs.getString("field")));}
 		
@@ -73,6 +103,7 @@ public class LogDAO {
 		
 		return offset.intValue();
 	}
+	
 
 	/**
 	 * Registra no log horario que o usuario logou no sistema.
@@ -81,17 +112,20 @@ public class LogDAO {
 	 */
 	public void userLogin(User user) throws SQLException 
 	{
-		String 			  sql  = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
-		String 			  log  = "Usuario: " + user.getUserName()+"\nIniciou a sessão.";
-		LocalDateTime     date = LocalDateTime.now();
-		PreparedStatement ps   = connection.prepareStatement(sql);
-		
-		ps = connection.prepareStatement(sql);
-		ps.setTimestamp(1, Timestamp.valueOf(date));
-		ps.setString(2, log);
-		ps.execute();
-		
-		connection.commit();
+		if(user.getId() != 1) 
+		{
+			String 			  sql  = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
+			String 			  log  = "Usuario: " + user.getUserName()+"\nIniciou a sessão.";
+			LocalDateTime     date = LocalDateTime.now();
+			PreparedStatement ps   = connection.prepareStatement(sql);
+			
+			ps = connection.prepareStatement(sql);
+			ps.setTimestamp(1, Timestamp.valueOf(date));
+			ps.setString(2, log);
+			ps.execute();
+			
+			connection.commit();
+		}
 	}
 	
 	/**
@@ -101,16 +135,19 @@ public class LogDAO {
 	 */
 	public void userLogout(User user) throws SQLException 
 	{
-		String 			  sql  = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
-		String 			  log  = "Usuario: " + user.getUserName()+"\nFinalizou a sessão.";
-		LocalDateTime     date = LocalDateTime.now();
-		PreparedStatement ps   = connection.prepareStatement(sql);
-		
-		ps = connection.prepareStatement(sql);
-		ps.setTimestamp(1, Timestamp.valueOf(date));
-		ps.setString(2, log);
-		ps.execute();
-		
-		connection.commit();
+		if(user.getId() != 1) 
+		{
+			String 			  sql  = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
+			String 			  log  = "Usuario: " + user.getUserName()+"\nFinalizou a sessão.";
+			LocalDateTime     date = LocalDateTime.now();
+			PreparedStatement ps   = connection.prepareStatement(sql);
+			
+			ps = connection.prepareStatement(sql);
+			ps.setTimestamp(1, Timestamp.valueOf(date));
+			ps.setString(2, log);
+			ps.execute();
+			
+			connection.commit();
+		}
 	}
 }

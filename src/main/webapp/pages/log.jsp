@@ -32,6 +32,14 @@
 								<p class="card-description">
 									Log dos registros com alterações de nome do produto.
 								</p>
+								<form method="GET">
+									<div style="display: flex; gap: 5px;">
+										<input id="dateBegin" name="dateBegin" type="date" class="form-control" style="width: 15%; background-color: #6c7293;">
+										<input id="dateFinal" name="dateFinal" type="date" class="form-control" style="width: 15%; background-color: #6c7293;">
+										<button type="button" class="btn btn-primary" onclick="search()" style="margin-left: 10px">Buscar</button>
+									</div>
+								</form>
+								<br/>
 								
 								<div class="table-responsive">
 									<table class="table table-dark">
@@ -100,5 +108,20 @@
 		</div>
 		<jsp:include page="components/javascript.jsp" />
 	</div>
+	
+	<script type="text/javascript">
+		function search() {
+			let dateBegin = $('#dateBegin').val();
+			let dateFinal = $('#dateFinal').val();
+
+			if(dateBegin === '' || dateFinal === ''){
+				alert("Informe data início e final do filtro!")
+			}
+			else{
+				let url   = <%=request.getContextPath()%>/ + 'log?action=listDate&dateBegin='+dateBegin+'&dateFinal='+dateFinal;
+				window.location.href = url;
+			}
+		}
+	</script>
 </body>
 </html>

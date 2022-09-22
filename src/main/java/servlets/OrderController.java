@@ -3,7 +3,6 @@ package servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,6 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import model.dao.ClientDAO;
 import model.dao.MotoboyDAO;
@@ -25,6 +31,7 @@ import model.entities.Order;
 import model.entities.Product;
 import model.entities.User;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class OrderController. mapped /order
  *
@@ -92,12 +99,14 @@ public class OrderController extends HttpServlet {
 			else if(action != null && !action.isEmpty() && action.equalsIgnoreCase("finalView")){
 				finalViewAction(request, response);
 			}
+			else if(action != null && !action.isEmpty() && action.equalsIgnoreCase("report")){
+				reportAction(request, response);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
-
 
 	/**
 	 * Atualiza o checkout de forma dinamica.
@@ -217,8 +226,10 @@ public class OrderController extends HttpServlet {
 			for(int i = Integer.parseInt(page); i < 10; i++) 
 			listView.add(listAll.get(i));
 		}else{
-			for(int i = Integer.parseInt(page); i < listAll.size(); i++) 
+			for(int i = Integer.parseInt(page); i < (Integer.parseInt(page) + 10); i++) {
+				if(i == listAll.size()) {break;}
 				listView.add(listAll.get(i));
+			}
 		}
 			
 		request.setAttribute("numberPage", Integer.parseInt(page));
@@ -248,5 +259,68 @@ public class OrderController extends HttpServlet {
 		
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(JSON);
+	}
+	
+	
+	/**
+	 * Gera um relatorio com todos pedidos filtrados por data.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws SQLException the SQL exception
+	 * @throws DocumentException the document exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	private void reportAction(HttpServletRequest request, HttpServletResponse response) throws SQLException, DocumentException, IOException 
+	{
+		String dateBegin = request.getParameter("dateBegin");
+		String dateFinal = request.getParameter("dateFinal");
+		
+		dateBegin = dateBegin.concat(" 00:00:00");
+		dateFinal = dateFinal.concat(" 23:59:59");
+		
+		List<Order> listDate  =  orderDAO.findAllByDate(dateBegin, dateFinal);
+		
+		Document document = new Document(PageSize.A4);
+		
+		response.setContentType("application/pdf");
+		response.addHeader("Content-Disposition", "inline; filename=" + "relatorio.pdf");
+		
+		PdfWriter.getInstance(document, response.getOutputStream());
+		// Relatorio
+		document.open();
+		
+		
+		// Header
+		document.add(new Paragraph("Relatório de Pedidos"));
+		document.add(new Paragraph(" "));
+		
+		// Body
+		PdfPTable table = new PdfPTable(5);
+		PdfPCell col1 = new PdfPCell(new Paragraph("Código"));
+		PdfPCell col2 = new PdfPCell(new Paragraph("Nome Client"));
+		PdfPCell col3 = new PdfPCell(new Paragraph("Valor"));
+		PdfPCell col4 = new PdfPCell(new Paragraph("Telefone"));
+		PdfPCell col5 = new PdfPCell(new Paragraph("Data"));
+		
+		table.addCell(col1);
+		table.addCell(col2);
+		table.addCell(col3);
+		table.addCell(col4);
+		table.addCell(col5);
+		
+		for(int i = 0; i < listDate.size(); i ++) {
+			table.addCell(String.valueOf(listDate.get(i).getOrderCode()));
+			table.addCell(listDate.get(i).getOrderClient().getName());
+			table.addCell(listDate.get(i).getTotal());
+			table.addCell(listDate.get(i).getOrderClient().getPhone());
+			table.addCell(listDate.get(i).getDate());
+		}
+		
+		
+		document.add(table);
+		
+		document.close();
+		
 	}
 }
