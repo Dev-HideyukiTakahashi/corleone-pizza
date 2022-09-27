@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -344,7 +346,10 @@ public class OrderDAO {
 		
 		order.setComments(rs.getString("comments"));
 		order.setOrderCode(rs.getLong("order_code"));
-		order.setDate((rs.getTimestamp("order_data")));
+		
+		Timestamp date = rs.getTimestamp("order_data");
+		ZonedDateTime zdt = date.toLocalDateTime().atZone(ZoneId.of("America/Sao_Paulo"));
+		order.setDate(Timestamp.valueOf(zdt.toLocalDateTime()));
 		
 		Client client = new Client();
 		client.setId(rs.getLong("id"));
