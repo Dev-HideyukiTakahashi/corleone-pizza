@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -148,7 +149,7 @@ public class ProductDAO {
 		
 		if(user != null && user.getId() != 1) 
 		{
-			LocalDateTime date = LocalDateTime.now();
+			LocalDateTime date = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
 			String log = "Usuário '"+user.getUserName()+"', alterou dados do produto.\nCódigo: "
 						+ code +"\nNome: " + oldName.getProdName() + "\nNome alterado: '" + value + "'";
 			

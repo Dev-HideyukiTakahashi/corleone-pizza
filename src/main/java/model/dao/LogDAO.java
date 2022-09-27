@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,7 +118,7 @@ public class LogDAO {
 		{
 			String 			  sql  = "INSERT INTO tb_log(date, field)	VALUES (?, ?)";
 			String 			  log  = "Usuario: " + user.getUserName()+"\nIniciou a sessão.";
-			LocalDateTime     date = LocalDateTime.now();
+			LocalDateTime     date = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
 			PreparedStatement ps   = connection.prepareStatement(sql);
 			
 			ps = connection.prepareStatement(sql);

@@ -237,6 +237,8 @@ public class ServletLogin extends HttpServlet
 				if(!userDAO.loginExists(newLogin)){
 					User newUser = new User(newName, newPhone, newEmail, newLogin, oldPassword, newPartner, null);
 					userDAO.insertUser(newUser);
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().write("registrado");
 				}
 			}
 			else if(action != null && !action.isEmpty() && action.equalsIgnoreCase("update") ) 

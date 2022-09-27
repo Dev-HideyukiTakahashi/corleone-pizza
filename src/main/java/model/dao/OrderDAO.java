@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class OrderDAO {
 		
 		if(ps.getGeneratedKeys() != null){
 			
-			LocalDateTime date = LocalDateTime.now();
+			LocalDateTime date = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
 			String log = "Usuário '"+user.getUserName()+"' finalizou um pedido.\nCódigo: "
 						+ lastCode +"\nCliente: " + client.getName() + "\nValor: " + order.getTotal();
 			
