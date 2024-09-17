@@ -5,7 +5,7 @@
 <hr>
 </br>
 <div align="center">
-  <a href="https://corleone-pizza.herokuapp.com/corleone-pizza/">https://corleone-pizza.herokuapp.com/corleone-pizza/</a>
+  <a href="https://corleone-pizza.herokuapp.com/corleone-pizza/"> <s>https://corleone-pizza.herokuapp.com/corleone-pizza/ </s></a>
 </div>
 </br>
 <div align="center">
@@ -14,6 +14,12 @@
   <span>Login: user / Senha: user</span>
   </br>
   <span>Login: teste / Senha: teste</span>
+</div>
+<br/>
+<div align="center">
+  <span>Link da aplicação rodando em video</span>
+  </br>
+  <span>https://www.youtube.com/watch?v=i9vLfF4P3ZU&ab_channel=HideyukiTakahashi</span>
 </div>
 
 </br>
