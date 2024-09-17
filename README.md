@@ -19,7 +19,7 @@
 <div align="center">
   <span>Link da aplicação rodando em video</span>
   </br>
-  <span>https://www.youtube.com/watch?v=i9vLfF4P3ZU&ab_channel=HideyukiTakahashi</span>
+  <span target="_blank">https://www.youtube.com/watch?v=i9vLfF4P3ZU&ab_channel=HideyukiTakahashi</span>
 </div>
 
 </br>
