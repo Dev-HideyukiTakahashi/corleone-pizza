@@ -5,7 +5,7 @@
 <hr>
 </br>
 <div align="center">
-  <a href="https://corleone-pizza.herokuapp.com/corleone-pizza/"> <s>https://corleone-pizza.herokuapp.com/corleone-pizza/ </s></a>
+  <a href="https://corleone-pizza.herokuapp.com/corleone-pizza/" target="_blank"> <s>https://corleone-pizza.herokuapp.com/corleone-pizza/ </s></a>
 </div>
 </br>
 <div align="center">
