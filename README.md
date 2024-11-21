@@ -1,7 +1,7 @@
 <hr>
 <h1 align="center">Corleone-Pizza</h1>
 <hr>
-<h3 align="center">Aplicação para uma pizzaria, com todos produtos, sessão de controle, cadastro de clientes e pedidos.</h3>
+<h3 align="center">Aplicação autoral para uma pizzaria, com todos produtos, sessão de controle, cadastro de clientes e pedidos.</h3>
 <hr>
 </br>
 <div align="center">
