@@ -140,7 +140,7 @@
 <hr>
 <div align="center">
   <h3>Tecnologias utilizadas</h3>
-  <p>HTML, CSS, JS, Bootstrap, JQuery, Java Servlet, JSP, JDBC, PostgreSQL, Jackson, AJAX, Maven, Tomcat 9, Git e Github<p>
+  <p>HTML, CSS, JS, Bootstrap, JQuery, Java Servlet, JSP, JDBC, PostgreSQL, Jackson, AJAX, Maven, Tomcat 9, Heroku, Git e Github<p>
 </div>
 
 </br>
